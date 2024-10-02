@@ -11,6 +11,10 @@ namespace ContosoCrafts.WebSite.Pages
     public class IndexModel : PageModel
     {
         //Hi Mike
+        /// <summary>
+        /// Hongye Xiong
+        /// </summary>
+        
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(ILogger<IndexModel> logger,
