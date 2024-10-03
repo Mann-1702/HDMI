@@ -8,13 +8,16 @@ using ContosoCrafts.WebSite.Services;
 
 namespace ContosoCrafts.WebSite.Pages
 {
+    /// Hi Mike
+    /// <summary>
+    /// Mann Shah
+    /// Hongye Xiong
+    /// David Waiganjo
+    /// Ian Tjok
+    /// </summary>
+
     public class IndexModel : PageModel
-    {
-        //Hi Mike
-        /// <summary>
-        /// Hongye Xiong
-        /// </summary>
-        
+    {        
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(ILogger<IndexModel> logger,

@@ -10,7 +10,9 @@ namespace ContosoCrafts.WebSite.Pages.Product
 {
     /// <summary>
     /// Mann Shah
+    /// Hongye Xiong
     /// David Waiganjo
+    /// Ian Tjok
     /// </summary>
     public class IndexModel : PageModel
     {
