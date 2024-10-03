@@ -9,7 +9,7 @@ using ContosoCrafts.WebSite.Services;
 namespace ContosoCrafts.WebSite.Pages.Product
 {
     /// <summary>
-    /// Index Page will return all the data to show the user
+    /// Mann Shah
     /// </summary>
     public class IndexModel : PageModel
     {
