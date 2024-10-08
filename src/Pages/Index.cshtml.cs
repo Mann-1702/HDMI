@@ -15,6 +15,7 @@ namespace ContosoCrafts.WebSite.Pages
     /// David Waiganjo
     /// Ian Tjok
     /// </summary>
+    /// Added a comment
 
     public class IndexModel : PageModel
     {        
