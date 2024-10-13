@@ -110,8 +110,14 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    margin: 0;
+    padding: 0;
+    background-image: url('/css/sports.jpg'); /* Replace with the correct image path */
+    background-size: 100%; /* Start with 100% */
+    background-position: center; /* Center the image */
+    background-attachment: fixed; /* Keeps the background fixed on scroll */
+    background-repeat: no-repeat;
+    animation: backgroundZoom 20s infinite alternate ease-in-out; /* Animates the background */
 }
 p {
     font-family: 'Nunito', sans-serif;
@@ -142,4 +148,25 @@ ul {
     background: -o-linear-gradient(110deg, #252152 60%, #e9a8a6 60%);
     background: -moz-linear-gradient(110deg, #252152 60%, #e9a8a6 60%);
     background: linear-gradient(110deg, #252152 60%, #e9a8a6 60%);
+}
+
+/* Keyframe animation for background zoom */
+@keyframes backgroundZoom {
+    0% {
+        background-size: 100%; /* Initial size */
+    }
+
+    100% {
+        background-size: 110%; /* Slightly zoomed in */
+    }
+}
+
+@keyframes parallaxBackground {
+    0% {
+        background-position: 50% 0%;
+    }
+
+    100% {
+        background-position: 50% 100%;
+    }
 }

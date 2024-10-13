@@ -8,12 +8,18 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="https://fonts.googleapis.com/css?family=Yellowtail&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+
+    <style>
+        img:hover {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-navbar border-bottom box-shadow mb-3">
             <div class="container">
-                <img src="~/css/HDMI.png" style="width: 75px; height: 70px;" /> 
+                <img src="~/css/HDMI.png" style="width: 75px; height: 70px;" onclick="goToHome()" />
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -46,6 +52,12 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        function goToHome() {
+            window.location.href = "/";
+        }
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>
