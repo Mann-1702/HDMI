@@ -60,14 +60,20 @@ a {
 
 .btn-primary {
     color: #fff;
-    background-color: #252152;
-    border-color: #252152;
+    background-color: #5A9BD8; /* Softer blue */
+    border: none; /* No border for cleaner look */
+    border-radius: 12px; /* Slightly rounded corners */
+    padding: 12px 24px; /* Comfortable padding */
+    font-size: 18px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+    transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
 }
-.btn-primary:hover {
-    color: #fff;
-    background-color: #e9a8a6;
-    border-color: #e9a8a6;
-}
+
+    .btn-primary:hover {
+        background-color: #66B2FF; /* Lighter blue on hover */
+        transform: scale(1.05); /* Slight size increase on hover */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+    }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
