@@ -59,9 +59,9 @@ a {
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #5A9BD8; /* Softer blue */
-    border: none; /* No border for cleaner look */
+    color: #fff; /* White text color */
+    background-color: #4CAF50; /* Softer green */
+    border: none; /* No border for a cleaner look */
     border-radius: 12px; /* Slightly rounded corners */
     padding: 12px 24px; /* Comfortable padding */
     font-size: 18px;
@@ -70,10 +70,11 @@ a {
 }
 
     .btn-primary:hover {
-        background-color: #66B2FF; /* Lighter blue on hover */
+        background-color: #66BB6A; /* Lighter green on hover */
         transform: scale(1.05); /* Slight size increase on hover */
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
     }
+
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
@@ -146,18 +147,20 @@ ul {
 }
 /*Backgrounds*/
 
+/* Navbar with dynamic green and orange gradient background */
 .bg-navbar {
-    background: linear-gradient(135deg, #B0E0E6, #ADD8E6, #87CEFA, #4682B4);
-    background-size: 200% 200%; 
-    animation: gradientShift 12s ease-in-out infinite;
-}
-
-
-.bg-footer {
-    background: linear-gradient(135deg, #ADD8E6, #87CEFA, #B0E0E6, #4682B4);
+    background: linear-gradient(135deg, #90EE90, #FFA500);
     background-size: 200% 200%;
     animation: gradientShift 12s ease-in-out infinite;
 }
+
+/* Footer with dynamic green and orange gradient background */
+.bg-footer {
+    background: linear-gradient(135deg, #90EE90, #FFA500);
+    background-size: 200% 200%;
+    animation: gradientShift 12s ease-in-out infinite;
+}
+
 
 
 @keyframes gradientShift {
