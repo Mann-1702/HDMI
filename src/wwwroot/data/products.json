@@ -14,7 +14,8 @@
       1,
       5
     ],
-    "ProductType": 55,
+    "ProductType": 1,
+    "Sport":  "NFL",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -27,7 +28,8 @@
     "Title": "Seahawrks",
     "Description": "The SeaHawks are known for their passionate '12th Man' fan base and a gritty playing style that has made them a formidable force in the NFL,highlightened by their memorable Super Bowl victories and a commitment to community",
     "Ratings": null,
-    "ProductType": 1,
+    "ProductType": 2,
+    "Sport": "NFL",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -40,7 +42,8 @@
     "Title": "Liverpool FC",
     "Description": "Liverpool FC is a legendary football club known for its rich history, passionate fans, and iconic anthem 'You'll Never Walk Alone,' boasting numerous domestic and European titles.",
     "Ratings": null,
-    "ProductType": 55,
+    "ProductType": 2,
+    "Sport": "Soccer",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -53,7 +56,8 @@
     "Title": "The Boston Celtics",
     "Description": "The Boston Celtics are an iconic NBA team, celebrated for their record number of championships and their storied rivalry with the Los Angeles Lakers, with a legacy built on teamwork and excellence.",
     "Ratings": null,
-    "ProductType": 1,
+    "ProductType": 2,
+    "Sport": "NBA",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -66,7 +70,8 @@
     "Title": "Soccer",
     "Description": "Soccer, also known as football outside the USA, is a popular sport played between two opposing teams consisting of 11 players each. The objective is to score by getting a ball into the opposing team's goal without using hands or arms.",
     "Ratings": null,
-    "ProductType": 55,
+    "ProductType": 1,
+    "Sport": "Soccer",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -81,7 +86,8 @@
     "Ratings": [
       4
     ],
-    "ProductType": 1,
+    "ProductType": 2,
+    "Sport": "NFL",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -94,7 +100,8 @@
     "Title": "Real Madrid",
     "Description": "Real Madrid FC is one of the most successful and prestigious football clubs in the world, famed for its record-breaking UEFA Champions League titles, legendary players, and a rich history of dominance in European and Spanish football.",
     "Ratings": null,
-    "ProductType": 130,
+    "ProductType": 2,
+    "Sport": "Soccer",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -107,7 +114,8 @@
     "Title": "Dallas Mavericks",
     "Description": "The Dallas Mavericks are a prominent NBA team known for their 2011 championship win, dynamic players like Dirk Nowitzki and Luka Dončić, and their passionate fanbase in the heart of Texas.",
     "Ratings": null,
-    "ProductType": 1,
+    "ProductType": 2,
+    "Sport": "NBA",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -120,7 +128,8 @@
     "Title": "Basketball",
     "Description": "Basketball is a popular sport where two opposing teams consisting of five players each compete to score points by shooting a ball through the opponent's hoop. The National Basketball Association (NBA) is a professional basketball league consisting of 30 teams. The NBA is primarily an American League, consisting of 29 American teams and 1 Canadian team.",
     "Ratings": null,
-    "ProductType": 55,
+    "ProductType": 1,
+    "Sport": "NBA",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -133,7 +142,8 @@
     "Title": "The Baltimore Ravens",
     "Description": "The Baltimore Ravens are known for their fierce defense and unwavering team spirit, embodying the city's resilience and pride in every game they play.",
     "Ratings": null,
-    "ProductType": 1,
+    "ProductType": 2,
+    "Sport": "NFL",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -148,7 +158,8 @@
     "Ratings": [
       5
     ],
-    "ProductType": 1,
+    "ProductType": 2,
+    "Sport": "Soccer",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -161,7 +172,8 @@
     "Title": "TimberWolves",
     "Description": "The Minnesota Timberwolves are a dynamic NBA team known for their passionate fan base and emerging stars, striving to carve out a legacy in the competitive Western Conference.",
     "Ratings": null,
-    "ProductType": 0,
+    "ProductType": 2,
+    "Sport": "NBA",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
