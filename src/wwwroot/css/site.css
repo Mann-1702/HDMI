@@ -17,6 +17,7 @@ for details on configuring this project to bundle and minify static web assets. 
     height: 100px;
     font-family: 'Nunito', sans-serif;
     background: #eaf4f5;
+   
     
 }
 
@@ -43,6 +44,7 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 .card-footer {
     background: #e3f3f5;
+    margin-bottom: 40px;
 }
 
 
@@ -119,9 +121,8 @@ html {
 }
 
 body {
-    
+   
     margin: 0;
-    padding: 0;
     background-image: url('/css/sports.jpg'); /* Replace with the correct image path */
     background-size: 100%; /* Start with 100% */
     background-position: center; /* Center the image */
@@ -139,6 +140,7 @@ ul {
     font-family: 'Nunito', sans-serif;
 }
 .footer { 
+    margin-top:200px;
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -147,6 +149,7 @@ ul {
     font-family: 'Nunito', sans-serif;
 }
 /*Backgrounds*/
+
 
 /* Navbar with dynamic green and orange gradient background */
 .bg-navbar {
