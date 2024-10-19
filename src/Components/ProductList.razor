@@ -3,8 +3,91 @@
 @using Microsoft.AspNetCore.Components.Web
 @inject JsonFileProductService ProductService
 
+
+@code {
+
+    // Parameters to accept from the parent component, by default it filters for ProductType = Sport
+    [Parameter] public string ProductTypeFilter { get; set; } = null;
+
+    // Filters for a specific Sport
+    [Parameter] public string SpecificSportFilter { get; set; } = null;
+
+
+    // Variables for the filtered product list
+    private IEnumerable<ProductModel> filteredProducts;
+
+
+    // Re-fetch all products and apply filter when the component is loaded
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFilteredProducts(); // Fetch the products and apply the initial filter
+    }
+
+    // Method to load filtered products from the service
+    private async Task LoadFilteredProducts()
+    {
+        var allProducts = ProductService.GetAllData();
+
+
+        // Both Sport = null and ProductType = null
+        if (string.IsNullOrEmpty(SpecificSportFilter) && string.IsNullOrEmpty(ProductTypeFilter))
+        {
+            filteredProducts = allProducts;
+        }
+
+        // Both not null, Filtering by both ProductType and Sport
+        else if (!string.IsNullOrEmpty(SpecificSportFilter) &&! string.IsNullOrEmpty(ProductTypeFilter))
+        {
+            filteredProducts = allProducts.Where(p => p.ProductType.ToString() == ProductTypeFilter && p.Sport == SpecificSportFilter);
+
+        }
+
+        // Sport = null, Filtering by ProductType
+        else if (string.IsNullOrEmpty(SpecificSportFilter))
+        {
+            // Filter products by ProductType == Sport
+            filteredProducts = allProducts.Where(p => p.ProductType.ToString() == ProductTypeFilter);
+        }
+
+
+        // ProductType = null, Filtering by Sport
+        else
+        {
+            // Filter products by ProductType == Team and Sport == SportFilter
+            filteredProducts = allProducts.Where(p => p.ProductType.ToString() == ProductTypeFilter && p.Sport == SpecificSportFilter);
+        }
+    }
+
+    // Method to handle filtering for just teams
+    private async Task FilterByProductType(string type)
+    {
+        SpecificSportFilter = null; // Set SportFilter to null for "Sport" filter. only will search that type
+        ProductTypeFilter = type;
+
+        await LoadFilteredProducts(); // Fetch filtered products
+    }
+
+    private async Task FilterBySport(string sport)
+    {
+        SpecificSportFilter = sport; // Set SportFilter to null for "Sport" filter
+        ProductTypeFilter = "Team";
+
+        await LoadFilteredProducts(); // Fetch filtered products
+    }
+
+    // Method to handle filtering when the second button is clicked (for Team and Sport)
+    private async Task FilterShowAllSports()
+    {
+        SpecificSportFilter = null;
+        ProductTypeFilter = "Sport"; // Set SportFilter sport for filtering
+        await LoadFilteredProducts(); // Fetch filtered products by Team and Sport
+    }
+}
+
+
+
 <div class="card-columns">
-    @foreach (var product in ProductService.GetAllData())
+    @foreach (var product in filteredProducts)
     {
         <div class="card">
             <div class="card-img" style="background-image: url('@product.Image');">
@@ -15,7 +98,7 @@
             <div class="card-footer">
                 <small class="text-muted">
                     <button @onclick="(e => SelectProduct(product.Id))"
-                        data-toggle="modal" data-target="#productModal" class="btn btn-primary">
+                            data-toggle="modal" data-target="#productModal" class="btn btn-primary">
                         More Info
                     </button>
                 </small>
