@@ -1,0 +1,19 @@
+﻿@page "{id}"
+@model ContosoCrafts.WebSite.Pages.Product.ReadModel
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<h2>Product Details</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h3>@Model.Product.Title</h3>
+    </div>
+    <div class="card-body">
+        <p><strong>Description:</strong> @Model.Product.Description</p>
+    </div>
+</div>
+
+<a asp-page="/Product/Index" class="btn btn-primary">Back to Product List</a>
