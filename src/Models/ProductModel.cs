@@ -23,6 +23,8 @@ namespace ContosoCrafts.WebSite.Models
         public int[] Ratings { get; set; }
 
         public ProductTypeEnum ProductType { get; set; } = ProductTypeEnum.Undefined;
+        
+        public string Sport { get; set; }
 
         public string Quantity { get; set; }
 
