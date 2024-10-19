@@ -8,10 +8,9 @@ namespace ContosoCrafts.WebSite.Models
     public enum ProductTypeEnum
     {
         Undefined = 0,
-        Amature = 1,
-        Antique = 5,
-        Collectable = 130,
-        Commercial = 55,
+        Sport = 1,
+        Team = 2,
+        Match = 3,
     }
 
     public static class ProductTypeEnumExtensions
@@ -20,10 +19,9 @@ namespace ContosoCrafts.WebSite.Models
         {
             return data switch
             {
-                ProductTypeEnum.Amature => "Hand Made Items",
-                ProductTypeEnum.Antique => "Antiques",
-                ProductTypeEnum.Collectable => "Collectables",
-                ProductTypeEnum.Commercial => "Commercial goods",
+                ProductTypeEnum.Sport => "Sport / Sport League",
+                ProductTypeEnum.Team => "Sport Team",
+                ProductTypeEnum.Match => "Sport Match",
  
                 // Default, Unknown
                 _ => "",
