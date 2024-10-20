@@ -7,7 +7,7 @@
 @code {
 
     // Parameters to accept from the parent component, by default it filters for ProductType = Sport
-    [Parameter] public string ProductTypeFilter { get; set; } = null;
+    [Parameter] public string ProductTypeFilter { get; set; } = "Sport";
 
     // Filters for a specific Sport
     [Parameter] public string SpecificSportFilter { get; set; } = null;
@@ -84,6 +84,10 @@
     }
 }
 
+<div>
+    <!-- Filter buttons -->
+    <button @onclick="FilterShowAllSports" class="btn btn-primary">Show All Sports</button>
+</div>
 
 
 <div class="card-columns">
@@ -101,6 +105,14 @@
                             data-toggle="modal" data-target="#productModal" class="btn btn-primary">
                         More Info
                     </button>
+                    @if (product.ProductType == ProductTypeEnum.Sport)
+                    {
+                        <!-- Show the 'View Teams' button only if the ProductType is 'Sport' -->
+                        <button @onclick="(e => FilterBySport(product.Sport))"
+                                class="btn btn-secondary ml-2">
+                            View Teams
+                        </button>
+                    }
                 </small>
             </div>
         </div>
