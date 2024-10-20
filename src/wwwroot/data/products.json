@@ -177,6 +177,48 @@
     "Quantity": null,
     "Price": 0,
     "CommentList": []
+  },
+  {
+    "Id": "barcelona",
+    "Maker": "barcelona",
+    "img": "https://www.fcbarcelona.com/photo-resources/2024/07/17/7cd82a6e-c4c9-461c-8c24-87722938e296/mini_2015-01-11Barcelona-AtleticoMiguel_pic_2015-01-11barcelona-atletico45.jpg?width=640&height=400",
+    "Url": "https://www.fcbarcelona.com/en/",
+    "Title": "Barcelona",
+    "Description": "FC Barcelona, known for its motto Més que un club (More than a club), is one of the most iconic football teams in the world. With a rich history of success in both La Liga and the UEFA Champions League, Barcelona is renowned for its distinctive \"tiki-taka\" playing style, legendary players like Lionel Messi, and fierce rivalries, especially with Real Madrid. The club is deeply rooted in Catalan culture and boasts a global fanbase, consistently striving for excellence on and off the pitch.\"",
+    "Ratings": null,
+    "ProductType": 2,
+    "Sport": "Soccer",
+    "Quantity": null,
+    "Price": 0,
+    "CommentList": []
+  },
+  {
+    "Id": "manchesterunited",
+    "Maker": "Manchester United",
+    "img": "https://ichef.bbci.co.uk/ace/standard/883/cpsprodpb/45a9/live/1f589140-5746-11ef-8f0f-0577398c3339.jpg",
+    "Url": "https://www.manutd.com/",
+    "Title": "Manchester United",
+    "Description": "Manchester United is one of the most storied and successful football clubs in the world, renowned for its rich history, passionate global fanbase, and dominance in English football. Known for their iconic red jerseys and the Manchester United is one of the most storied and successful football clubs in the world, renowned for its rich history, passionate global fanbase, and dominance in English football. Known for their iconic red jerseys and the Theatre of Dreams at Old Trafford, the club has won numerous Premier League titles and European trophies. Legendary players like George Best, Eric Cantona, and Cristiano Ronaldo have all worn the famous jersey, contributing to the club's legacy. With a strong tradition of attacking football and fierce rivalries, especially with Liverpool and Manchester City, Manchester United remains a global football powerhouse.heatre of Dreams at Old Trafford, the club has won numerous Premier League titles and European trophies. Legendary players like George Best, Eric Cantona, and Cristiano Ronaldo have all worn the famous jersey, contributing to the club's legacy. With a strong tradition of attacking football and fierce rivalries, especially with Liverpool and Manchester City, Manchester United remains a global football powerhouse.\\\"\"",
+    "Ratings": null,
+    "ProductType": 2,
+    "Sport": "Soccer",
+    "Quantity": null,
+    "Price": 0,
+    "CommentList": []
+  },
+  {
+    "Id": "chelsea",
+    "Maker": "Chelsea",
+    "img": "https://assets.goal.com/images/v3/blt59d95b2c7572dd06/Chelsea.jpg?auto=webp&format=pjpg&width=3840&quality=60",
+    "Url": "https://www.chelseafc.com/en",
+    "Title": "Chelsea FC",
+    "Description": "Chelsea FC is a prominent football club based in London, known for its modern success in both English and European football. The club has secured multiple Premier League titles and UEFA Champions League trophies, becoming a dominant force in recent decades. With their iconic blue kits and a home ground at Stamford Bridge, Chelsea is recognized for its strong squad depth and a winning mentality. Legendary players like Frank Lampard, Didier Drogba, and Eden Hazard have contributed to the club’s legacy. Chelsea maintains fierce rivalries, particularly with Arsenal and Tottenham, and continues to be a powerhouse in world football.",
+    "Ratings": null,
+    "ProductType": 2,
+    "Sport": "Soccer",
+    "Quantity": null,
+    "Price": 0,
+    "CommentList": []
   }
  
 ]
