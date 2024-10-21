@@ -4,23 +4,70 @@
     ViewData["Title"] = "Privacy Policy";
 }
 
-<h1>@ViewData["Title"]</h1>
+<style>
+    .privacy-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        font-family: 'Nunito', sans-serif;
+        color: #333;
+    }
 
-<p>Welcome to our sports website. Your privacy is important to us. This privacy policy outlines how we handle your data.</p>
+        .privacy-container h1 {
+            text-align: center;
+            font-family: 'Century Gothic', sans-serif;
+            color: #3b2c02;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e5e5e5;
+            margin-bottom: 20px;
+        }
 
-<h2>1. No Personal Data Collection</h2>
-<p>We do not collect or store any personal information from visitors. Our website is for educational purposes and only displays sports teams and related information.</p>
+        .privacy-container h2 {
+            font-family: 'Nunito', sans-serif;
+            color: #1b6ec2;
+            margin-top: 20px;
+        }
 
-<h2>2. Cookies</h2>
-<p>Our website may use cookies to enhance the browsing experience, such as improving website performance. You can disable cookies in your browser settings if you prefer not to use them.</p>
+        .privacy-container p,
+        .privacy-container ul {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
 
-<h2>3. External Links</h2>
-<p>Our website may contain links to external sites. We are not responsible for the privacy practices or content of those sites. Please review their privacy policies separately.</p>
+        .privacy-container ul {
+            padding-left: 20px;
+            list-style-type: disc;
+        }
 
-<h2>4. Changes to This Policy</h2>
-<p>This Privacy Policy may be updated from time to time. Any changes will be posted on this page.</p>
+    h1 {
+        text-align: center;
+        margin: 0 auto;
+    }
 
-<h2>5. Contact Us</h2>
-<p>If you have any questions about this privacy policy, please contact us at: support@HDMIwebsite.com.</p>
+</style>
 
-<p>Effective Date: October 20, 2024</p>
+<div class="privacy-container">
+    <h1>@ViewData["Title"]</h1>
+
+    <p>Welcome to our sports website. Your privacy is important to us. This privacy policy outlines how we handle your data.</p>
+
+    <h2>1. No Personal Data Collection</h2>
+    <p>We do not collect or store any personal information from visitors. Our website is for educational purposes and only displays sports teams and related information.</p>
+
+    <h2>2. Cookies</h2>
+    <p>Our website may use cookies to enhance the browsing experience, such as improving website performance. You can disable cookies in your browser settings if you prefer not to use them.</p>
+
+    <h2>3. External Links</h2>
+    <p>Our website may contain links to external sites. We are not responsible for the privacy practices or content of those sites. Please review their privacy policies separately.</p>
+
+    <h2>4. Changes to This Policy</h2>
+    <p>This Privacy Policy may be updated from time to time. Any changes will be posted on this page.</p>
+
+    <h2>5. Contact Us</h2>
+    <p>If you have any questions about this privacy policy, please contact us at: support@HDMIsports.com.</p>
+
+    <p>Effective Date: October 20, 2024</p>
+</div>
