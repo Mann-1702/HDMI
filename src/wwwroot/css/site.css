@@ -179,6 +179,22 @@ h1 {
     margin:0px 0px 0px 300px;
 }
 
+h2 {
+    font-family: 'Century Gothic';
+    color: #3b2c02;
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    padding: 8px;
+    border-radius: 20px;
+    background-color: rgba(237, 217, 179, 0.7);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    margin: 0px 0px 10px 350px;
+}
+
 
 ul {
     font-family: 'Nunito', sans-serif;
