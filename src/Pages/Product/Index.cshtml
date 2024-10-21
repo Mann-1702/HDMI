@@ -37,7 +37,7 @@
         </thead>
         <tbody>
             @foreach (var product in Model.Products.Where(p => p.ProductType == ProductTypeEnum.Team))
-            {
+        s    {
                 <tr>
                     <td style="font-family:'Century Gothic';">@product.Title</td>
                     <td style="font-family:'Century Gothic';"><a asp-page="Read" asp-route-id="@product.Id">Read</a></td>

@@ -208,6 +208,8 @@ ul {
         background-position: 0% 50%;
     }
     /* Keyframe animation for background zoom */
+}
+
     @keyframes backgroundZoom {
         0%
 
@@ -220,6 +222,7 @@ ul {
 }
 
 }
+
 
 @keyframes parallaxBackground {
     0% {
