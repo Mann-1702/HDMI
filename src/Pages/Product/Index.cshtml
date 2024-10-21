@@ -20,7 +20,10 @@
             {
                 <tr>
                     <td style="font-family:'Century Gothic';">@product.Title</td>
-                    <td style="font-family:'Century Gothic';"><a asp-page="Read" asp-route-id="@product.Id">Read</a></td>
+                    <!-- "Read" link styled as a custom teal button -->
+                    <td style="font-family:'Century Gothic';">
+                        <a asp-page="Read" asp-route-id="@product.Id" class="btn btn-teal">Read</a>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -37,10 +40,13 @@
         </thead>
         <tbody>
             @foreach (var product in Model.Products.Where(p => p.ProductType == ProductTypeEnum.Team))
-        s    {
+            {
                 <tr>
                     <td style="font-family:'Century Gothic';">@product.Title</td>
-                    <td style="font-family:'Century Gothic';"><a asp-page="Read" asp-route-id="@product.Id">Read</a></td>
+                    <!-- "Read" link styled as a custom teal button -->
+                    <td style="font-family:'Century Gothic';">
+                        <a asp-page="Read" asp-route-id="@product.Id" class="btn btn-teal">Read</a>
+                    </td>
                 </tr>
             }
         </tbody>
