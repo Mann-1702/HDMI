@@ -77,6 +77,19 @@ a {
     }
 
 
+.btn-teal {
+    background-color: #20c997;
+    border-color: #20c997;
+    color: white;
+}
+
+    .btn-teal:hover {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        color: white;
+    }
+
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
