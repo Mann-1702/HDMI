@@ -76,6 +76,22 @@ a {
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
     }
 
+.btn-custom-blue {
+    color: #fff; /* White text color */
+    background-color: #007bff; /* Blue background */
+    border: none; /* No border for a cleaner look */
+    border-radius: 12px; /* Slightly rounded corners */
+    padding: 12px 24px; /* Comfortable padding */
+    font-size: 18px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+    transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+}
+
+    .btn-custom-blue:hover {
+        background-color: #0056b3; /* Darker blue when hovered */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+    }
+
 
 .btn-teal {
     background-color: #20c997;
