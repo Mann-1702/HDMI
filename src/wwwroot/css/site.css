@@ -121,7 +121,7 @@ html {
 
 body {
     margin: 0;
-    padding: 0;
+    padding: 60px;
     background-image: url('/css/sports.jpg'); /* Replace with the correct image path */
     background-size: 100%; /* Start with 100% */
     background-position: center; /* Center the image */
@@ -156,7 +156,9 @@ ul {
 }
 
 .footer {
+    position: absolute;
     bottom: 0;
+    left: 0;
     width: 100%;
     white-space: nowrap;
     line-height: 60px; /* Vertically center the text there */
