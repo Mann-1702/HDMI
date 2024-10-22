@@ -15,7 +15,7 @@
       5
     ],
     "ProductType": 1,
-    "Sport":  "NFL",
+    "Sport": "NFL",
     "Quantity": null,
     "Price": 0,
     "CommentList": []
@@ -219,6 +219,49 @@
     "Quantity": null,
     "Price": 0,
     "CommentList": []
+  },
+  {
+    "Id": "nfl-49ers",
+    "Maker": "nfl",
+    "img": "https://wallpaperaccess.com/full/3263061.jpg",
+    "Url": "https://www.49ers.com/",
+    "Title": "San Francisco 49ers",
+    "Description": "The San Francisco 49ers are a storied NFL franchise known for their rich history and success in the league, including multiple Super Bowl championships. They play in Levi's Stadium and are recognized for their iconic red and gold uniforms.",
+    "Ratings": null,
+    "ProductType": 2,
+    "Sport": "NFL",
+    "Quantity": null,
+    "Price": 0,
+    "CommentList": []
+  },
+  {
+    "Id": "nfl-packers",
+    "Maker": "nfl",
+    "img": "https://i.ebayimg.com/images/g/3DoAAOSwWz5cJUgu/s-l400.jpg",
+    "Url": "https://www.packers.com/",
+    "Title": "Green Bay Packers",
+    "Description": "The Green Bay Packers are one of the oldest and most successful teams in NFL history, known for their passionate fan base and iconic home field, Lambeau Field. They have won numerous championships, including multiple Super Bowls.",
+    "Ratings": null,
+    "ProductType": 2,
+    "Sport": "NFL",
+    "Quantity": null,
+    "Price": 0,
+    "CommentList": []
+  },
+  {
+    "Id": "nfl-dolphins",
+    "Maker": "nfl",
+    "img": "https://vm-storage.nyc3.digitaloceanspaces.com/2021/11/miami-dolphins-03.png",
+    "Url": "https://www.miamidolphins.com/",
+    "Title": "Miami Dolphins",
+    "Description": "The Miami Dolphins are known for their vibrant team colors and have a storied history in the NFL, including a perfect season in 1972. The Dolphins play their home games at Hard Rock Stadium and have a strong following in South Florida.",
+    "Ratings": null,
+    "ProductType": 2,
+    "Sport": "NFL",
+    "Quantity": null,
+    "Price": 0,
+    "CommentList": []
   }
- 
+
+
 ]
