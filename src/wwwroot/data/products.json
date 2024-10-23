@@ -261,7 +261,48 @@
     "Quantity": null,
     "Price": 0,
     "CommentList": []
+  },
+  {
+    "Id": "chicago-bulls",
+    "Maker": "nba",
+    "img": "https://www.chicagotribune.com/wp-content/uploads/2024/10/CTC-L-BULLS-PRESEASON-101824-56_209004744.jpg?w=516",
+    "Url": "https://www.nba.com/bulls/",
+    "Title": "Chicago Bulls",
+    "Description": "The Chicago Bulls are a professional basketball team based in Chicago, Illinois. They compete in the NBA as a member of the league's Eastern Conference Central Division. Founded in 1966, the Bulls are best known for their dominant run in the 1990s, led by Michael Jordan, when they won six NBA championships. The team is renowned for its passionate fan base and iconic red, black, and white colors.",
+    "Ratings": null,
+    "ProductType": 2,
+    "Sport": "NBA",
+    "Quantity": null,
+    "Price": 0,
+    "CommentList": []
+  },
+  {
+    "Id": "brooklyn-nets",
+    "Maker": "nba",
+    "img": "https://images2.minutemediacdn.com/image/upload/c_crop,w_2233,h_1256,x_0,y_40/c_fill,w_540,ar_16:9,f_auto,q_auto,g_auto/images/ImagnImages/mmsport/inside_the_nets/01jatc0e5dpkhjsct3f9.jpg",
+    "Url": "https://www.nba.com/nets/",
+    "Title": "Brooklyn Nets",
+    "Description": "The Brooklyn Nets are a professional basketball team based in Brooklyn, New York. They compete in the NBA as part of the Eastern Conference Atlantic Division. Originally founded in 1967 as a charter franchise of the ABA, the team has undergone several relocations and rebrandings, eventually becoming the Brooklyn Nets in 2012. Known for their modern black-and-white color scheme, the team has attracted star players in recent years and is a prominent contender in the NBA.",
+    "Ratings": null,
+    "ProductType": 2,
+    "Sport": "NBA",
+    "Quantity": null,
+    "Price": 0,
+    "CommentList": []
+  },
+  {
+    "Id": "washington-wizards",
+    "Maker": "nba",
+    "img": "https://images2.minutemediacdn.com/image/upload/c_crop,w_3600,h_2025,x_0,y_0/c_fill,w_720,ar_16:9,f_auto,q_auto,g_auto/images/ImagnImages/mmsport/inside_the_wizards/01jaqwgrgpxemw55s01w.jpg",
+    "Url": "https://www.nba.com/wizards/",
+    "Title": "Washington Wizards",
+    "Description": "The Washington Wizards are a professional basketball team based in Washington, D.C. They compete in the NBA as part of the Eastern Conference Southeast Division. Founded in 1961 as the Chicago Packers, the team has undergone multiple name changes and relocations before settling in Washington and becoming the Wizards in 1997. Known for their red, white, and blue color scheme, the Wizards have a strong connection to the nation's capital and have had periods of playoff success throughout their history.",
+    "Ratings": null,
+    "ProductType": 2,
+    "Sport": "NBA",
+    "Quantity": null,
+    "Price": 0,
+    "CommentList": []
   }
-
 
 ]
