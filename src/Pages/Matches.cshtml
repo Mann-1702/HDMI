@@ -1,0 +1,32 @@
+﻿@page
+@using ContosoCrafts.WebSite.Components
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<h1>Matches</h1>
+
+<p>Here are the details about upcoming matches:</p>
+
+<table class="table table-bordered table-striped" style="background-color:lightgrey;">
+    <thead>
+        <tr>
+            <th>Match</th>
+            <th>Date</th>
+            <th>Location</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Team A vs Team B</td>
+            <td>October 30, 2024</td>
+            <td>Seattle Stadium</td>
+        </tr>
+        <tr>
+            <td>Team C vs Team D</td>
+            <td>November 5, 2024</td>
+            <td>New York Arena</td>
+        </tr>
+    </tbody>
+</table>
