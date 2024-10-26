@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
 using ContosoCrafts.WebSite.Models;
+using System;
 
 namespace UnitTests.Pages.Product.AddRating
 {
@@ -77,6 +78,80 @@ namespace UnitTests.Pages.Product.AddRating
             Assert.That(dataNewList.Ratings.Last(), Is.EqualTo(5));
         }
         #endregion AddRating
+
+        #region GetFilteredData
+        [Test]
+        public void GetFilteredData_Invalid_ProductTypeFilter()
+        {
+            // Arrange
+
+            // Act
+            var result = TestHelper.ProductService.GetFilteredData("NonExistingProductType");
+
+            // Assert
+            Assert.That(result, Is.EqualTo(null));
+        }
+
+
+        [Test]
+        public void GetFilteredData_Invalid_SportFilter()
+        {
+            // Arrange
+
+            // Act
+            var result = TestHelper.ProductService.GetFilteredData(null, "NotExistingSport");
+
+            // Assert
+            Assert.That(result, Is.EqualTo(null));
+        }
+
+
+        [Test]
+        public void GetFilteredData_Sport_ProductTypeFilter_Should_Return_Sport_Products()
+        {
+            // Arrange
+
+            // Act
+            var data = TestHelper.ProductService.GetAllData();
+            data = data.Where(p => p.ProductType.ToString() == "Sport");
+
+            var result = TestHelper.ProductService.GetFilteredData("Sport");
+
+            // Assert
+            Assert.That(result.ToString(), Is.EqualTo(data.ToString()));
+        }
+
+        [Test]
+        public void GetFilteredData_NFL_SportFilter_Should_Return_NFL_Teams()
+        {
+            // Arrange
+            string SportFilter = "NFL";
+
+            // Act
+            var data = TestHelper.ProductService.GetAllData();
+            data = data.Where(p => p.Sport == SportFilter);
+
+            var result = TestHelper.ProductService.GetFilteredData(null, SportFilter);
+
+            // Assert
+            Assert.That(result.ToString(), Is.EqualTo(data.ToString()));
+        }
+        [Test]
+        public void GetFilteredData_NullFilters_Should_Return_AllData()
+        {
+            // Arrange
+
+            // Act
+            var data = TestHelper.ProductService.GetAllData();
+
+            var result = TestHelper.ProductService.GetFilteredData();
+
+            // Assert
+            Assert.That(result.ToString(), Is.EqualTo(data.ToString()));
+        }
+
+        #endregion AddRating
+
 
     }
 }
