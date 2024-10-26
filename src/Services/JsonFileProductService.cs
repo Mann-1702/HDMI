@@ -152,8 +152,8 @@ namespace ContosoCrafts.WebSite.Services
             productData.Url = data.Url;
             productData.Image = data.Image;
 
-            productData.Quantity = data.Quantity;
-            productData.Price = data.Price;
+            productData.FoundingYear = data.FoundingYear;
+            productData.Trophies = data.Trophies;
 
             productData.CommentList = data.CommentList;
 
