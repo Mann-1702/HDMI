@@ -30,7 +30,7 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NFL",
-    "FoundingYeary": 1976,
+    "FoundingYear": 1976,
     "Trophies": 1,
     "CommentList": []
   },
@@ -202,7 +202,7 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "Soccer",
-    "FoundingYear": null,
+    "FoundingYear": 1890,
     "Trophies": 23,
     "CommentList": []
   },
