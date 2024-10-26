@@ -10,7 +10,7 @@
     [Parameter] public string ProductTypeFilter { get; set; } = "Sport";
 
     // Filters for a specific Sport
-    [Parameter] public string SpecificSportFilter { get; set; } = null;
+    [Parameter] public string SportFilter { get; set; } = null;
 
 
     // Variables for the filtered product list
@@ -26,42 +26,13 @@
     // Method to load filtered products from the service
     private async Task LoadFilteredProducts()
     {
-        var allProducts = ProductService.GetAllData();
-
-
-        // Both Sport = null and ProductType = null
-        if (string.IsNullOrEmpty(SpecificSportFilter) && string.IsNullOrEmpty(ProductTypeFilter))
-        {
-            filteredProducts = allProducts;
-        }
-
-        // Both not null, Filtering by both ProductType and Sport
-        else if (!string.IsNullOrEmpty(SpecificSportFilter) &&! string.IsNullOrEmpty(ProductTypeFilter))
-        {
-            filteredProducts = allProducts.Where(p => p.ProductType.ToString() == ProductTypeFilter && p.Sport == SpecificSportFilter);
-
-        }
-
-        // Sport = null, Filtering by ProductType
-        else if (string.IsNullOrEmpty(SpecificSportFilter))
-        {
-            // Filter products by ProductType == Sport
-            filteredProducts = allProducts.Where(p => p.ProductType.ToString() == ProductTypeFilter);
-        }
-
-
-        // ProductType = null, Filtering by Sport
-        else
-        {
-            // Filter products by ProductType == Team and Sport == SportFilter
-            filteredProducts = allProducts.Where(p => p.ProductType.ToString() == ProductTypeFilter && p.Sport == SpecificSportFilter);
-        }
+        filteredProducts = ProductService.GetFilteredData(ProductTypeFilter, SportFilter);
     }
 
     // Method to handle filtering for just teams
     private async Task FilterByProductType(string type)
     {
-        SpecificSportFilter = null; // Set SportFilter to null for "Sport" filter. only will search that type
+        SportFilter = null; // Set SportFilter to null for "Sport" filter. only will search that type
         ProductTypeFilter = type;
 
         await LoadFilteredProducts(); // Fetch filtered products
@@ -69,7 +40,7 @@
 
     private async Task FilterBySport(string sport)
     {
-        SpecificSportFilter = sport; // Set SportFilter to null for "Sport" filter
+        SportFilter = sport; // Set SportFilter to null for "Sport" filter
         ProductTypeFilter = "Team";
 
         await LoadFilteredProducts(); // Fetch filtered products
@@ -78,7 +49,7 @@
     // Method to handle filtering when the second button is clicked (for Team and Sport)
     private async Task FilterShowAllSports()
     {
-        SpecificSportFilter = null;
+        SportFilter = null;
         ProductTypeFilter = "Sport"; // Set SportFilter sport for filtering
         await LoadFilteredProducts(); // Fetch filtered products by Team and Sport
     }
