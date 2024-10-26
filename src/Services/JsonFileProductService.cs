@@ -35,6 +35,46 @@ namespace ContosoCrafts.WebSite.Services
             }
         }
 
+        public IEnumerable<ProductModel> GetFilteredData(string ProductTypeFilter = null, string SportFilter = null)
+        {
+            IEnumerable<ProductModel> filteredProducts = GetAllData();
+
+            string[] validProductTypes = { "Sport", "Team" };
+            string[] validSports = {"NFL", "NBA", "Soccer"};
+
+            // ProductTypeFilter is not null
+            if (!string.IsNullOrEmpty(ProductTypeFilter))
+            {
+                // Checks for valid ProductType
+                if (!Array.Exists(validProductTypes, element => element == ProductTypeFilter))
+                {
+                    return null;
+                }
+
+                // Filters products by ProductType using ProductTypeFilter
+                filteredProducts = filteredProducts.Where(p => p.ProductType.ToString() == ProductTypeFilter);
+
+            }
+
+            // SportFilter is not null
+            if (!string.IsNullOrEmpty(SportFilter))
+            {
+                // Checks for valid Sport
+                if (!Array.Exists(validSports, element => element == SportFilter))
+                {
+                    return null;
+                }
+
+                // Filters products by Sport using SportFilter
+                filteredProducts = filteredProducts.Where(p => p.Sport == SportFilter);
+
+            }
+
+            return filteredProducts;
+        }
+
+
+
         /// <summary>
         /// Add Rating
         /// 
