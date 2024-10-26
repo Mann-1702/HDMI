@@ -16,8 +16,8 @@
     ],
     "ProductType": 1,
     "Sport": "NFL",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1920,
+    "Trophies": 57,
     "CommentList": []
   },
   {
@@ -30,8 +30,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NFL",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYeary": 1976,
+    "Trophies": 1,
     "CommentList": []
   },
   {
@@ -44,8 +44,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "Soccer",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1892,
+    "Trophies": 25,
     "CommentList": []
   },
   {
@@ -58,8 +58,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NBA",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1946,
+    "Trophies": 18,
     "CommentList": []
   },
   {
@@ -72,8 +72,8 @@
     "Ratings": null,
     "ProductType": 1,
     "Sport": "Soccer",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1904,
+    "Trophies": 31,
     "CommentList": []
   },
   {
@@ -88,8 +88,8 @@
     ],
     "ProductType": 2,
     "Sport": "NFL",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1960,
+    "Trophies": 4,
     "CommentList": []
   },
   {
@@ -102,8 +102,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "Soccer",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1902,
+    "Trophies": 51,
     "CommentList": []
   },
   {
@@ -116,8 +116,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NBA",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1980,
+    "Trophies": 1,
     "CommentList": []
   },
   {
@@ -130,8 +130,8 @@
     "Ratings": null,
     "ProductType": 1,
     "Sport": "NBA",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1946,
+    "Trophies": 76,
     "CommentList": []
   },
   {
@@ -144,8 +144,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NFL",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1996,
+    "Trophies": 2,
     "CommentList": []
   },
   {
@@ -160,8 +160,8 @@
     ],
     "ProductType": 2,
     "Sport": "Soccer",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1880,
+    "Trophies": 9,
     "CommentList": []
   },
   {
@@ -174,8 +174,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NBA",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1989,
+    "Trophies": 0,
     "CommentList": []
   },
   {
@@ -188,8 +188,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "Soccer",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1899,
+    "Trophies": 32,
     "CommentList": []
   },
   {
@@ -202,8 +202,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "Soccer",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": null,
+    "Trophies": 23,
     "CommentList": []
   },
   {
@@ -216,8 +216,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "Soccer",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1905,
+    "Trophies": 8,
     "CommentList": []
   },
   {
@@ -230,8 +230,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NFL",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1946,
+    "Trophies": 5,
     "CommentList": []
   },
   {
@@ -244,8 +244,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NFL",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1919,
+    "Trophies": 4,
     "CommentList": []
   },
   {
@@ -258,8 +258,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NFL",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1965,
+    "Trophies": 2,
     "CommentList": []
   },
   {
@@ -272,8 +272,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NBA",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1966,
+    "Trophies": 6,
     "CommentList": []
   },
   {
@@ -286,8 +286,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NBA",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1967,
+    "Trophies": 2,
     "CommentList": []
   },
   {
@@ -300,8 +300,8 @@
     "Ratings": null,
     "ProductType": 2,
     "Sport": "NBA",
-    "Quantity": null,
-    "Price": 0,
+    "FoundingYear": 1961,
+    "Trophies": 1,
     "CommentList": []
   }
 
