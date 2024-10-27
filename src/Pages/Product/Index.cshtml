@@ -22,8 +22,13 @@
                     <td style="font-family:'Century Gothic';">@product.Title</td>
                     <!-- "Read" link styled as a custom teal button -->
                     <td style="font-family:'Century Gothic';">
+                        <!-- Read Button -->
                         <a asp-page="Read" asp-route-id="@product.Id" class="btn btn-teal">Read</a>
+
+                        <!-- Update Button -->
+                        <a asp-page="Update" asp-route-id="@product.Id" class="btn btn-warning">Update</a>
                     </td>
+
                 </tr>
             }
         </tbody>
@@ -45,7 +50,11 @@
                     <td style="font-family:'Century Gothic';">@product.Title</td>
                     <!-- "Read" link styled as a custom teal button -->
                     <td style="font-family:'Century Gothic';">
+                        <!-- Read Button -->
                         <a asp-page="Read" asp-route-id="@product.Id" class="btn btn-teal">Read</a>
+
+                        <!-- Update Button -->
+                        <a asp-page="Update" asp-route-id="@product.Id" class="btn btn-warning">Update</a>
                     </td>
                 </tr>
             }
