@@ -17,6 +17,21 @@
         <img src="@Model.Product.Image" alt="@Model.Product.Title" class="card-img-top img-fluid p-3" style="max-height: 400px; object-fit: cover;" />
 
         <div class="card-body">
+            <p class="card-text" style="font-family: 'Georgia', serif; font-size: 1.25rem; color: #333;">
+                <strong>Founding Year:</strong> @Model.Product.FoundingYear
+            </p>
+            <p class="card-text trophies-won" style="font-family: 'Arial', sans-serif; font-size: 1.5rem; color: #007bff; font-weight: bold;">
+                @if ((int)Model.Product.ProductType == 1)
+                {
+                    <span>🏆 <strong>Trophies Given:</strong> @Model.Product.Trophies </span>
+                }
+
+                @if ((int)Model.Product.ProductType == 2)
+                {
+                    <span>🏆 <strong>Trophies Won:</strong> @Model.Product.Trophies</span>
+                }
+            </p>
+
             <p class="card-text">@Model.Product.Description</p>
             <a href=@Model.Product.Url class="btn btn-info" target="_blank" rel="noopener noreferrer">Visit sports/team website</a>
         </div>
