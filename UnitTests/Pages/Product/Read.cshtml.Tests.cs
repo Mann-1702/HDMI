@@ -21,7 +21,17 @@ namespace UnitTests.Pages.Product.Read
 
 {
     public class ReadTests
-    {
+    {s
 
+        private ReadModel pageModel;
+        private Mock<JsonFileProductService> mockProductService;
+
+        [SetUp]
+        public void TestInitialize()
+        {
+        
+            mockProductService = new Mock<JsonFileProductService>();
+            pageModel = new ReadModel(mockProductService.Object);
+        }
     }
 }
