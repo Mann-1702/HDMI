@@ -49,5 +49,21 @@ namespace UnitTests.Pages.Product
 
 
 
+
+        [Test]
+        public void OnGet_InvalidId_Should_Return_NotFound()
+        {
+            // Arrange
+            string invalidProductId = "invalid_id"; 
+
+            // Act
+            var result = pageModel.OnGet(invalidProductId);
+
+            // Assert
+            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+            Assert.That(pageModel.Product, Is.Null);
+        }
+
+
     }
 }
