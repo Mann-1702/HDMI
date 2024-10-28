@@ -1,12 +1,12 @@
 [
   {
     "Match": "Team A vs Team B",
-    "Date": "October 30, 2024",
+    "Date": "2024-10-30T00:00:00",
     "Location": "Seattle Stadium"
   },
   {
     "Match": "Team C vs Team D",
-    "Date": "November 5, 2024",
+    "Date": "2024-11-05T00:00:00",
     "Location": "New York Arena"
   }
 ]
