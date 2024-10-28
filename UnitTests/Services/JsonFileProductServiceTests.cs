@@ -56,6 +56,75 @@ namespace UnitTests.Pages.Product
             Assert.That(updatedData.Ratings.Length, Is.EqualTo(originalRatingCount + 1));
             Assert.That(updatedData.Ratings.Last(), Is.EqualTo(5));
         }
+        [Test]
+        public void AddRating_Rating_Below_0_Should_Return_False()
+        {
+            // Arrange
+            var data = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            var result = TestHelper.ProductService.AddRating(data.Id, -1);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(false));
+        }
+        [Test]
+        public void AddRating_Rating_Above_5_Should_Return_False()
+        {
+            // Arrange
+            var data = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            var result = TestHelper.ProductService.AddRating(data.Id, 6);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(false));
+        }
+        [Test]
+        public void AddRating_Should_Add_Rating_To_Product_Without_Existing_Ratings()
+        {
+            // Arrange
+            var newProduct = TestHelper.ProductService.CreateData(); // Create a fresh product
+            newProduct.Ratings = null; // Ensure the product has no ratings
+
+            // Act
+            var result = TestHelper.ProductService.AddRating(newProduct.Id, 4);
+
+            // Fetch the updated product by its ID
+            var updatedProduct = TestHelper.ProductService.GetAllData().First(p => p.Id == newProduct.Id);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(true));
+            Assert.That(updatedProduct.Ratings.Length, Is.EqualTo(1)); // Ensure only one rating is added
+            Assert.That(updatedProduct.Ratings.First(), Is.EqualTo(4)); // Ensure the rating is 4
+        }
+
+        [Test]
+        public void AddRating_Invalid_ProductId_Should_Return_False()
+        {
+            // Act
+            var result = TestHelper.ProductService.AddRating("non-existent-id", 3);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(false));
+        }
+
+        [Test]
+        public void AddRating_Rating_Of_0_Should_Add_Successfully()
+        {
+            // Arrange
+            var data = TestHelper.ProductService.GetAllData().First();
+            var originalRatingCount = data.Ratings.Length;
+
+            // Act
+            var result = TestHelper.ProductService.AddRating(data.Id, 0);
+            var updatedData = TestHelper.ProductService.GetAllData().First();
+
+            // Assert
+            Assert.That(result, Is.EqualTo(true));
+            Assert.That(updatedData.Ratings.Length, Is.EqualTo(originalRatingCount + 1));
+            Assert.That(updatedData.Ratings.Last(), Is.EqualTo(0));
+        }
 
         #endregion AddRating
 
