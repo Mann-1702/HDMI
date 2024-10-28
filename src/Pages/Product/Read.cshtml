@@ -23,23 +23,27 @@
             <p class="card-text trophies-won" style="font-family: 'Arial', sans-serif; font-size: 1.5rem; color: #007bff; font-weight: bold;">
                 @if ((int)Model.Product.ProductType == 1)
                 {
-                    <span>🏆 <strong> Major Trophies Given:</strong> @Model.Product.Trophies </span>
+                    <span class="trophy-icon" style="font-size: 1.5rem; color: #007bff;">🏆</span>
+                    <strong> Major Trophies Given:</strong> @Model.Product.Trophies
                 }
 
                 @if ((int)Model.Product.ProductType == 2)
                 {
-                    <span>🏆 <strong>Trophies Won:</strong> @Model.Product.Trophies</span>
+                    <span class="trophy-icon" style="font-size: 1.5rem; color: #007bff;">🏆</span>
+                    <strong> Trophies Won:</strong> @Model.Product.Trophies
                 }
             </p>
 
             <p class="card-text">@Model.Product.Description</p>
-            <a href="@Model.Product.Url" class="btn btn-info" target="_blank" rel="noopener noreferrer">Visit sports/team website</a>
 
-            @* New Button for Viewing Matches *@
-            @if ((int)Model.Product.ProductType == 2) 
-            {
-                <a asp-page="/Matches" asp-route-teamName="@Model.Product.Title" class="btn btn-warning mt-3">View Team Matches</a>
-            }
+            <div class="btn-group" role="group" aria-label="Team Links">
+                <a href="@Model.Product.Url" class="btn btn-info" target="_blank" rel="noopener noreferrer">Visit sports/team website</a>
+
+                @if ((int)Model.Product.ProductType == 2)  // Assuming ProductType 2 is Team
+                {
+                    <a asp-page="/Matches" asp-route-teamName="@Model.Product.Title" class="btn btn-info">View Team Matches</a>
+                }
+            </div>
         </div>
 
         <div class="card-footer">
