@@ -9,7 +9,7 @@
 
 <div class="container my-5">
     <div class="card text-center shadow-sm" style="max-width: 800px; margin: 0 auto;">
-        
+
         <div class="card-header">
             <h2>@Model.Product.Title</h2>
         </div>
@@ -33,14 +33,17 @@
             </p>
 
             <p class="card-text">@Model.Product.Description</p>
-            <a href=@Model.Product.Url class="btn btn-info" target="_blank" rel="noopener noreferrer">Visit sports/team website</a>
+            <a href="@Model.Product.Url" class="btn btn-info" target="_blank" rel="noopener noreferrer">Visit sports/team website</a>
+
+            @* New Button for Viewing Matches *@
+            @if ((int)Model.Product.ProductType == 2) 
+            {
+                <a asp-page="/Matches" asp-route-teamName="@Model.Product.Title" class="btn btn-warning mt-3">View Team Matches</a>
+            }
         </div>
-     
+
         <div class="card-footer">
             <a asp-page="/Product/Index" class="btn btn-primary">Back to Product List</a>
-
         </div>
     </div>
 </div>
-
-
