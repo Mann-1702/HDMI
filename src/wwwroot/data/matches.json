@@ -1,12 +1,20 @@
 [
   {
     "Match": "Team A vs Team B",
-    "Date": "2024-10-30T00:00:00",
-    "Location": "Seattle Stadium"
+    "Team1": "Seahawks",
+    "Team2": "Broncos",
+    "Date": "2024-09-08",
+    "Team1_Score": 26,
+    "Team2_Score":  20,
+    "Location": "Seattle, WA"
   },
   {
     "Match": "Team C vs Team D",
-    "Date": "2024-11-05T00:00:00",
-    "Location": "New York Arena"
+    "Team1": "Seahawks",
+    "Team2": "Patriots",
+    "Date": "2024-09-15",
+    "Team1_Score": 23,
+    "Team2_Score": 20,
+    "Location": "Foxborough, MA"
   }
 ]
