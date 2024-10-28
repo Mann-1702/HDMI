@@ -1,11 +1,10 @@
 ﻿@page
-@using ContosoCrafts.WebSite.Components
-@model IndexModel
+@model ContosoCrafts.WebSite.Pages.MatchesModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Matches Page";
 }
 
-<h1>Matches</h1>
+<h1>Upcoming Matches</h1>
 
 <p>Here are the details about upcoming matches:</p>
 
@@ -15,18 +14,18 @@
             <th>Match</th>
             <th>Date</th>
             <th>Location</th>
+            <th>Score</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Team A vs Team B</td>
-            <td>October 30, 2024</td>
-            <td>Seattle Stadium</td>
-        </tr>
-        <tr>
-            <td>Team C vs Team D</td>
-            <td>November 5, 2024</td>
-            <td>New York Arena</td>
-        </tr>
+        @foreach (var match in Model.Matches)
+        {
+            <tr>
+                <td>@match.Team1 vs @match.Team2</td>
+                <td>@match.Date.ToString("MMMM dd, yyyy")</td>
+                <td>@match.Location</td>
+                <td>@match.Team1_Score - @match.Team2_Score</td>
+            </tr>
+        }
     </tbody>
 </table>
