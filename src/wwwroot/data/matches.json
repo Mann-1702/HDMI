@@ -1,20 +1,434 @@
 [
   {
-    "Match": "Team A vs Team B",
+    "Match": "Seahawks-Broncos-2024-09-08",
     "Team1": "Seahawks",
-    "Team2": "Broncos",
-    "Date": "2024-09-08",
+    "Team2": "Denver Broncos",
+    "Date": "2024-11-05T00:00:00",
     "Team1_Score": 26,
-    "Team2_Score":  20,
+    "Team2_Score": 20,
     "Location": "Seattle, WA"
   },
   {
-    "Match": "Team C vs Team D",
+    "Match": "Seahawks-Patriots-20204-09-15",
     "Team1": "Seahawks",
-    "Team2": "Patriots",
-    "Date": "2024-09-15",
+    "Team2": "New England Patriots",
+    "Date": "2024-09-15T00:00:00",
     "Team1_Score": 23,
     "Team2_Score": 20,
     "Location": "Foxborough, MA"
+  },
+  {
+    "Match": "Seahawks-Dolphins-20204-09-22",
+    "Team1": "Seahawks",
+    "Team2": "Miami Dolphins",
+    "Date": "2024-09-02T00:00:00",
+    "Team1_Score": 24,
+    "Team2_Score": 3,
+    "Location": "Seattle, WA"
+  },
+  {
+    "Match": "Ravens-Chiefs-2024-09-05",
+    "Team1": "The Baltimore Ravens",
+    "Team2": "Kansas City Chiefs",
+    "Date": "2024-09-05T00:00:00",
+    "Team1_Score": 20,
+    "Team2_Score": 27,
+    "Location": "Kansas City, MO"
+  },
+  {
+    "Match": "Ravens-Raiders-2024-09-15",
+    "Team1": "The Baltimore Ravens",
+    "Team2": "Las Vegas Raiders",
+    "Date": "2024-09-15T00:00:00",
+    "Team1_Score": 23,
+    "Team2_Score": 26,
+    "Location": "Paradise, NV"
+  },
+  {
+    "Match": "Ravens-Cowboys-2024-09-22",
+    "Team1": "The Baltimore Ravens",
+    "Team2": "Dallas Cowboys",
+    "Date": "2024-09-22T00:00:00",
+    "Team1_Score": 28,
+    "Team2_Score": 25,
+    "Location": "Arlington, TX"
+  },
+  {
+    "Match": "Packers-Eagles-2024-09-06",
+    "Team1": "Green Bay Packers",
+    "Team2": "Philadelphia Eagles",
+    "Date": "2024-09-06T00:00:00",
+    "Team1_Score": 29,
+    "Team2_Score": 34,
+    "Location": "São Paulo, Brazil"
+  },
+  {
+    "Match": "Packers-Colts-2024-09-15",
+    "Team1": "Green Bay Packers",
+    "Team2": "Indianapolis Colts",
+    "Date": "2024-09-15T00:00:00",
+    "Team1_Score": 16,
+    "Team2_Score": 10,
+    "Location": "Green Bay, WI"
+  },
+  {
+    "Match": "Packers-Titans-2024-09-22",
+    "Team1": "Green Bay Packers",
+    "Team2": "Tennessee Titans",
+    "Date": "2024-09-22T00:00:00",
+    "Team1_Score": 30,
+    "Team2_Score": 14,
+    "Location": "Nashville, TN"
+  },
+  {
+    "Match": "Chiefs-Bengals-2024-09-15",
+    "Team1": "Kansas City Chiefs",
+    "Team2": "Cincinnati Bengals",
+    "Date": "2024-09-15T00:00:00",
+    "Team1_Score": 26,
+    "Team2_Score": 25,
+    "Location": "Kansas City, MI"
+  },
+  {
+    "Match": "Chiefs-Falcons-2024-09-22",
+    "Team1": "Kansas City Chiefs",
+    "Team2": "Atlanta Falcons",
+    "Date": "2024-09-22T00:00:00",
+    "Team1_Score": 22,
+    "Team2_Score": 17,
+    "Location": "Atlanta, GA"
+  },
+  {
+    "Match": "49ers-Jets-2024-09-09",
+    "Team1": "San Francisco 49ers",
+    "Team2": "New York Jets",
+    "Date": "2024-09-09T00:00:00",
+    "Team1_Score": 32,
+    "Team2_Score": 19,
+    "Location": "Santa Clara, CA"
+  },
+  {
+    "Match": "49ers-Vikings-2024-09-15",
+    "Team1": "San Francisco 49ers",
+    "Team2": "Minnesota Vikings",
+    "Date": "2024-09-15T00:00:00",
+    "Team1_Score": 17,
+    "Team2_Score": 23,
+    "Location": "Minneapolis, MN"
+  },
+  {
+    "Match": "49ers-Rams-2024-09-22",
+    "Team1": "San Francisco 49ers",
+    "Team2": "Los Angeles Rams",
+    "Date": "2024-09-22T00:00:00",
+    "Team1_Score": 24,
+    "Team2_Score": 27,
+    "Location": "Inglewood, CA"
+  },
+  {
+    "Match": "Dolphins-Jaguars-2024-09-08",
+    "Team1": "Miami Dolphins",
+    "Team2": "Jacksonville Jaguars",
+    "Date": "2024-09-08T00:00:00",
+    "Team1_Score": 20,
+    "Team2_Score": 17,
+    "Location": "Miami Gardens, FL"
+  },
+  {
+    "Match": "Dolphins-Bills-2024-09-12",
+    "Team1": "Miami Dolphins",
+    "Team2": "Buffalo Bills",
+    "Date": "2024-09-12T00:00:00",
+    "Team1_Score": 10,
+    "Team2_Score": 31,
+    "Location": "Miami Gardens, FL"
+  },
+  {
+    "Match": "Liverpool-ManchesterUnited-2024-09-01",
+    "Team1": "Liverpool FC",
+    "Team2": "Manchester United FC",
+    "Date": "2024-09-01T00:00:00",
+    "Team1_Score": 3,
+    "Team2_Score": 0,
+    "Location": "Stretford, England"
+  },
+  {
+    "Match": "Liverpool-Forest-2024-09-14",
+    "Team1": "Liverpool FC",
+    "Team2": "Nottingham Forest FC",
+    "Date": "2024-09-14T00:00:00",
+    "Team1_Score": 0,
+    "Team2_Score": 1,
+    "Location": "Liverpool, England"
+  },
+  {
+    "Match": "Liverpool-Milan-2024-09-17",
+    "Team1": "Liverpool FC",
+    "Team2": "AC Milan",
+    "Date": "2024-09-17T00:00:00",
+    "Team1_Score": 3,
+    "Team2_Score": 1,
+    "Location": "Milan, Italy"
+  },
+  {
+    "Match": "ManCity-Brentford-2024-09-14",
+    "Team1": "Manchester City FC",
+    "Team2": "Brentford FC",
+    "Date": "2024-09-14T00:00:00",
+    "Team1_Score": 2,
+    "Team2_Score": 1,
+    "Location": "Manchester, England"
+  },
+  {
+    "Match": "ManCity-Internazionale-2024-09-18",
+    "Team1": "Manchester City FC",
+    "Team2": "Inter Milan",
+    "Date": "2024-09-18T00:00:00",
+    "Team1_Score": 0,
+    "Team2_Score": 0,
+    "Location": "Manchester, England"
+  },
+  {
+    "Match": "ManCity-Arsenal-2024-09-22",
+    "Team1": "Manchester City FC",
+    "Team2": "Arsenal FC",
+    "Date": "2024-09-18T00:00:00",
+    "Team1_Score": 2,
+    "Team2_Score": 2,
+    "Location": "Manchester, England"
+  },
+  {
+    "Match": "ManUnited-Southhamptom-2024-09-14",
+    "Team1": "Manchester United FC",
+    "Team2": "Southhamptom FC",
+    "Date": "2024-09-14T00:00:00",
+    "Team1_Score": 3,
+    "Team2_Score": 0,
+    "Location": "Southampton, England"
+  },
+  {
+    "Match": "ManUnited-Barnsley-2024-09-17",
+    "Team1": "Manchester United FC",
+    "Team2": "Barnsley FC",
+    "Date": "2024-09-17T00:00:00",
+    "Team1_Score": 7,
+    "Team2_Score": 0,
+    "Location": "Stretford, England"
+  },
+  {
+    "Match": "Madrid-Betis-2024-09-01",
+    "Team1": "Real Madrid CF",
+    "Team2": "Real Betis Balompié",
+    "Date": "2024-09-01T00:00:00",
+    "Team1_Score": 2,
+    "Team2_Score": 0,
+    "Location": "Madrid, Spain"
+  },
+  {
+    "Match": "Madrid-Sociedad-2024-09-14",
+    "Team1": "Real Madrid CF",
+    "Team2": "Real Sociedad",
+    "Date": "2024-09-14T00:00:00",
+    "Team1_Score": 2,
+    "Team2_Score": 0,
+    "Location": "San Sebastián, Spain"
+  },
+  {
+    "Match": "Madrid-Stuttgart-2024-09-17",
+    "Team1": "Real Madrid CF",
+    "Team2": "VfB Stuttgart",
+    "Date": "2024-09-17T00:00:00",
+    "Team1_Score": 3,
+    "Team2_Score": 1,
+    "Location": "Madrid, Spain"
+  },
+  {
+    "Match": "Barcelona-Girona-2024-09-15",
+    "Team1": "FC Barcelona",
+    "Team2": "Girona FC",
+    "Date": "2024-09-15T00:00:00",
+    "Team1_Score": 4,
+    "Team2_Score": 1,
+    "Location": "Girona, Spain"
+  },
+  {
+    "Match": "Barcelona-Monaco-2024-09-19",
+    "Team1": "FC Barcelona",
+    "Team2": "AS Monaco",
+    "Date": "2024-09-19T00:00:00",
+    "Team1_Score": 1,
+    "Team2_Score": 2,
+    "Location": "Monaco, France"
+  },
+  {
+    "Match": "Barcelona-Villarreal-2024-09-22",
+    "Team1": "FC Barcelona",
+    "Team2": "Villarreal CF",
+    "Date": "2024-09-22T00:00:00",
+    "Team1_Score": 5,
+    "Team2_Score": 1,
+    "Location": "Villarreal, Spain"
+  },
+  {
+    "Match": "Chelsea-CrystalPalace-2024-09-01",
+    "Team1": "Chelsea FC",
+    "Team2": "Crystal Palace FC",
+    "Date": "2024-09-01T00:00:00",
+    "Team1_Score": 1,
+    "Team2_Score": 1,
+    "Location": "London, England"
+  },
+  {
+    "Match": "Chelsea-Bournemouth-2024-09-14",
+    "Team1": "Chelsea FC",
+    "Team2": "AFC Bournemouth",
+    "Date": "2024-09-14T00:00:00",
+    "Team1_Score": 1,
+    "Team2_Score": 0,
+    "Location": "Bournemouth, England"
+  },
+  {
+    "Match": "Chelsea-WestHam-2024-09-21",
+    "Team1": "Chelsea FC",
+    "Team2": "West Ham United FC",
+    "Date": "2024-09-21T00:00:00",
+    "Team1_Score": 3,
+    "Team2_Score": 0,
+    "Location": "London, England"
+  },
+  {
+    "Match": "Celtics-Knicks-2024-10-22",
+    "Team1": "Boston Celtics",
+    "Team2": "New York Knicks",
+    "Date": "2024-10-22T00:00:00",
+    "Team1_Score": 132,
+    "Team2_Score": 109,
+    "Location": "Boston, MA"
+  },
+  {
+    "Match": "Celtics-Knicks-2024-10-24",
+    "Team1": "Boston Celtics",
+    "Team2": "Washington Wizards",
+    "Date": "2024-10-24T00:00:00",
+    "Team1_Score": 122,
+    "Team2_Score": 102,
+    "Location": "Washington, DC"
+  },
+  {
+    "Match": "Celtics-Pistons-2024-10-26",
+    "Team1": "Boston Celtics",
+    "Team2": "Detroit Pistons",
+    "Date": "2024-10-26T00:00:00",
+    "Team1_Score": 124,
+    "Team2_Score": 118,
+    "Location": "Detroit, MI"
+  },
+  {
+    "Match": "Timberwolves-Lakers-2024-10-22",
+    "Team1": "Minnesota Timberwolves",
+    "Team2": "Los Angeles Lakers",
+    "Date": "2024-10-22T00:00:00",
+    "Team1_Score": 103,
+    "Team2_Score": 110,
+    "Location": "Los Angeles, CA"
+  },
+  {
+    "Match": "Timberwolves-Kings-2024-10-24",
+    "Team1": "Minnesota Timberwolves",
+    "Team2": "Sancramento Kings",
+    "Date": "2024-10-24T00:00:00",
+    "Team1_Score": 117,
+    "Team2_Score": 115,
+    "Location": "Sacramento, CA"
+  },
+  {
+    "Match": "Timberwolves-Raptors-2024-10-26",
+    "Team1": "Minnesota Timberwolves",
+    "Team2": "Toronto Raptors",
+    "Date": "2024-10-26T00:00:00",
+    "Team1_Score": 112,
+    "Team2_Score": 101,
+    "Location": "Minneapolis, MN"
+  },
+  {
+    "Match": "Nets-Hawks-2024-10-23",
+    "Team1": "Brooklyn Nets",
+    "Team2": "Atlanta Hawks",
+    "Date": "2024-10-23T00:00:00",
+    "Team1_Score": 116,
+    "Team2_Score": 120,
+    "Location": "Atlanta, GA"
+  },
+  {
+    "Match": "Nets-Magic-2024-10-25",
+    "Team1": "Brooklyn Nets",
+    "Team2": "Orlando Magic",
+    "Date": "2024-10-25T00:00:00",
+    "Team1_Score": 101,
+    "Team2_Score": 116,
+    "Location": "Orlando, FL"
+  },
+  {
+    "Match": "Nets-Bucks-2024-10-27",
+    "Team1": "Brooklyn Nets",
+    "Team2": "Milwaukee Bucks",
+    "Date": "2024-10-27T00:00:00",
+    "Team1_Score": 115,
+    "Team2_Score": 102,
+    "Location": "Brooklyn, NY"
+  },
+  {
+    "Match": "Mavericks-Spurs-2024-10-24",
+    "Team1": "Dallas Mavericks",
+    "Team2": "San Antonio Spurs",
+    "Date": "2024-10-24T00:00:00",
+    "Team1_Score": 120,
+    "Team2_Score": 109,
+    "Location": "Dallas, TX"
+  },
+  {
+    "Match": "Mavericks-Suns-2024-10-26",
+    "Team1": "Dallas Mavericks",
+    "Team2": "Phoenix Suns",
+    "Date": "2024-10-26T00:00:00",
+    "Team1_Score": 102,
+    "Team2_Score": 114,
+    "Location": "Phoenix, AZ"
+  },
+  {
+    "Match": "Bulls-Pelicans-2024-10-23",
+    "Team1": "Chicago Bulls",
+    "Team2": "New Orleans Pelicans",
+    "Date": "2024-10-23T00:00:00",
+    "Team1_Score": 111,
+    "Team2_Score": 123,
+    "Location": "New Orleans, LA"
+  },
+  {
+    "Match": "Bulls-Bucks-2024-10-25",
+    "Team1": "Chicago Bulls",
+    "Team2": "Milwaukee Bucks",
+    "Date": "2024-10-25T00:00:00",
+    "Team1_Score": 133,
+    "Team2_Score": 122,
+    "Location": "New Orleans, LA"
+  },
+  {
+    "Match": "Bulls-Thunder-2024-10-26",
+    "Team1": "Chicago Bulls",
+    "Team2": "Oklahoma City Thunder",
+    "Date": "2024-10-26T00:00:00",
+    "Team1_Score": 95,
+    "Team2_Score": 114,
+    "Location": "Chicago, IL"
+  },
+  {
+    "Match": "Wizards-Cavaliers-2024-10-26",
+    "Team1": "Washington Wizards",
+    "Team2": "Cleveland Cavaliers",
+    "Date": "2024-10-26T00:00:00",
+    "Team1_Score": 116,
+    "Team2_Score": 135,
+    "Location": "Washington, DC"
   }
 ]
