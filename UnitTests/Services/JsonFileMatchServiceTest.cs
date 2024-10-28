@@ -23,7 +23,7 @@ namespace UnitTests.Services
 
         #region GetAllData
         [Test]
-        public void GetAllData_Should_Return_2_Items()
+        public void GetAllData_Should_Return_48_Matches()
         {
             // Arrange
 
@@ -32,7 +32,7 @@ namespace UnitTests.Services
             int count = result.Count();
 
             // Assert
-            Assert.That(count, Is.EqualTo(2));
+            Assert.That(count, Is.EqualTo(48));
         }
         #endregion GetAllData
 
