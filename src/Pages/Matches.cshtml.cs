@@ -15,7 +15,7 @@ public class MatchesService
 
     public IEnumerable<Match> GetMatches()
     {
-        var jsonFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "data", "products.json");
+        var jsonFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "data", "matches.json");
         using (var jsonFileReader = File.OpenText(jsonFilePath))
         {
             return JsonSerializer.Deserialize<Match[]>(jsonFileReader.ReadToEnd(),
