@@ -1,9 +1,5 @@
 using System.Linq;
-
-using Microsoft.AspNetCore.Mvc;
-
 using NUnit.Framework;
-
 using ContosoCrafts.WebSite.Models;
 using System;
 
@@ -21,25 +17,10 @@ namespace UnitTests.Pages.Product.AddRating
         #endregion TestSetup
 
         #region AddRating
-        //[Test]
-        //public void AddRating_InValid_....()
-        //{
-        //    // Arrange
-
-        //    // Act
-        //    //var result = TestHelper.ProductService.AddRating(null, 1);
-
-        //    // Assert
-        //    //Assert.AreEqual(false, result);
-        //}
-
-        // ....
 
         [Test]
-        public void AddRating_InValid_Product_Null_Should_Return_False()
+        public void AddRating_Null_ProductId_Should_Return_False()
         {
-            // Arrange
-
             // Act
             var result = TestHelper.ProductService.AddRating(null, 1);
 
@@ -48,10 +29,8 @@ namespace UnitTests.Pages.Product.AddRating
         }
 
         [Test]
-        public void AddRating_InValid_Product_Empty_Should_Return_False()
+        public void AddRating_Empty_ProductId_Should_Return_False()
         {
-            // Arrange
-
             // Act
             var result = TestHelper.ProductService.AddRating("", 1);
 
@@ -60,31 +39,29 @@ namespace UnitTests.Pages.Product.AddRating
         }
 
         [Test]
-        public void AddRating_Valid_Product_Rating_5_Should_Return_True()
+        public void AddRating_Valid_ProductId_And_Rating_Should_Return_True_And_Add_Rating()
         {
             // Arrange
-
-            // Get the First data item
             var data = TestHelper.ProductService.GetAllData().First();
-            var countOriginal = data.Ratings.Length;
+            var originalRatingCount = data.Ratings.Length;
 
             // Act
             var result = TestHelper.ProductService.AddRating(data.Id, 5);
-            var dataNewList = TestHelper.ProductService.GetAllData().First();
+            var updatedData = TestHelper.ProductService.GetAllData().First();
 
             // Assert
             Assert.That(result, Is.EqualTo(true));
-            Assert.That(dataNewList.Ratings.Length, Is.EqualTo(countOriginal + 1));
-            Assert.That(dataNewList.Ratings.Last(), Is.EqualTo(5));
+            Assert.That(updatedData.Ratings.Length, Is.EqualTo(originalRatingCount + 1));
+            Assert.That(updatedData.Ratings.Last(), Is.EqualTo(5));
         }
+
         #endregion AddRating
 
         #region GetFilteredData
-        [Test]
-        public void GetFilteredData_Invalid_ProductTypeFilter()
-        {
-            // Arrange
 
+        [Test]
+        public void GetFilteredData_Invalid_ProductType_Should_Return_Null()
+        {
             // Act
             var result = TestHelper.ProductService.GetFilteredData("NonExistingProductType");
 
@@ -92,66 +69,53 @@ namespace UnitTests.Pages.Product.AddRating
             Assert.That(result, Is.EqualTo(null));
         }
 
-
         [Test]
-        public void GetFilteredData_Invalid_SportFilter()
+        public void GetFilteredData_Invalid_Sport_Should_Return_Null()
         {
-            // Arrange
-
             // Act
-            var result = TestHelper.ProductService.GetFilteredData(null, "NotExistingSport");
+            var result = TestHelper.ProductService.GetFilteredData(null, "NonExistingSport");
 
             // Assert
             Assert.That(result, Is.EqualTo(null));
         }
 
-
         [Test]
-        public void GetFilteredData_Sport_ProductTypeFilter_Should_Return_Sport_Products()
+        public void GetFilteredData_Valid_ProductType_Should_Return_Expected_Products()
         {
             // Arrange
+            var expectedProducts = TestHelper.ProductService.GetAllData().Where(p => p.ProductType.ToString() == "Sport");
 
             // Act
-            var data = TestHelper.ProductService.GetAllData();
-            data = data.Where(p => p.ProductType.ToString() == "Sport");
-
             var result = TestHelper.ProductService.GetFilteredData("Sport");
 
             // Assert
-            Assert.That(result.ToString(), Is.EqualTo(data.ToString()));
+            Assert.That(result.Select(p => p.Id), Is.EquivalentTo(expectedProducts.Select(p => p.Id)));
         }
 
         [Test]
-        public void GetFilteredData_NFL_SportFilter_Should_Return_NFL_Teams()
+        public void GetFilteredData_Valid_Sport_Should_Return_Expected_Teams()
         {
             // Arrange
-            string SportFilter = "NFL";
+            var expectedTeams = TestHelper.ProductService.GetAllData().Where(p => p.Sport == "NFL");
 
             // Act
-            var data = TestHelper.ProductService.GetAllData();
-            data = data.Where(p => p.Sport == SportFilter);
-
-            var result = TestHelper.ProductService.GetFilteredData(null, SportFilter);
+            var result = TestHelper.ProductService.GetFilteredData(null, "NFL");
 
             // Assert
-            Assert.That(result.ToString(), Is.EqualTo(data.ToString()));
+            Assert.That(result.Select(p => p.Id), Is.EquivalentTo(expectedTeams.Select(p => p.Id)));
         }
+
         [Test]
-        public void GetFilteredData_NullFilters_Should_Return_AllData()
+        public void GetFilteredData_Null_Filters_Should_Return_All_Data()
         {
-            // Arrange
-
             // Act
-            var data = TestHelper.ProductService.GetAllData();
-
+            var expectedData = TestHelper.ProductService.GetAllData();
             var result = TestHelper.ProductService.GetFilteredData();
 
             // Assert
-            Assert.That(result.ToString(), Is.EqualTo(data.ToString()));
+            Assert.That(result.Select(p => p.Id), Is.EquivalentTo(expectedData.Select(p => p.Id)));
         }
 
-        #endregion AddRating
-
-
+        #endregion GetFilteredData
     }
 }
