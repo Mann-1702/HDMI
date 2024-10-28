@@ -1,25 +1,20 @@
+using ContosoCrafts.WebSite.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Hosting;
 
-public class MatchesService
+namespace ContosoCrafts.WebSite.Pages
 {
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public MatchesService(IWebHostEnvironment webHostEnvironment)
+    public class MatchesModel : PageModel
     {
-        _webHostEnvironment = webHostEnvironment;
-    }
+        public List<MatchModel> Matches { get; set; }
 
-    public IEnumerable<Match> GetMatches()
-    {
-        var jsonFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "data", "matches.json");
-        using (var jsonFileReader = File.OpenText(jsonFilePath))
+        public void OnGet()
         {
-            return JsonSerializer.Deserialize<Match[]>(jsonFileReader.ReadToEnd(),
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "matches.json");
+            var jsonData = System.IO.File.ReadAllText(jsonFilePath);
+            Matches = JsonSerializer.Deserialize<List<MatchModel>>(jsonData);
         }
     }
 }
