@@ -2,8 +2,10 @@ using System.Linq;
 using NUnit.Framework;
 using ContosoCrafts.WebSite.Models;
 using System;
+using Moq;
+using System.Collections.Generic;
 
-namespace UnitTests.Pages.Product.AddRating
+namespace UnitTests.Pages.Product
 {
     public class JsonFileProductServiceTests
     {
@@ -117,5 +119,183 @@ namespace UnitTests.Pages.Product.AddRating
         }
 
         #endregion GetFilteredData
+
+
+        #region CreateData
+        [Test]
+        public void CreateData_Should_Return_Product_With_NonNull_Id()
+        {
+            // Act
+            var result = TestHelper.ProductService.CreateData();
+
+            // Assert
+            Assert.That(result.Id, Is.Not.Null);
+        }
+        [Test]
+        public void CreateData_Should_Return_Product_With_Expected_Title()
+        {
+            // Act
+            var result = TestHelper.ProductService.CreateData();
+
+            // Assert
+            Assert.That(result.Title, Is.EqualTo("Enter Title"));
+        }
+        [Test]
+        public void CreateData_Should_Call_SaveData_With_New_Product()
+        {
+            // Arrange
+            var initialData = TestHelper.ProductService.GetAllData();
+
+            // Act
+            var result = TestHelper.ProductService.CreateData();
+
+            // Get updated data after the call to SaveData
+            var updatedData = TestHelper.ProductService.GetAllData();
+
+            // Assert
+            Assert.That(updatedData.Select(p => p.Id), Is.SupersetOf(initialData.Select(p => p.Id).Concat(new[] { result.Id })));
+        }
+        [Test]
+        public void CreateData_Should_Return_Product_With_Expected_Description()
+        {
+            // Act
+            var result = TestHelper.ProductService.CreateData();
+
+            // Assert
+            Assert.That(result.Description, Is.EqualTo("Enter Description"));
+        }
+        [Test]
+        public void CreateData_Should_Add_Product_To_Data_Set()
+        {
+            // Act
+            var result = TestHelper.ProductService.CreateData();
+            var updatedData = TestHelper.ProductService.GetAllData();
+
+            // Assert
+            Assert.That(updatedData.Any(p => p.Id == result.Id), Is.True);
+        }
+        #endregion CreateData
+
+        #region DeleteData
+        [Test]
+        public void DeleteData_Should_Remove_Product_With_Given_Id()
+        {
+            // Arrange
+            var idToDelete = "123";
+            var initialData = TestHelper.ProductService.GetAllData();
+
+            // Act
+            TestHelper.ProductService.DeleteData(idToDelete);
+            var updatedData = TestHelper.ProductService.GetAllData();
+
+            // Assert
+            Assert.That(updatedData.Any(p => p.Id == idToDelete), Is.False);
+        }
+        
+        [Test]
+        public void DeleteData_Should_Not_Modify_Data_If_Id_Not_Found()
+        {
+            // Arrange
+            var nonExistentId = "999";  // Assuming this ID does not exist
+            var initialData = TestHelper.ProductService.GetAllData();
+
+            // Act
+            TestHelper.ProductService.DeleteData(nonExistentId);
+            var updatedData = TestHelper.ProductService.GetAllData();
+
+            // Assert
+            Assert.That(updatedData.Select(p => p.Id), Is.EquivalentTo(initialData.Select(p => p.Id)));
+        }
+        
+
+        [Test]
+        public void DeleteData_Should_Return_Null_If_Product_Not_Found()
+        {
+            // Arrange
+            var nonExistentId = "999";  // Assuming this ID does not exist
+
+            // Act
+            var result = TestHelper.ProductService.DeleteData(nonExistentId);
+
+            // Assert
+            Assert.That(result, Is.Null);
+        }
+
+        #endregion DeleteData
+
+        #region UpdateData
+
+        [Test]
+        public void UpdateData_Should_Update_Existing_Product()
+        {
+            // Arrange
+            var existingProduct = TestHelper.ProductService.GetAllData().First();
+            var updatedProduct = new ProductModel
+            {
+                Id = existingProduct.Id,
+                Title = "Updated Title",
+                Description = "Updated Description",
+                Url = "updated-url.com",
+                Image = "updated-image.jpg",
+                FoundingYear = 2020,
+                Trophies = 5
+            };
+
+            // Act
+            var result = TestHelper.ProductService.UpdateData(updatedProduct);
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Title, Is.EqualTo("Updated Title"));
+                Assert.That(result.Description, Is.EqualTo("Updated Description"));
+                Assert.That(result.Url, Is.EqualTo("updated-url.com"));
+                Assert.That(result.Image, Is.EqualTo("updated-image.jpg"));
+                Assert.That(result.FoundingYear, Is.EqualTo(2020));
+                Assert.That(result.Trophies, Is.EqualTo(5));
+            });
+        }
+        [Test]
+        public void UpdateData_Should_Return_Null_If_Product_Not_Found()
+        {
+            // Arrange
+            var nonExistentProduct = new ProductModel
+            {
+                Id = "999",  // Assuming this ID does not exist
+                Title = "Non-existent Product"
+            };
+
+            // Act
+            var result = TestHelper.ProductService.UpdateData(nonExistentProduct);
+
+            // Assert
+            Assert.That(result, Is.Null);
+        }
+        [Test]
+        public void UpdateData_Should_Trim_Description()
+        {
+            // Arrange
+            var existingProduct = TestHelper.ProductService.GetAllData().First();
+            var updatedProduct = new ProductModel
+            {
+                Id = existingProduct.Id,
+                Title = "Updated Title",
+                Description = "  Updated Description with spaces  "
+            };
+
+            // Act
+            var result = TestHelper.ProductService.UpdateData(updatedProduct);
+
+            // Assert
+            Assert.That(result.Description, Is.EqualTo("Updated Description with spaces"));
+        }
+
+        
+       
+
+
+
+        #endregion UpdateData
     }
 }
