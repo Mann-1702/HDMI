@@ -65,8 +65,9 @@
     @foreach (var product in filteredProducts)
     {
         <div class="card">
-            <div class="card-img" style="background-image: url('@product.Image');">
-            </div>
+            <button class="card-img" style="background-image: url('@product.Image'); border: none; background-size: cover; background-repeat: no-repeat; background-position: center;"
+                    @onclick="(e => FilterBySport(product.Sport))">
+            </button>
             <div class="card-body">
                 <h5 class="card-title">@product.Title</h5>
             </div>
