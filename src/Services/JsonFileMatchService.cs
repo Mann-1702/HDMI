@@ -117,6 +117,16 @@ namespace ContosoCrafts.WebSite.Services
             return data;
         }
 
+        public void SwapTeam1Team2(MatchModel match)
+        {
+			string tempTeam = match.Team2;
+			match.Team2 = match.Team1;
+			match.Team1 = tempTeam;
+
+            int tempScore = match.Team2_Score;
+			match.Team2_Score = match.Team1_Score;
+			match.Team1_Score = tempScore;
+        }
 
     }
 }
