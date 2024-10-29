@@ -28,7 +28,7 @@
   },
   {
     "Match": "Ravens-Chiefs-2024-09-05",
-    "Team1": "The Baltimore Ravens",
+    "Team1": "Baltimore Ravens",
     "Team2": "Kansas City Chiefs",
     "Date": "2024-09-05T00:00:00",
     "Team1_Score": 20,
@@ -37,7 +37,7 @@
   },
   {
     "Match": "Ravens-Raiders-2024-09-15",
-    "Team1": "The Baltimore Ravens",
+    "Team1": "Baltimore Ravens",
     "Team2": "Las Vegas Raiders",
     "Date": "2024-09-15T00:00:00",
     "Team1_Score": 23,
@@ -46,7 +46,7 @@
   },
   {
     "Match": "Ravens-Cowboys-2024-09-22",
-    "Team1": "The Baltimore Ravens",
+    "Team1": "Baltimore Ravens",
     "Team2": "Dallas Cowboys",
     "Date": "2024-09-22T00:00:00",
     "Team1_Score": 28,
