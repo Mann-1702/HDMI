@@ -1,12 +1,17 @@
-﻿@page
+﻿@page "{teamName?}"
+
+@using ContosoCrafts.WebSite.Models
+@using ContosoCrafts.WebSite.Services
 @model ContosoCrafts.WebSite.Pages.MatchesModel
+
+
 @{
     ViewData["Title"] = "Matches Page";
 }
 
-<h1>Upcoming Matches</h1>
+<h1>Previous Matches</h1>
 
-<p>Here are the details about upcoming matches:</p>
+<p>Here are the details about previous matches:</p>
 
 <table class="table table-bordered table-striped" style="background-color:lightgrey;">
     <thead>
