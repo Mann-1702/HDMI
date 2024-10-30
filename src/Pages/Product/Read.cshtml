@@ -10,9 +10,12 @@
 <div class="container my-5">
     <div class="card text-center shadow-sm" style="max-width: 800px; margin: 0 auto;">
 
-        <div class="card-header">
-            <h2>@Model.Product.Title</h2>
+        <div class="card-header d-flex justify-content-center align-items-center">
+            <div style="padding: 10px 20px; background-color: #d3c4a1; border-radius: 20px; display: inline-block;">
+                <h2 style="margin: 0;">@Model.Product.Title</h2>
+            </div>
         </div>
+
 
         <img src="@Model.Product.Image" alt="@Model.Product.Title" class="card-img-top img-fluid p-3" style="max-height: 400px; object-fit: cover;" />
 
