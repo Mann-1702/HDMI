@@ -55,6 +55,9 @@
 
                         <!-- Update Button -->
                         <a asp-page="Update" asp-route-id="@product.Id" class="btn btn-warning">Update</a>
+                        <a asp-page="Delete" asp-route-id="@product.Id"
+                           onclick="return confirm('Are you sure you want to delete this item?');"
+                           class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
             }
