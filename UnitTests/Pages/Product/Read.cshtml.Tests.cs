@@ -33,18 +33,18 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
-        public void OnGet_ValidId_Should_Return_Product()
+        public void OnGet_Valid_TeamName_Should_Return_Product()
         {
             // Arrange
-            string validProductId = "jenlooper-survival"; 
+            string validTeamName = "Seahawks"; 
 
             // Act
-            var result = pageModel.OnGet(validProductId);
+            var result = pageModel.OnGet(validTeamName);
 
             // Assert
             Assert.That(result, Is.InstanceOf<PageResult>());
             Assert.That(pageModel.Product, Is.Not.Null);
-            Assert.That(pageModel.Product.Id, Is.EqualTo(validProductId));
+            Assert.That(pageModel.Product.Title, Is.EqualTo(validTeamName));
         }
 
 
