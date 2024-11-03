@@ -17,9 +17,9 @@ namespace ContosoCrafts.WebSite.Pages.Product
 
         public ProductModel Product { get; set; }
 
-        public IActionResult OnGet(string id)
+        public IActionResult OnGet(string teamTitle)
         {
-            Product = _productService.GetAllData().FirstOrDefault(p => p.Id == id);
+            Product = _productService.GetAllData().FirstOrDefault(p => p.Title == teamTitle);
 
             if (Product == null)
             {
