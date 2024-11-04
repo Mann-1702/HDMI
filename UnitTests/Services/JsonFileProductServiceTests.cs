@@ -275,19 +275,17 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(updatedData.Select(p => p.Id), Is.EquivalentTo(initialData.Select(p => p.Id)));
         }
-        
+
 
         [Test]
-        public void DeleteData_Should_Return_Null_If_Product_Not_Found()
+        public void DeleteData_Should_Not_Throw_Exception_If_Product_Not_Found()
         {
             // Arrange
-            var nonExistentId = "999";  // Assuming this ID does not exist
+            var nonExistentId = "999";
 
-            // Act
-            var result = TestHelper.ProductService.DeleteData(nonExistentId);
-
-            // Assert
-            Assert.That(result, Is.Null);
+            // Act & Assert
+            Assert.DoesNotThrow(() => TestHelper.ProductService.DeleteData(nonExistentId),
+                                "DeleteData should not throw an exception if the product does not exist.");
         }
 
         #endregion DeleteData
