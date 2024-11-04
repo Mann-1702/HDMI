@@ -48,7 +48,7 @@
                     var games = apiResponse?.Response;
 
                     // Limit to 50 results
-                    return games?.Take(50).ToList() ?? new List<GameResponse>();
+                    return games?.Take(100).ToList() ?? new List<GameResponse>();
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {

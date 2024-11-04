@@ -26,7 +26,7 @@ namespace ContosoCrafts.WebSite.Pages
             {
                
                 int nflLeagueId = 1; // Might need replacement  with actual NFL league ID
-                int seasonYear = 2023;
+                int seasonYear = 2024;
 
                 // Fetch game data for NFL 2023 season
                 Games = _sportsApiClient.GetGamesForSeason(nflLeagueId, seasonYear);
