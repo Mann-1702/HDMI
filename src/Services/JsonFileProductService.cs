@@ -210,20 +210,17 @@ namespace ContosoCrafts.WebSite.Services
         /// Remove the item from the system
         /// </summary>
         /// <returns></returns>
-        public ProductModel DeleteData(string id)
+        public void DeleteData(string productId)
         {
-            var dataSet = GetAllData();
-            var dataToDelete = dataSet.FirstOrDefault(m => m.Id == id);
-
-            if (dataToDelete != null)
+            var products = GetAllData().ToList();
+            var productToRemove = products.FirstOrDefault(p => p.Id == productId);
+            if (productToRemove != null)
             {
-                // Create a new dataset excluding the product to delete
-                var newDataSet = dataSet.Where(m => m.Id != id).ToList();
-                SaveData(newDataSet);
+                products.Remove(productToRemove);
+                SaveData(products); // Assuming SaveData updates the JSON file
             }
-
-            return dataToDelete;
         }
+
 
 
     }
