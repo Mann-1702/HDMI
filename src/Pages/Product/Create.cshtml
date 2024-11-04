@@ -5,8 +5,6 @@
     ViewData["Title"] = "Create New Team";
 }
 
-<h1>Create New Product</h1>
-
 <style>
     /* Styles specific to the form container */
     .form-container {
@@ -69,44 +67,59 @@
     }
 </style>
 
+
+<h1>Create New Team</h1>
+
 <div class="form-container">
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-group">
-            <label asp-for="Product.Title" class="control-label"></label>
+            <label asp-for="Product.Title" class="control-label">Team Title</label>
             <input asp-for="Product.Title" class="form-control" />
             <span asp-validation-for="Product.Title" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Product.Description" class="control-label"></label>
+            <label asp-for="Product.Description" class="control-label">Description</label>
             <input asp-for="Product.Description" class="form-control" />
             <span asp-validation-for="Product.Description" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Product.Url" class="control-label"></label>
+            <label asp-for="Product.Url" class="control-label">URL</label>
             <input asp-for="Product.Url" class="form-control" />
             <span asp-validation-for="Product.Url" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Product.Image" class="control-label"></label>
+            <label asp-for="Product.Image" class="control-label">Image URL</label>
             <input asp-for="Product.Image" class="form-control" />
             <span asp-validation-for="Product.Image" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Product.FoundingYear" class="control-label"></label>
-            <input asp-for="Product.FoundingYear" type="number" class="form-control" />
+            <label asp-for="Product.FoundingYear" class="control-label">Founding Year</label>
+            <input asp-for="Product.FoundingYear" class="form-control" />
             <span asp-validation-for="Product.FoundingYear" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Product.Trophies" class="control-label"></label>
-            <input asp-for="Product.Trophies" type="number" class="form-control" />
+            <label asp-for="Product.Trophies" class="control-label">Trophies</label>
+            <input asp-for="Product.Trophies" class="form-control" />
             <span asp-validation-for="Product.Trophies" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Product.Sport" class="control-label">Select Sport</label>
+            <select asp-for="Product.Sport" class="form-control">
+                <option value="">-- Select Sport --</option>
+                @foreach (var sport in Model.Sports)
+                {
+                <option value="@sport">@sport</option>
+                }
+            </select>
+            <span asp-validation-for="Product.Sport" class="text-danger"></span>
         </div>
 
         <div class="form-group">

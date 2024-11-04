@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ContosoCrafts.WebSite.Pages.Product
 {
@@ -18,10 +20,21 @@ namespace ContosoCrafts.WebSite.Pages.Product
         [BindProperty]
         public ProductModel Product { get; set; }
 
+        // List to store unique sports types retrieved from existing product data
+        public List<string> Sports { get; set; }
+
         /// <summary> Initialize an empty Product model for the form </summary>
         public IActionResult OnGet()
         {
             Product = new ProductModel();
+
+            // Retrieve unique sports from existing product data
+            Sports = _productService.GetAllData()
+                .Where(p => !string.IsNullOrEmpty(p.Sport)) // Ensure Sport field is not empty
+                .Select(p => p.Sport)
+                .Distinct()
+                .ToList();
+
             return Page();
         }
 
@@ -33,22 +46,14 @@ namespace ContosoCrafts.WebSite.Pages.Product
                 return Page();
             }
 
-            // Call the service to create a new product with default values
-            var newProduct = _productService.CreateData();
+            Product.ProductType = ProductTypeEnum.Team;
 
-            // Update the new product with the form data
-            newProduct.Title = Product.Title;
-            newProduct.Description = Product.Description;
-            newProduct.Url = Product.Url;
-            newProduct.Image = Product.Image;
-            newProduct.FoundingYear = Product.FoundingYear;
-            newProduct.Trophies = Product.Trophies;
 
-            // Save the updated product data back to storage
-            _productService.UpdateData(newProduct);
+            _productService.CreateData(Product);
 
-            // Redirect to the Index page after successful creation
+          
             return RedirectToPage("/Index");
         }
+
     }
 }

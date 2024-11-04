@@ -36,6 +36,9 @@
 
     <!-- Second table: Display all Team products -->
     <h2>Teams</h2>
+    <!-- Global Create Button for adding new teams -->
+    <a asp-page="Create" class="btn btn-success mb-3">Create New Team</a>
+
     <table class="table table-bordered table-striped" style="background-color:lightgrey;">
         <thead>
             <tr>
@@ -54,7 +57,7 @@
                         <a asp-page="Read" asp-route-teamTitle="@product.Title" class="btn btn-teal">Read</a>
 
                         <!-- Update Button -->
-                        <a asp-page="Create" class="btn btn-success">Create</a>
+                      
                         <a asp-page="Update" asp-route-id="@product.Id" class="btn btn-warning">Update</a>
                         <a asp-page="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
 
