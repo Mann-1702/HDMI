@@ -54,8 +54,10 @@
                         <a asp-page="Read" asp-route-teamTitle="@product.Title" class="btn btn-teal">Read</a>
 
                         <!-- Update Button -->
+                        <a asp-page="Create" class="btn btn-success">Create</a>
                         <a asp-page="Update" asp-route-id="@product.Id" class="btn btn-warning">Update</a>
                         <a asp-page="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+
                     </td>
                 </tr>
             }
