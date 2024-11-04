@@ -1,6 +1,7 @@
 @using ContosoCrafts.WebSite.Models
 @using ContosoCrafts.WebSite.Services
 @using Microsoft.AspNetCore.Components.Web
+@inject NavigationManager NavigationManager
 @inject JsonFileProductService ProductService
 
 
@@ -53,11 +54,17 @@
         ProductTypeFilter = "Sport"; // Set SportFilter sport for filtering
         await LoadFilteredProducts(); // Fetch filtered products by Team and Sport
     }
+
+    // Method to navigate to the read page
+    private void NavigateToRead(string teamName)
+    {
+        NavigationManager.NavigateTo($"Product/Read/{teamName}", forceLoad: true); 
+    }
 }
 
 <div>
     <!-- Filter buttons -->
-    <button @onclick="FilterShowAllSports" class="btn btn-primary">Show All Sports</button>
+    <button @onclick="FilterShowAllSports" class="btn btn-primary">Show Sports</button>
 </div>
 
 
@@ -83,6 +90,14 @@
                         <button @onclick="(e => FilterBySport(product.Sport))"
                         class="btn btn-custom-blue ml-2">
                             View Teams
+                        </button>
+                    }
+                    @if (product.ProductType == ProductTypeEnum.Team)
+                    {
+                          <!-- Show the 'Read More' button only if the ProductType is 'Team' -->
+                        <button @onclick="() => NavigateToRead(product.Title)"
+                        class="btn btn-custom-blue ml-2">
+                            Read More
                         </button>
                     }
                 </small>
