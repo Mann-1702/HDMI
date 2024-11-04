@@ -207,7 +207,11 @@ namespace ContosoCrafts.WebSite.Services
         }
 
 
-
+        /// <summary>
+        /// Create a new product using default values
+        /// After create the user can update to set values
+        /// </summary>
+        /// <returns></returns>
         public ProductModel CreateData(ProductModel product)
         {
             product.Id = System.Guid.NewGuid().ToString(); 
