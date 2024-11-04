@@ -7,24 +7,22 @@ namespace ContosoCrafts.WebSite.Pages.Product
 {
     public class CreateModel : PageModel
     {
-        // Data service to interact with product data
-        public JsonFileProductService ProductService { get; }
+        private readonly JsonFileProductService _productService;
 
-        /// <summary> Default Constructor </summary>
         public CreateModel(JsonFileProductService productService)
         {
-            ProductService = productService;
+            _productService = productService;
         }
 
-        // The product model bound to the form data
+        // Bind the ProductModel to receive form data
         [BindProperty]
         public ProductModel Product { get; set; }
 
-        /// <summary> REST Get request to initialize the form with an empty product </summary>
-        public void OnGet()
+        /// <summary> Initialize an empty Product model for the form </summary>
+        public IActionResult OnGet()
         {
-            // Initialize an empty Product model to bind to the form
             Product = new ProductModel();
+            return Page();
         }
 
         /// <summary> Handles the form submission to create a new product </summary>
@@ -35,14 +33,22 @@ namespace ContosoCrafts.WebSite.Pages.Product
                 return Page();
             }
 
-            // Generate a unique ID for the new product
-            Product.Id = System.Guid.NewGuid().ToString();
+            // Call the service to create a new product with default values
+            var newProduct = _productService.CreateData();
 
-            // Call the service to add the new product to the data source
-            ProductService.CreateData(Product);
+            // Update the new product with the form data
+            newProduct.Title = Product.Title;
+            newProduct.Description = Product.Description;
+            newProduct.Url = Product.Url;
+            newProduct.Image = Product.Image;
+            newProduct.FoundingYear = Product.FoundingYear;
+            newProduct.Trophies = Product.Trophies;
 
-            // Redirect to the index page after successful creation
-            return RedirectToPage("./Index");
+            // Save the updated product data back to storage
+            _productService.UpdateData(newProduct);
+
+            // Redirect to the Index page after successful creation
+            return RedirectToPage("/Index");
         }
     }
 }
