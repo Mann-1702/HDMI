@@ -1,0 +1,225 @@
+﻿@page
+@model ContosoCrafts.WebSite.Pages.CompareTeamsModel
+@{
+    ViewData["Title"] = "Compare Teams";
+}
+
+<style>
+    /* Styles remain the same */
+    .form-container {
+        margin: 20px auto;
+        max-width: 600px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-container .form-group label {
+        color: #34495e;
+        font-weight: bold;
+    }
+
+    .form-container .form-control {
+        border: 1px solid #bdc3c7;
+        border-radius: 4px;
+        padding: 12px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.3s;
+        height: 45px;
+    }
+
+        .form-container .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+
+    .form-container .btn-primary {
+        background-color: #3498db;
+        border-color: #2980b9;
+        color: white;
+        padding: 10px 15px;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+        .form-container .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #1c598a;
+        }
+
+    .form-container .text-danger {
+        color: #e74c3c;
+    }
+
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .comparison-table th {
+            background-color: #f2f2f2;
+        }
+</style>
+
+<h2>Compare Teams</h2>
+<div class="form-container">
+    <div class="form-group">
+        <label for="sportSelect">Select Sport:</label>
+        <select id="sportSelect" class="form-control" onchange="updateTeams()">
+            <option value="">-- Select Sport --</option>
+            <option value="NFL">NFL</option>
+            <option value="NBA">NBA</option>
+            <option value="Soccer">Soccer</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="team1Select">Select Team 1:</label>
+        <select id="team1Select" class="form-control" onchange="updateTeam2Options()">
+            <option value="">-- Select Team 1 --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="team2Select">Select Team 2:</label>
+        <select id="team2Select" class="form-control">
+            <option value="">-- Select Team 2 --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary" onclick="compareTeams()">Compare Teams</button>
+    </div>
+
+    <div id="comparisonResult" class="mt-4"></div>
+</div>
+
+<script>
+    const teamData = {};
+
+    async function fetchTeamData() {
+        try {
+            const response = await fetch('/data/products.json');
+            const data = await response.json();
+
+            data.forEach(product => {
+                teamData[product.Title] = {
+                    FoundingYear: product.FoundingYear,
+                    Trophies: product.Trophies,
+                    Sport: product.Sport
+                };
+            });
+
+            console.log('Fetched team data:', teamData);
+        } catch (error) {
+            console.error('Error fetching team data:', error);
+        }
+    }
+
+    window.onload = fetchTeamData;
+
+    function updateTeams() {
+        const sport = document.getElementById("sportSelect").value;
+        const team1Select = document.getElementById("team1Select");
+        const team2Select = document.getElementById("team2Select");
+
+        team1Select.innerHTML = "<option value=''>-- Select Team 1 --</option>";
+        team2Select.innerHTML = "<option value=''>-- Select Team 2 --</option>";
+
+        if (sport) {
+            Object.keys(teamData).forEach(teamName => {
+                // Exclude team with same name as sport and already selected Team 1
+                if (teamData[teamName].Sport === sport && teamName !== sport) {
+                    const option1 = document.createElement("option");
+                    option1.value = teamName;
+                    option1.textContent = teamName;
+                    team1Select.appendChild(option1);
+                }
+            });
+        }
+    }
+
+    function updateTeam2Options() {
+        const team1 = document.getElementById("team1Select").value;
+        const sport = document.getElementById("sportSelect").value;
+        const team2Select = document.getElementById("team2Select");
+
+        team2Select.innerHTML = "<option value=''>-- Select Team 2 --</option>";
+
+        if (sport) {
+            Object.keys(teamData).forEach(teamName => {
+                // Exclude team with same name as sport, and already selected Team 1
+                if (teamData[teamName].Sport === sport && teamName !== sport && teamName !== team1) {
+                    const option2 = document.createElement("option");
+                    option2.value = teamName;
+                    option2.textContent = teamName;
+                    team2Select.appendChild(option2);
+                }
+            });
+        }
+    }
+
+    async function compareTeams() {
+        const team1 = document.getElementById("team1Select").value;
+        const team2 = document.getElementById("team2Select").value;
+
+        if (!team1 || !team2) {
+            document.getElementById("comparisonResult").innerHTML = "<p class='text-danger'>Please select both teams to compare.</p>";
+            return;
+        }
+
+        const team1Data = teamData[team1];
+        const team2Data = teamData[team2];
+
+        console.log('Selected teams:', team1, team2);
+        console.log('Team data:', team1Data, team2Data);
+
+        if (!team1Data || !team2Data) {
+            document.getElementById("comparisonResult").innerHTML = "<p class='text-danger'>Data not found for selected teams.</p>";
+            return;
+        }
+
+        const tableHtml = `
+                <h4>Comparison of ${team1} vs ${team2}</h4>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Attribute</th>
+                            <th>${team1}</th>
+                            <th>${team2}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Founding Year</td>
+                            <td>${team1Data.FoundingYear}</td>
+                            <td>${team2Data.FoundingYear}</td>
+                        </tr>
+                        <tr>
+                            <td>Trophies</td>
+                            <td>${team1Data.Trophies}</td>
+                            <td>${team2Data.Trophies}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+        document.getElementById("comparisonResult").innerHTML = tableHtml;
+    }
+</script>
