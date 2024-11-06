@@ -4,6 +4,7 @@ using ContosoCrafts.WebSite.Models;
 using System;
 using Moq;
 using System.Collections.Generic;
+using ContosoCrafts.WebSite.Services;
 
 namespace UnitTests.Pages.Product
 {
@@ -242,6 +243,35 @@ namespace UnitTests.Pages.Product
 
             // Assert
             Assert.That(updatedData.Any(p => p.Id == result.Id), Is.True);
+        }
+
+        [Test]
+        public void CreateData_Valid_Product_Input_Should_Add_Product_To_Data_Set()
+        {
+            // Arrange
+            ProductModel testProduct = new ProductModel();
+            testProduct.Title = "Test Title";
+            testProduct.Description = "Test Description";
+            testProduct.Url = "Test URL";
+            testProduct.Image = "Test Image URL";
+            testProduct.FoundingYear = 2000;
+            testProduct.Trophies = 10;
+            testProduct.Sport = "NFL";
+
+            // Act
+            TestHelper.ProductService.CreateData(testProduct);
+            var data = TestHelper.ProductService.GetAllData();
+            var addedProduct = data.Where(p => p.Id == testProduct.Id).First();
+
+            // Assert
+            Assert.That(addedProduct.Id, Is.EqualTo(testProduct.Id));
+            Assert.That(addedProduct.Title, Is.EqualTo(testProduct.Title));
+            Assert.That(addedProduct.Description, Is.EqualTo(testProduct.Description));
+            Assert.That(addedProduct.Url, Is.EqualTo(testProduct.Url));
+            Assert.That(addedProduct.Image, Is.EqualTo(testProduct.Image));
+            Assert.That(addedProduct.FoundingYear, Is.EqualTo(testProduct.FoundingYear));
+            Assert.That(addedProduct.Trophies, Is.EqualTo(testProduct.Trophies));
+            Assert.That(addedProduct.Sport, Is.EqualTo(testProduct.Sport));
         }
 
         #endregion CreateData
