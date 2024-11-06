@@ -26,6 +26,7 @@ namespace ContosoCrafts.WebSite.Services
             get { return Path.Combine(WebHostEnvironment.WebRootPath, "data", "matches.json"); }
         }
 
+
         public IEnumerable<MatchModel> GetAllData()
         {
             using (var jsonFileReader = File.OpenText(JsonFileName))
@@ -37,95 +38,69 @@ namespace ContosoCrafts.WebSite.Services
                     });
             }
         }
-        public MatchModel UpdateData(MatchModel data)
-        {
-            var matches = GetAllData();
-            var matchData = matches.FirstOrDefault(x => x.Match.Equals(data.Match));
 
-            if (matchData == null)
+        /// <summary>
+        /// Swaps Team1 and Team2 in the match data including their scores
+        /// 
+        /// </summary>
+        /// <param name="match"></param>
+        public bool SwapTeam1Team2(MatchModel match)
+        {
+            if (!IsValidMatch(match))
             {
-                return null;
+                return false;
             }
 
-            // Update the data to the new passed in values
-            matchData.Match = data.Match;
-            matchData.Date = data.Date;
-            matchData.Location = data.Location;
-    
-
-            SaveData(matches);
-
-            return matchData;
-        }
-
-        /// <summary>
-        /// Save All products data to storage
-        /// </summary>
-        private void SaveData(IEnumerable<MatchModel> matches)
-        {
-
-            using (var outputStream = File.Create(JsonFileName))
-            {
-                JsonSerializer.Serialize<IEnumerable<MatchModel>>(
-                    new Utf8JsonWriter(outputStream, new JsonWriterOptions
-                    {
-                        SkipValidation = true,
-                        Indented = true
-                    }),
-                    matches
-                );
-            }
-        }
-
-        /// <summary>
-        /// Create a new product using default values
-        /// After create the user can update to set values
-        /// </summary>
-        /// <returns></returns>
-        public MatchModel CreateData()
-        {
-            var data = new MatchModel()
-            {
-                Match = "Enter Match",
-                Date = new DateTime(),
-                Location = "Enter Location",
-            };
-
-            // Get the current set, and append the new record to it because IEnumerable does not have Add
-            var dataSet = GetAllData();
-            dataSet = dataSet.Append(data);
-
-            SaveData(dataSet);
-
-            return data;
-        }
-
-        /// <summary>
-        /// Remove the item from the system
-        /// </summary>
-        /// <returns></returns>
-        public MatchModel DeleteData(string id)
-        {
-            // Get the current set, and append the new record to it
-            var dataSet = GetAllData();
-            var data = dataSet.FirstOrDefault(m => m.Match.Equals(id));
-
-            var newDataSet = GetAllData().Where(m => m.Match.Equals(id) == false);
-
-            SaveData(newDataSet);
-
-            return data;
-        }
-
-        public void SwapTeam1Team2(MatchModel match)
-        {
-			string tempTeam = match.Team2;
-			match.Team2 = match.Team1;
-			match.Team1 = tempTeam;
+            string tempTeam = match.Team2;
+            match.Team2 = match.Team1;
+            match.Team1 = tempTeam;
 
             int tempScore = match.Team2_Score;
-			match.Team2_Score = match.Team1_Score;
-			match.Team1_Score = tempScore;
+            match.Team2_Score = match.Team1_Score;
+            match.Team1_Score = tempScore;
+            return true;
+        }
+
+        /// <summary>
+        /// Checks match to see if it is valid.
+        /// Checks for valid Team1 and Team2.
+        /// Checks for non-negative scores.
+        /// 
+        /// </summary>
+        /// <param name="match"></param>
+        /// 
+        /// <returns>
+        /// Returns True if valid
+        /// Returns False if not valid
+        /// </returns>
+        public bool IsValidMatch(MatchModel match)
+        {
+            if (match == null)
+            {
+                return false;
+            }
+
+            if (match.Team1 == null)
+            {
+                return false;
+            }
+
+            if (match.Team2 == null)
+            {
+                return false;
+            }
+
+            if (match.Team1_Score < 0)
+            {
+                return false;
+            }
+
+            if (match.Team2_Score < 0)
+            {
+                return false;
+            }
+
+            return true;
         }
 
     }

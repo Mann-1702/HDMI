@@ -141,6 +141,7 @@ namespace ContosoCrafts.WebSite.Services
         {
             var products = GetAllData();
             var productData = products.FirstOrDefault(x => x.Id.Equals(data.Id));
+
             if (productData == null)
             {
                 return null;
@@ -216,7 +217,6 @@ namespace ContosoCrafts.WebSite.Services
         {
             product.Id = System.Guid.NewGuid().ToString(); 
 
-      
             var dataSet = GetAllData().ToList();
             dataSet.Add(product);
 
@@ -234,10 +234,13 @@ namespace ContosoCrafts.WebSite.Services
         {
             var products = GetAllData().ToList();
             var productToRemove = products.FirstOrDefault(p => p.Id == productId);
+
             if (productToRemove != null)
             {
                 products.Remove(productToRemove);
-                SaveData(products); // Assuming SaveData updates the JSON file
+
+                // Saves data to json file
+                SaveData(products); 
             }
         }
 
