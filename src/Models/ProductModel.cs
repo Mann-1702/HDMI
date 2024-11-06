@@ -30,10 +30,10 @@ namespace ContosoCrafts.WebSite.Models
 
         public string Sport { get; set; }
 
-        [Range(-1, 100, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+        [Range(1800, 2024, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int FoundingYear { get; set; }
 
-        [Range(-1, 100, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+        [Range(0, 100, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Trophies { get; set; }
 
         // Store the Comments entered by the users on this product
