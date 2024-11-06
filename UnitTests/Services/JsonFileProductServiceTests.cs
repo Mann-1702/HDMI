@@ -342,11 +342,12 @@ namespace UnitTests.Pages.Product
 
             // Act
             TestHelper.ProductService.DeleteData(productToDelete.Id);
-            var result = TestHelper.ProductService.GetAllData().Where(p => p.Id == productToDelete.Id);
+            var result = TestHelper.ProductService.GetAllData();
 
             // Assert
-            Assert.That(result, Is.Not.EqualTo(null));
+            Assert.That(result.Any(p => p.Id == productToDelete.Id), Is.False);
         }
+
         #endregion DeleteData
 
         #region SaveData
