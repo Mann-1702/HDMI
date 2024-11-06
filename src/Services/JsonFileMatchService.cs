@@ -44,15 +44,63 @@ namespace ContosoCrafts.WebSite.Services
         /// 
         /// </summary>
         /// <param name="match"></param>
-        public void SwapTeam1Team2(MatchModel match)
+        public bool SwapTeam1Team2(MatchModel match)
         {
-			string tempTeam = match.Team2;
-			match.Team2 = match.Team1;
-			match.Team1 = tempTeam;
+            if (!IsValidMatch(match))
+            {
+                return false;
+            }
+
+            string tempTeam = match.Team2;
+            match.Team2 = match.Team1;
+            match.Team1 = tempTeam;
 
             int tempScore = match.Team2_Score;
-			match.Team2_Score = match.Team1_Score;
-			match.Team1_Score = tempScore;
+            match.Team2_Score = match.Team1_Score;
+            match.Team1_Score = tempScore;
+            return true;
+        }
+
+        /// <summary>
+        /// Checks match to see if it is valid.
+        /// Checks for valid Team1 and Team2.
+        /// Checks for non-negative scores.
+        /// 
+        /// </summary>
+        /// <param name="match"></param>
+        /// 
+        /// <returns>
+        /// Returns True if valid
+        /// Returns False if not valid
+        /// </returns>
+        public bool IsValidMatch(MatchModel match)
+        {
+            if (match == null)
+            {
+                return false;
+            }
+
+            if (match.Team1 == null)
+            {
+                return false;
+            }
+
+            if (match.Team2 == null)
+            {
+                return false;
+            }
+
+            if (match.Team1_Score < 0)
+            {
+                return false;
+            }
+
+            if (match.Team2_Score < 0)
+            {
+                return false;
+            }
+
+            return true;
         }
 
     }
