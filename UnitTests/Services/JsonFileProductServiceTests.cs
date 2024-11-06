@@ -324,7 +324,7 @@ namespace UnitTests.Pages.Product
         public void DeleteData_Deleting_Item_Should_Remove_Item_From_Json_File()
         {
             // Arrange
-            var productToDelete = TestHelper.ProductService.GetAllData().First();
+            var productToDelete = TestHelper.ProductService.GetAllData().Last();
 
             // Act
             TestHelper.ProductService.DeleteData(productToDelete.Id);
