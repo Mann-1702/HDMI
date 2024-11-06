@@ -4,6 +4,7 @@ using ContosoCrafts.WebSite.Models;
 using System;
 using Moq;
 using System.Collections.Generic;
+using ContosoCrafts.WebSite.Services;
 
 namespace UnitTests.Pages.Product
 {
@@ -56,7 +57,6 @@ namespace UnitTests.Pages.Product
             Assert.That(updatedData.Ratings.Length, Is.EqualTo(originalRatingCount + 1));
             Assert.That(updatedData.Ratings.Last(), Is.EqualTo(5));
         }
-
         [Test]
         public void AddRating_Rating_Below_0_Should_Return_False()
         {
@@ -69,7 +69,6 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result, Is.EqualTo(false));
         }
-
         [Test]
         public void AddRating_Rating_Above_5_Should_Return_False()
         {
@@ -82,7 +81,6 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result, Is.EqualTo(false));
         }
-
         [Test]
         public void AddRating_Should_Add_Rating_To_Product_Without_Existing_Ratings()
         {
@@ -189,7 +187,6 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result.Select(p => p.Id), Is.EquivalentTo(expectedData.Select(p => p.Id)));
         }
-
         [Test]
         public void GetFilteredData_Valid_ProductType_And_Sport_Should_Return_Filtered_Data()
         {
@@ -203,11 +200,10 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result.Select(p => p.Id), Is.EquivalentTo(expectedData.Select(p => p.Id)));
         }
-
         #endregion GetFilteredData
 
-        #region CreateData
 
+        #region CreateData
         [Test]
         public void CreateData_Should_Return_Product_With_NonNull_Id()
         {
@@ -217,7 +213,6 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result.Id, Is.Not.Null);
         }
-
         [Test]
         public void CreateData_Should_Return_Product_With_Expected_Title()
         {
@@ -227,7 +222,6 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result.Title, Is.EqualTo("Enter Title"));
         }
-
         [Test]
         public void CreateData_Should_Call_SaveData_With_New_Product()
         {
@@ -243,7 +237,6 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(updatedData.Select(p => p.Id), Is.SupersetOf(initialData.Select(p => p.Id).Concat(new[] { result.Id })));
         }
-
         [Test]
         public void CreateData_Should_Return_Product_With_Expected_Description()
         {
@@ -253,7 +246,6 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result.Description, Is.EqualTo("Enter Description"));
         }
-
         [Test]
         public void CreateData_Should_Add_Product_To_Data_Set()
         {
@@ -266,30 +258,37 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
-        public void CreateData_With_ProductModel_Should_Add_And_Return_New_Product()
+        public void CreateData_Valid_Product_Input_Should_Add_Product_To_Data_Set()
         {
             // Arrange
-            var newProduct = new ProductModel
-            {
-                Title = "New Product",
-                Description = "New Description",
-                Url = "new-product-url.com",
-                Image = "new-product-image.jpg"
-            };
+            ProductModel testProduct = new ProductModel();
+            testProduct.Title = "Test Title";
+            testProduct.Description = "Test Description";
+            testProduct.Url = "Test URL";
+            testProduct.Image = "Test Image URL";
+            testProduct.FoundingYear = 2000;
+            testProduct.Trophies = 10;
+            testProduct.Sport = "NFL";
 
             // Act
-            var createdProduct = TestHelper.ProductService.CreateData(newProduct);
+            TestHelper.ProductService.CreateData(testProduct);
+            var data = TestHelper.ProductService.GetAllData();
+            var addedProduct = data.Where(p => p.Id == testProduct.Id).First();
 
             // Assert
-            Assert.That(createdProduct, Is.Not.Null);
-            Assert.That(createdProduct.Id, Is.Not.Empty);
-            Assert.That(createdProduct.Title, Is.EqualTo("New Product"));
+            Assert.That(addedProduct.Id, Is.EqualTo(testProduct.Id));
+            Assert.That(addedProduct.Title, Is.EqualTo(testProduct.Title));
+            Assert.That(addedProduct.Description, Is.EqualTo(testProduct.Description));
+            Assert.That(addedProduct.Url, Is.EqualTo(testProduct.Url));
+            Assert.That(addedProduct.Image, Is.EqualTo(testProduct.Image));
+            Assert.That(addedProduct.FoundingYear, Is.EqualTo(testProduct.FoundingYear));
+            Assert.That(addedProduct.Trophies, Is.EqualTo(testProduct.Trophies));
+            Assert.That(addedProduct.Sport, Is.EqualTo(testProduct.Sport));
         }
 
         #endregion CreateData
 
         #region DeleteData
-
         [Test]
         public void DeleteData_Should_Remove_Product_With_Given_Id()
         {
@@ -322,11 +321,12 @@ namespace UnitTests.Pages.Product
             Assert.That(updatedData.Select(p => p.Id), Is.EquivalentTo(initialData.Select(p => p.Id)));
         }
 
+
         [Test]
         public void DeleteData_Should_Not_Throw_Exception_If_Product_Not_Found()
         {
             // Arrange
-            var nonExistentId = "non-existent-id";
+            var nonExistentId = "999";
 
             // Act & Assert
             Assert.DoesNotThrow(() => TestHelper.ProductService.DeleteData(nonExistentId),
@@ -347,9 +347,7 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result.Any(p => p.Id == productToDelete.Id), Is.False);
         }
-
         #endregion DeleteData
-
         #region SaveData
 
         [Test]
@@ -368,9 +366,6 @@ namespace UnitTests.Pages.Product
         }
 
         #endregion SaveData
-
-
-
         #region UpdateData
 
         [Test]
@@ -404,14 +399,13 @@ namespace UnitTests.Pages.Product
                 Assert.That(result.Trophies, Is.EqualTo(5));
             });
         }
-
         [Test]
         public void UpdateData_Should_Return_Null_If_Product_Not_Found()
         {
             // Arrange
             var nonExistentProduct = new ProductModel
             {
-                Id = "non-existent-id",  // Assuming this ID does not exist
+                Id = "999",  // Assuming this ID does not exist
                 Title = "Non-existent Product"
             };
 
@@ -421,7 +415,6 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result, Is.Null);
         }
-
         [Test]
         public void UpdateData_Should_Trim_Description()
         {
@@ -440,13 +433,6 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result.Description, Is.EqualTo("Updated Description with spaces"));
         }
-
-        
-       
-
-
-
         #endregion UpdateData
-
     }
 }
