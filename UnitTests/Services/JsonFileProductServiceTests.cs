@@ -243,6 +243,7 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(updatedData.Any(p => p.Id == result.Id), Is.True);
         }
+
         #endregion CreateData
 
         #region DeleteData
@@ -288,6 +289,20 @@ namespace UnitTests.Pages.Product
                                 "DeleteData should not throw an exception if the product does not exist.");
         }
 
+
+        [Test]
+        public void DeleteData_Deleting_Item_Should_Remove_Item_From_Json_File()
+        {
+            // Arrange
+            var productToDelete = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            TestHelper.ProductService.DeleteData(productToDelete.Id);
+            var result = TestHelper.ProductService.GetAllData().Where(p => p.Id == productToDelete.Id);
+
+            // Assert
+            Assert.That(result, Is.Not.EqualTo(null));
+        }
         #endregion DeleteData
 
         #region UpdateData
@@ -357,12 +372,6 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result.Description, Is.EqualTo("Updated Description with spaces"));
         }
-
-        
-       
-
-
-
         #endregion UpdateData
     }
 }
