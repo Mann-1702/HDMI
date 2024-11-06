@@ -37,7 +37,7 @@ namespace UnitTests.Pages.Product
         public void OnGet_Valid_ProductId_Should_Return_Delete_Page()
         {
             // Arrange
-            string validId = productService.GetAllData().First().Id;
+            string validId = productService.GetAllData().Last().Id;
 
             // Act
             var result = pageModel.OnGet(validId);
@@ -69,7 +69,7 @@ namespace UnitTests.Pages.Product
         public void OnPost_Valid_Product_Should_Delete_And_Redirect()
         {
             // Arrange
-            string validId = productService.GetAllData().First().Id;
+            string validId = productService.GetAllData().Last().Id;
 
             // Adding the product to the service
 
@@ -89,7 +89,7 @@ namespace UnitTests.Pages.Product
         public void OnPost_Invalid_Null_Product_Should_Redirect_To_Index()
         {
             // Arrange
-            string validId = productService.GetAllData().First().Id;
+            string validId = productService.GetAllData().Last().Id;
 
             // Adding the product to the service
 
