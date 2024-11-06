@@ -235,7 +235,7 @@ namespace UnitTests.Services
             testMatch.Team2_Score = 2;
 
             // Act
-            var result = TestHelper.MatchService.IsValidMatch(null);
+            var result = TestHelper.MatchService.IsValidMatch(testMatch);
 
             // Assert
             Assert.That(result, Is.EqualTo(true));
