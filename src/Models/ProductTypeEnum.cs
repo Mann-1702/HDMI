@@ -26,6 +26,9 @@ namespace ContosoCrafts.WebSite.Models
                 // Default, Unknown
                 _ => "",
             };
+
         }
+
     }
+
 }
