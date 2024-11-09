@@ -39,6 +39,7 @@ namespace UnitTests.Pages
         [Test]
         public void OnGet_Valid_Null_Input_Should_Fetch_All_Matches()
         {
+
             // Arrange
 
             // Act
@@ -53,6 +54,7 @@ namespace UnitTests.Pages
         [Test]
         public void OnGet_Valid_Team_Input_Should_Fetch_All_Matches_For_Only_That_Team()
         {
+
             // Arrange
             string validTeamName = "Kansas City Chiefs";
 
@@ -69,7 +71,10 @@ namespace UnitTests.Pages
             {
                 Assert.That(match.Team1, Is.EqualTo(validTeamName));
             }
+
         }
+
         #endregion OnGet
     }
+
 }
