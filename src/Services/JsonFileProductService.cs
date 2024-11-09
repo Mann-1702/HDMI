@@ -34,6 +34,7 @@ namespace ContosoCrafts.WebSite.Services
                         PropertyNameCaseInsensitive = true
                     });
             }
+
         }
 
         public IEnumerable<ProductModel> GetFilteredData(string ProductTypeFilter = null, string SportFilter = null)
@@ -46,6 +47,7 @@ namespace ContosoCrafts.WebSite.Services
             // ProductTypeFilter is not null
             if (!string.IsNullOrEmpty(ProductTypeFilter))
             {
+
                 // Checks for valid ProductType
                 if (!Array.Exists(validProductTypes, element => element == ProductTypeFilter))
                 {
@@ -60,6 +62,7 @@ namespace ContosoCrafts.WebSite.Services
             // SportFilter is not null
             if (!string.IsNullOrEmpty(SportFilter))
             {
+
                 // Checks for valid Sport
                 if (!Array.Exists(validSports, element => element == SportFilter))
                 {
@@ -74,8 +77,6 @@ namespace ContosoCrafts.WebSite.Services
             return filteredProducts;
         }
 
-
-
         /// <summary>
         /// Add Rating
         /// 
@@ -87,6 +88,7 @@ namespace ContosoCrafts.WebSite.Services
         /// <param name="rating"></param>
         public bool AddRating(string productId, int rating)
         {
+
             // If the ProductID is invalid, return
             if (string.IsNullOrEmpty(productId))
             {
@@ -180,6 +182,7 @@ namespace ContosoCrafts.WebSite.Services
                     products
                 );
             }
+
         }
 
         /// <summary>
@@ -242,9 +245,9 @@ namespace ContosoCrafts.WebSite.Services
                 // Saves data to json file
                 SaveData(products); 
             }
+
         }
 
-
-
     }
+
 }
