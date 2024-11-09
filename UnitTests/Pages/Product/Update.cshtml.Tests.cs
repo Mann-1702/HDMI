@@ -22,6 +22,7 @@ namespace UnitTests.Pages.Product
         [SetUp]
         public void TestInitialize()
         {
+
             // IWebHostEnvironment
             mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
             mockWebHostEnvironment.Setup(m => m.WebRootPath).Returns(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"));
@@ -37,6 +38,7 @@ namespace UnitTests.Pages.Product
         [Test]
         public void OnGet_ValidId_Should_Return_Product()
         {
+
             // Arrange
             string validProductId = "jenlooper-survival"; 
 
@@ -51,6 +53,7 @@ namespace UnitTests.Pages.Product
         [Test]
         public void OnGet_InvalidId_Should_Return_Null()
         {
+
             // Arrange
             string invalidProductId = "invalid_id"; 
 
@@ -64,6 +67,7 @@ namespace UnitTests.Pages.Product
         [Test]
         public void OnPost_InvalidModelState_Should_Return_Page()
         {
+
             // Arrange - 
             pageModel.ModelState.AddModelError("Error", "Invalid Model State");
 
@@ -77,6 +81,7 @@ namespace UnitTests.Pages.Product
         [Test]
         public void OnPost_ValidModelState_Should_Update_Product_And_Redirect()
         {
+
             // Arrange -
             pageModel.Product = new ProductModel { Id = "jenlooper-survival", Title = "Updated Product", Description = "Updated Description" };
 
@@ -91,5 +96,7 @@ namespace UnitTests.Pages.Product
             Assert.That(updatedProduct.Title, Is.EqualTo("Updated Product"));
             Assert.That(updatedProduct.Description, Is.EqualTo("Updated Description"));
         }
+
     }
+
 }
