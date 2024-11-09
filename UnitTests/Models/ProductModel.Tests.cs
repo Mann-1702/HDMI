@@ -33,7 +33,9 @@ namespace UnitTests.Models
                     new CommentModel { Id = "1", Comment = "Great product!" },
                     new CommentModel { Id = "2", Comment = "Not bad." }
                 }
+
             };
+
         }
 
         [Test]
@@ -107,5 +109,7 @@ namespace UnitTests.Models
             Validator.TryValidateObject(model, validationContext, validationResults, true);
             return validationResults;
         }
+
     }
+
 }
