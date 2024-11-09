@@ -35,6 +35,7 @@ namespace UnitTests.Pages.Product
         [Test]
         public void OnGet_Valid_TeamName_Should_Return_Product()
         {
+
             // Arrange
             string validTeamName = "Seahawks"; 
 
@@ -53,6 +54,7 @@ namespace UnitTests.Pages.Product
         [Test]
         public void OnGet_InvalidId_Should_Return_NotFound()
         {
+
             // Arrange
             string invalidProductId = "invalid_id"; 
 
@@ -64,6 +66,6 @@ namespace UnitTests.Pages.Product
             Assert.That(pageModel.Product, Is.Null);
         }
 
-
     }
+
 }
