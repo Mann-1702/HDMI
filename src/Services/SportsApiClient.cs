@@ -47,7 +47,7 @@
         /// <param name="seasonYear">The year of the season.</param>
         /// <param name="timezone">Timezone for date and time fields (default is "UTC").</param>
         /// <returns>A list of <see cref="GameResponse"/> objects for the specified league and season.</returns>
-        public List<GameResponse> GetGamesForSeason(int leagueId, int seasonYear, string timezone = "UTC")
+        public List<GameResponse> GetGamesForSeason(int leagueId, int seasonYear )
         {
             // Create the RestClient with the base URL
             var client = new RestClient(_baseUrl);
@@ -56,9 +56,9 @@
             var request = new RestRequest("games", Method.Get);
 
             // Add query parameters for league ID, season year, and timezone
-            request.AddQueryParameter("league", leagueId.ToString());
+            request.AddQueryParameter("league", leagueId.ToString()); //use league for NBA
             request.AddQueryParameter("season", seasonYear.ToString());
-            request.AddQueryParameter("timezone", timezone);
+            //request.AddQueryParameter("timezone", timezone);
 
             // Add required headers for API authentication
             request.AddHeader("x-rapidapi-key", _apiKey);
