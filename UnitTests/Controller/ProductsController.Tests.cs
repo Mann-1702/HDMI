@@ -21,6 +21,7 @@ namespace UnitTests.Controllers
         [SetUp]
         public void Setup()
         {
+
             // Create a temporary directory to act as WebRootPath
             _testWebRootPath = Path.Combine(Path.GetTempPath(), "TestWebRoot");
             Directory.CreateDirectory(_testWebRootPath);
@@ -69,16 +70,19 @@ namespace UnitTests.Controllers
         [TearDown]
         public void TearDown()
         {
+
             // Clean up the temporary directory after the tests
             if (Directory.Exists(_testWebRootPath))
             {
                 Directory.Delete(_testWebRootPath, true);
             }
+
         }
 
         [Test]
         public void Get_Should_Return_All_Products()
         {
+
             // Act
             var result = _controller.Get();
 
@@ -89,6 +93,7 @@ namespace UnitTests.Controllers
         [Test]
         public void Patch_Should_Add_Rating_To_Product_And_Return_Ok()
         {
+
             // Arrange
             var request = new ProductsController.RatingRequest
             {
@@ -115,5 +120,7 @@ namespace UnitTests.Controllers
             // Check if the Ratings array contains the new rating
             Assert.That(product.Ratings, Contains.Item(5), "Product Ratings should contain the new rating.");
         }
+
     }
+
 }
