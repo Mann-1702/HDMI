@@ -13,6 +13,7 @@
     /// </summary>
     public class SportsApiClient
     {
+
         // The API key for authenticating requests
         private readonly string _apiKey;
 
@@ -49,6 +50,7 @@
         /// <returns>A list of <see cref="GameResponse"/> objects for the specified league and season.</returns>
         public List<GameResponse> GetGamesForSeason(int leagueId, int seasonYear )
         {
+
             // Create the RestClient with the base URL
             var client = new RestClient(_baseUrl);
 
@@ -69,6 +71,7 @@
 
             try
             {
+
                 // Execute the request and store the response
                 var response = client.Execute(request);
 
@@ -80,6 +83,7 @@
                 // Check if the response is successful and contains content
                 if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content))
                 {
+
                     // Deserialize the JSON response to ApiResponse<GameResponse>
                     var apiResponse = JsonConvert.DeserializeObject<ApiResponse<GameResponse>>(response.Content);
 
@@ -87,26 +91,35 @@
                     var games = apiResponse?.Response;
                     return games?.Take(100).ToList() ?? new List<GameResponse>();
                 }
+
                 else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
+
                     // Log a message if no content was returned ment for debugging purposes, can remove
                     _logger.LogInformation("No games data available.");
                     return new List<GameResponse>();
                 }
+
                 else
                 {
+
                     // Log an error and throw an exception if the request failed also ment for debuggin purposes
                     _logger.LogError("Request failed with status code: {StatusCode}, Error Message: {ErrorMessage}", response.StatusCode, response.ErrorMessage);
                     throw new Exception($"Request failed with status code: {response.StatusCode}, Error Message: {response.ErrorMessage}");
                 }
+
             }
+
             catch (Exception ex)
             {
+
                 // Log any exceptions that occur during execution
                 _logger.LogError(ex, "An error occurred while executing the request");
                 throw;
             }
+
         }
+
     }
 
     /// <summary>
@@ -125,4 +138,5 @@
   
         public List<T> Response { get; set; }
     }
+
 }
