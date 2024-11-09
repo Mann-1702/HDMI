@@ -3,11 +3,13 @@ using NUnit.Framework;
 
 namespace UnitTests
 {
+
     /// <summary>
     /// Test Context used by bUnit
     /// </summary>
     public abstract class BunitTestContext : TestContextWrapper
     {
+
         // The Setup sets the context
         [SetUp]
         public void Setup() => TestContext = new Bunit.TestContext();
@@ -16,4 +18,5 @@ namespace UnitTests
         [TearDown]
         public void TearDown() => TestContext.Dispose();
     }
+
 }
