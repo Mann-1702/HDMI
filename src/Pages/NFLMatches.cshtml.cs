@@ -31,11 +31,15 @@ namespace ContosoCrafts.WebSite.Pages
                 // Fetch game data for NFL 2023 season
                 Games = _sportsApiClient.GetGamesForSeason(nflLeagueId, seasonYear);
             }
+
             catch (System.Exception ex)
             {
                 _logger.LogError(ex, "Error fetching game results.");
                 Games = new List<GameResponse>(); // Handle error 
             }
+
         }
+
     }
+
 }
