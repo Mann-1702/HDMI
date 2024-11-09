@@ -26,6 +26,7 @@ namespace UnitTests.Services
         [Test]
         public void GetAllData_Should_Return_48_Matches()
         {
+
             // Arrange
 
             // Act
@@ -42,6 +43,7 @@ namespace UnitTests.Services
         [Test]
         public void SwapTeam1Team2_Invalid_Null_Input_Should_Return_False()
         {
+
             // Arrange
 
             // Act
@@ -54,6 +56,7 @@ namespace UnitTests.Services
         [Test]
         public void SwapTeam1Team2_Invalid_Empty_Match_Should_Return_False()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
 
@@ -67,6 +70,7 @@ namespace UnitTests.Services
         [Test]
         public void SwapTeam1Team2_Invalid_Team1_Should_Return_False()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
 
@@ -83,6 +87,7 @@ namespace UnitTests.Services
         [Test]
         public void SwapTeam1Team2_Invalid_Team2_Should_Return_False()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
 
@@ -99,6 +104,7 @@ namespace UnitTests.Services
         [Test]
         public void SwapTeam1Team2_Invalid_Negative_Team1_Score_Should_Return_False()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
             testMatch.Team1 = "Team1";
@@ -115,6 +121,7 @@ namespace UnitTests.Services
         [Test]
         public void SwapTeam1Team2_Invalid_Negative_Team2_Score_Should_Return_False()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
             testMatch.Team1 = "Team1";
@@ -131,6 +138,7 @@ namespace UnitTests.Services
         [Test]
         public void SwapTeam1Team2_Valid_Match_Should_Return_True()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
             testMatch.Team1 = "Team1";
@@ -151,6 +159,7 @@ namespace UnitTests.Services
         [Test]
         public void IsValidMatch_Invalid_Null_Input_Should_Return_False()
         {
+
             // Arrange
 
             // Act
@@ -163,6 +172,7 @@ namespace UnitTests.Services
         [Test]
         public void IsValidMatch_Invalid_Null_Team1_Should_Return_False()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
             testMatch.Team1 = null;
@@ -178,6 +188,7 @@ namespace UnitTests.Services
         [Test]
         public void IsValidMatch_Invalid_Null_Team2_Should_Return_False()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
             testMatch.Team1 = "Team2";
@@ -193,6 +204,7 @@ namespace UnitTests.Services
         [Test]
         public void IsValidMatch_Invalid_Negative_Team1_Score_Should_Return_False()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
             testMatch.Team1 = "Team1";
@@ -210,6 +222,7 @@ namespace UnitTests.Services
         [Test]
         public void IsValidMatch_Invalid_Negative_Team2_Score_Should_Return_False()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
             testMatch.Team1 = "Team1";
@@ -227,6 +240,7 @@ namespace UnitTests.Services
         [Test]
         public void IsValidMatch_Valid_Match_Should_Return_True()
         {
+
             // Arrange
             MatchModel testMatch = new MatchModel();
             testMatch.Team1 = "Team1";
@@ -240,6 +254,8 @@ namespace UnitTests.Services
             // Assert
             Assert.That(result, Is.EqualTo(true));
         }
+
         #endregion IsValidMatch
     }
+
 }

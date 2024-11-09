@@ -27,6 +27,7 @@ namespace UnitTests.Pages.Startup
             var webHost = Microsoft.AspNetCore.WebHost.CreateDefaultBuilder().UseStartup<Startup>().Build();
             Assert.That(webHost, Is.Not.Null);
         }
+
         #endregion ConfigureServices
 
         #region Configure

@@ -13,4 +13,5 @@ namespace ContosoCrafts.Tests.Services
     public class SportsApiClientTests
     {
     }
+
 }
