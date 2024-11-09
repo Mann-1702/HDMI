@@ -14,6 +14,7 @@ using ContosoCrafts.WebSite.Services;
 
 namespace UnitTests
 {
+
     /// <summary>
     /// Helper to hold the web start settings
     ///
@@ -55,6 +56,7 @@ namespace UnitTests
             {
                 TraceIdentifier = "trace",
             };
+
             HttpContextDefault.HttpContext.TraceIdentifier = "trace";
 
             ModelState = new ModelStateDictionary();
@@ -80,5 +82,7 @@ namespace UnitTests
             productService = new JsonFileProductService(TestHelper.MockWebHostEnvironment.Object);
             matchService = new JsonFileMatchService(TestHelper.MockWebHostEnvironment.Object);
         }
+
     }
+
 }
