@@ -24,6 +24,7 @@ namespace UnitTests.Components
         [Test]
         public void ProductList_Valid_Default_Should_Return_Content()
         {
+
             // Arrange
             Services.AddSingleton<JsonFileProductService>(TestHelper.ProductService);
 
@@ -36,5 +37,7 @@ namespace UnitTests.Components
             // Assert
             Assert.That(result.Contains("NFL"), Is.EqualTo(true));
         }
+
     }
+
 }
