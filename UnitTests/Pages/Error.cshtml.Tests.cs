@@ -33,6 +33,7 @@ namespace UnitTests.Pages.Error
         [Test]
         public void OnGet_Valid_Activity_Set_Should_Return_RequestId()
         {
+
             // Arrange
 
             Activity activity = new Activity("activity");
@@ -52,6 +53,7 @@ namespace UnitTests.Pages.Error
         [Test]
         public void OnGet_InValid_Activity_Null_Should_Return_TraceIdentifier()
         {
+
             // Arrange
 
             // Act
@@ -64,6 +66,8 @@ namespace UnitTests.Pages.Error
             Assert.That(pageModel.RequestId, Is.EqualTo("trace"));
             Assert.That(pageModel.ShowRequestId, Is.EqualTo(true));
         }
+
         #endregion OnGet
     }
+
 }
