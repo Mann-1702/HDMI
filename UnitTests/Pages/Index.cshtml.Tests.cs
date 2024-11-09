@@ -24,6 +24,7 @@ namespace UnitTests.Pages.Index
             pageModel = new IndexModel(MockLoggerDirect, TestHelper.ProductService)
             {
             };
+
         }
 
         #endregion TestSetup
@@ -32,6 +33,7 @@ namespace UnitTests.Pages.Index
         [Test]
         public void OnGet_Valid_Should_Return_Products()
         {
+
             // Arrange
 
             // Act
@@ -41,6 +43,8 @@ namespace UnitTests.Pages.Index
             Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
             Assert.That(pageModel.Products.ToList().Any(), Is.EqualTo(true));
         }
+
         #endregion OnGet
     }
+
 }
