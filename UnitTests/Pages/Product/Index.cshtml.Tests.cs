@@ -39,6 +39,7 @@ namespace UnitTests.Pages.Product.Index
         {
             httpContextDefault = new DefaultHttpContext()
             {
+
                 //RequestServices = serviceProviderMock.Object,
             };
 
@@ -68,6 +69,7 @@ namespace UnitTests.Pages.Product.Index
             pageModel = new IndexModel(productService)
             {
             };
+
         }
 
         #endregion TestSetup
@@ -77,6 +79,7 @@ namespace UnitTests.Pages.Product.Index
         [Test]
         public void OnGet_Valid_Should_Return_Products()
         {
+
             // Arrange
 
             // Act
@@ -86,6 +89,8 @@ namespace UnitTests.Pages.Product.Index
             Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
             Assert.That(pageModel.Products.ToList().Count, Is.EqualTo(21));
         }
+
         #endregion OnGet
     }
+
 }
