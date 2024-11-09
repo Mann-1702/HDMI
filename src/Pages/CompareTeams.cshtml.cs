@@ -7,6 +7,7 @@ namespace ContosoCrafts.WebSite.Pages
 {
     public class CompareTeamsModel : PageModel
     {
+
         // Properties to hold selected sport and teams
         [BindProperty]
         public string SelectedSport { get; set; }
@@ -31,11 +32,13 @@ namespace ContosoCrafts.WebSite.Pages
 
         public void OnGet()
         {
+
             // This method would load the page without any pre-selected sport or teams
         }
 
         public IActionResult OnPostCompare()
         {
+
             // Validate the selected teams
             if (string.IsNullOrEmpty(Team1) || string.IsNullOrEmpty(Team2) || Team1 == Team2)
             {
@@ -52,6 +55,7 @@ namespace ContosoCrafts.WebSite.Pages
 
         public JsonResult OnGetTeamsBySport(string sport)
         {
+
             // Return the list of teams based on the selected sport
             if (Teams.ContainsKey(sport))
             {
@@ -60,5 +64,7 @@ namespace ContosoCrafts.WebSite.Pages
 
             return new JsonResult(new List<string>());
         }
+
     }
+
 }
