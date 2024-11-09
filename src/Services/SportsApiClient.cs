@@ -18,10 +18,10 @@
         private readonly string _apiKey;
 
         // The API host for authenticating requests
-        private readonly string _apiHost;
+        private readonly string _defaultapiHost;
 
         // The base URL for the sports API
-        private readonly string _baseUrl;
+        private readonly string _defaultbaseUrl;
 
         // Logger instance for recording information and errors
         private readonly ILogger<SportsApiClient> _logger;
@@ -35,9 +35,9 @@
         /// <param name="logger">Logger instance for logging messages and errors.</param>
         public SportsApiClient(string baseUrl, string apiKey, string apiHost, ILogger<SportsApiClient> logger)
         {
-            _baseUrl = baseUrl;
+            _defaultbaseUrl = baseUrl;
             _apiKey = apiKey.Trim();
-            _apiHost = apiHost.Trim();
+            _defaultapiHost = apiHost.Trim();
             _logger = logger;
         }
 
@@ -48,11 +48,11 @@
         /// <param name="seasonYear">The year of the season.</param>
         /// <param name="timezone">Timezone for date and time fields (default is "UTC").</param>
         /// <returns>A list of <see cref="GameResponse"/> objects for the specified league and season.</returns>
-        public List<GameResponse> GetGamesForSeason(int leagueId, int seasonYear )
+        public List<GameResponse> GetGamesForSeason<T>(T leagueId, int seasonYear )
         {
 
             // Create the RestClient with the base URL
-            var client = new RestClient(_baseUrl);
+            var client = new RestClient(_defaultbaseUrl);
 
             // Create the GET request to retrieve games
             var request = new RestRequest("games", Method.Get);
@@ -64,7 +64,7 @@
 
             // Add required headers for API authentication
             request.AddHeader("x-rapidapi-key", _apiKey);
-            request.AddHeader("x-rapidapi-host", _apiHost);
+            request.AddHeader("x-rapidapi-host", _defaultapiHost);
 
             // Set timeout to infinite 
             request.Timeout = TimeSpan.FromMilliseconds(-1);
