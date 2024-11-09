@@ -35,5 +35,7 @@ namespace ContosoCrafts.WebSite.Pages
         {
             Products = ProductService.GetAllData();
         }
+
     }
+
 }
