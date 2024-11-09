@@ -15,5 +15,7 @@ namespace ContosoCrafts.WebSite.Pages
         public void OnGet()
         {
         }
+
     }
+
 }
