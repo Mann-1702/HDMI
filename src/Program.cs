@@ -17,4 +17,5 @@ namespace ContosoCrafts.WebSite
                     webBuilder.UseStartup<Startup>();
                 });
     }
+
 }
