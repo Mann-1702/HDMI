@@ -26,6 +26,7 @@ namespace ContosoCrafts.WebSite.Pages
 
         public void OnGet(string teamName)
         {
+
             // Get all match data
             Matches = MatchService.GetAllData();
 
@@ -42,8 +43,11 @@ namespace ContosoCrafts.WebSite.Pages
                 {
                     MatchService.SwapTeam1Team2(match);
                 }
+
             }
 
 		}
+
     }
+
 }
