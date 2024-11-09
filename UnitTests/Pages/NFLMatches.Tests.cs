@@ -16,6 +16,7 @@ namespace UnitTests.Pages
         [SetUp]
         public void Setup()
         {
+
             // Initialize logger
             testLogger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<NFLMatches>();
 
@@ -26,6 +27,7 @@ namespace UnitTests.Pages
         [Test]
         public void Games_ShouldBeSetWithMockData()
         {
+
             // Prepare mock data
             var mockGames = new List<GameResponse>
             {
@@ -64,11 +66,14 @@ namespace UnitTests.Pages
 
             if (gamesProperty != null)
             {
+
                 // Set the value if `Games` is a property
                 gamesProperty.SetValue(pageModel, mockGames);
             }
+
             else
             {
+
                 // Attempt to find the `Games` field (likely an auto-property backing field)
                 var gamesField = typeof(NFLMatches).GetField("<Games>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
                 Assert.That(gamesField, Is.Not.Null, "Games property or backing field not found.");
@@ -83,5 +88,7 @@ namespace UnitTests.Pages
             Assert.That(pageModel.Games[0].Teams.Home.Name, Is.EqualTo("Team A"));
             Assert.That(pageModel.Games[1].Teams.Home.Name, Is.EqualTo("Team C"));
         }
+
     }
+
 }
