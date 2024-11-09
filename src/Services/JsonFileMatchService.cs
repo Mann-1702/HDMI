@@ -37,6 +37,7 @@ namespace ContosoCrafts.WebSite.Services
                         PropertyNameCaseInsensitive = true
                     });
             }
+
         }
 
         /// <summary>
@@ -104,4 +105,5 @@ namespace ContosoCrafts.WebSite.Services
         }
 
     }
+
 }
