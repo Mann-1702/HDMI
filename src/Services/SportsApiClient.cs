@@ -48,11 +48,11 @@
         /// <param name="seasonYear">The year of the season.</param>
         /// <param name="timezone">Timezone for date and time fields (default is "UTC").</param>
         /// <returns>A list of <see cref="GameResponse"/> objects for the specified league and season.</returns>
-        public List<GameResponse> GetGamesForSeason<T>(T leagueId, int seasonYear )
+        public List<GameResponse> GetGamesForSeason<T>(T leagueId, int seasonYear, string baseUrl, string apiHost)
         {
 
             // Create the RestClient with the base URL
-            var client = new RestClient(_defaultbaseUrl);
+            var client = new RestClient(baseUrl);
 
             // Create the GET request to retrieve games
             var request = new RestRequest("games", Method.Get);
@@ -64,7 +64,7 @@
 
             // Add required headers for API authentication
             request.AddHeader("x-rapidapi-key", _apiKey);
-            request.AddHeader("x-rapidapi-host", _defaultapiHost);
+            request.AddHeader("x-rapidapi-host", apiHost);
 
             // Set timeout to infinite 
             request.Timeout = TimeSpan.FromMilliseconds(-1);
