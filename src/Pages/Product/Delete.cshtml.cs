@@ -22,6 +22,7 @@ namespace ContosoCrafts.WebSite.Pages.Product
         // Fetches the product details based on ID for confirmation page
         public IActionResult OnGet(string id)
         {
+
             // Attempt to find the product by the given ID
             Product = _productService.GetAllData().FirstOrDefault(p => p.Id == id);
 
@@ -38,6 +39,7 @@ namespace ContosoCrafts.WebSite.Pages.Product
         // Handles the deletion upon form submission
         public IActionResult OnPost()
         {
+
             // Retrieve the product from the service based on the ID
             var productToDelete = _productService.GetAllData().FirstOrDefault(p => p.Id == Product.Id);
 
@@ -54,4 +56,5 @@ namespace ContosoCrafts.WebSite.Pages.Product
         }
 
     }
+
 }

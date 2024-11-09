@@ -10,6 +10,7 @@ namespace ContosoCrafts.WebSite.Pages.Product
 {
     public class UpdateModel : PageModel
     {
+
         // Data #middletier
         public JsonFileProductService ProductService { get; }
 
@@ -18,6 +19,7 @@ namespace ContosoCrafts.WebSite.Pages.Product
         {
             ProductService = productService;
         }
+
 
         // The data to show, bind to it for the post
         [BindProperty]
@@ -40,5 +42,7 @@ namespace ContosoCrafts.WebSite.Pages.Product
             ProductService.UpdateData(Product);
             return RedirectToPage("./Index");
         }
+
     }
+
 }

@@ -28,5 +28,7 @@ namespace ContosoCrafts.WebSite.Pages.Product
 
             return Page();
         }
+
     }
+
 }
