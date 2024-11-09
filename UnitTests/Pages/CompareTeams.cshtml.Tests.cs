@@ -42,6 +42,7 @@ namespace UnitTests.Pages
         [Test]
         public void OnGet_Valid_Should_Return_Valid_Page()
         {
+
             // Arrange
 
             // Act
@@ -58,6 +59,7 @@ namespace UnitTests.Pages
         [Test]
         public void OnPostCompare_Valid_Teams_Should_Return_Valid_Page()
         {
+
             // Arrange
 
             // Act
@@ -74,6 +76,7 @@ namespace UnitTests.Pages
         [Test]
         public void OnPostCompare_Invalid_Duplicate_Teams_Should_Return_Valid_Page()
         {
+
             // Arrange
             string errorMessage = "Please select two different teams to compare.";
 
@@ -92,6 +95,7 @@ namespace UnitTests.Pages
         [Test]
         public void OnPostCompare_Invalid_Null_Team_Should_Return_Valid_Page()
         {
+
             // Arrange
             string errorMessage = "Please select two different teams to compare.";
 
@@ -112,6 +116,7 @@ namespace UnitTests.Pages
         [Test]
         public void OnGetTeamsBySport_Valid_Sport_Should_Return_List_Of_Teams()
         {
+
             // Arrange
             string sport = "NFL";
             var expectedTeams = new List<string> { "Patriots", "49ers", "Cowboys", "Packers" };
@@ -128,6 +133,7 @@ namespace UnitTests.Pages
         [Test]
         public void OnGetTeamsBySport_InValid_Sport_Should_Return_Empty_List()
         {
+
             // Arrange
             string invalidSport = "Invalid Sport";
             var expectedTeams = new List<string> { };
@@ -148,6 +154,7 @@ namespace UnitTests.Pages
         [Test]
         public void Sports_Property_Should_Initialize_With_Correct_Values()
         {
+
             // Arrange
             var expectedSports = new List<string> { "NFL", "NBA", "Soccer" };
 
@@ -161,6 +168,7 @@ namespace UnitTests.Pages
         [Test]
         public void Sports_Setter_Should_Update_The_Sports_List()
         {
+
             // Arrange
             var newSports = new List<string> { "Baseball", "Hockey", "Tennis" };
 
@@ -177,6 +185,7 @@ namespace UnitTests.Pages
         [Test]
         public void Teams_Getter_Should_Return_Initial_Teams_List()
         {
+
             // Arrange
             var expectedTeams = new Dictionary<string, List<string>>
                 {
@@ -195,6 +204,7 @@ namespace UnitTests.Pages
         [Test]
         public void Teams_Setter_Should_Update_Teams_List()
         {
+
             // Arrange
             var newTeams = new Dictionary<string, List<string>>
                 {
@@ -212,4 +222,5 @@ namespace UnitTests.Pages
 
         #endregion Teams
     }
+
 }
