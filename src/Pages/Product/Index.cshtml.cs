@@ -8,6 +8,7 @@ using ContosoCrafts.WebSite.Services;
 
 namespace ContosoCrafts.WebSite.Pages.Product
 {
+
     /// <summary>
     /// Mann Shah
     /// Hongye Xiong
@@ -16,6 +17,7 @@ namespace ContosoCrafts.WebSite.Pages.Product
     /// </summary>
     public class IndexModel : PageModel
     {
+
         /// <summary>
         /// Default Constructor
         /// </summary>
@@ -39,5 +41,7 @@ namespace ContosoCrafts.WebSite.Pages.Product
         {
             Products = ProductService.GetAllData();
         }
+
     }
+
 }
