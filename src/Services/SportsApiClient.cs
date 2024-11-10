@@ -48,7 +48,7 @@
         /// <param name="seasonYear">The year of the season.</param>
         /// <param name="timezone">Timezone for date and time fields (default is "UTC").</param>
         /// <returns>A list of <see cref="GameResponse"/> objects for the specified league and season.</returns>
-        public List<GameResponse> GetGamesForSeason<T>(T leagueId, int seasonYear, string baseUrl, string apiHost)
+        public List<T> GetGamesForSeason<T>(string leagueId, int seasonYear, string baseUrl, string apiHost)
         {
 
             // Create the RestClient with the base URL
@@ -85,11 +85,11 @@
                 {
 
                     // Deserialize the JSON response to ApiResponse<GameResponse>
-                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse<GameResponse>>(response.Content);
+                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(response.Content);
 
                     // Extract and limit to 100 results
                     var games = apiResponse?.Response;
-                    return games?.Take(100).ToList() ?? new List<GameResponse>();
+                    return games?.Take(100).ToList() ?? new List<T>();
                 }
 
                 else if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
@@ -97,7 +97,7 @@
 
                     // Log a message if no content was returned ment for debugging purposes, can remove
                     _logger.LogInformation("No games data available.");
-                    return new List<GameResponse>();
+                    return new List<T>();
                 }
 
                 else
