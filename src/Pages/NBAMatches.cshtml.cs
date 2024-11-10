@@ -1,3 +1,4 @@
+using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,7 +18,7 @@ namespace ContosoCrafts.WebSite.Pages
             _logger = logger;
         }
 
-        public List<GameResponse> Games { get; private set; }
+        public List<NbaGameResponse> Games { get; private set; }
         public void OnGet()
         {
             try
@@ -29,13 +30,13 @@ namespace ContosoCrafts.WebSite.Pages
                 string baseHost = "v2.nba.api-sports.io";
 
                 // Fetch game data for NBA 2023 season
-                Games = _sportsApiClient.GetGamesForSeason(NBAleagueId, seasonYear, baseUrl, baseHost);
+                Games = _sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost);
             }
 
             catch (System.Exception ex)
             {
                 _logger.LogError(ex, "Error fetching game results.");
-                Games = new List<GameResponse>(); // Handle error 
+                Games = new List<NbaGameResponse>(); // Handle error 
             }
 
 
