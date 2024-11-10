@@ -1,5 +1,4 @@
-﻿namespace ContosoCrafts.WebSite.Models
-{
+﻿
     public class NbaGameResponse
     {
         public int Id { get; set; }
@@ -57,6 +56,5 @@
         public int? Overtime { get; set; } 
         public int? Total { get; set; }    
     }
-}
 
 
