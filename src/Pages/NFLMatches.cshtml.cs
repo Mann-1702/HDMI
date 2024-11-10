@@ -25,13 +25,13 @@ namespace ContosoCrafts.WebSite.Pages
             try
             {
                
-                int nflLeagueId = 1; //use "Standard for NBA"
+                string nflLeagueId = "1"; //use "Standard for NBA"
                 int seasonYear = 2023;
                 string baseUrl = "https://v1.american-football.api-sports.io";
                 string baseHost = "v1.american-football.api-sports.io";
 
                 // Fetch game data for NFL 2023 season
-                Games = _sportsApiClient.GetGamesForSeason(nflLeagueId, seasonYear,baseUrl,baseHost);
+                Games = _sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear,baseUrl,baseHost);
             }
 
             catch (System.Exception ex)
