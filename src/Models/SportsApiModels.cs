@@ -1,4 +1,6 @@
-﻿public class GameResponse
+﻿
+
+public class GameResponse
 {
     public GameDetails Game { get; set; }
     public League League { get; set; }
@@ -14,20 +16,26 @@ public class GameDetails
     public GameDate Date { get; set; }
     public Venue Venue { get; set; }
     public Status Status { get; set; }
+    public Period Periods { get; set; }
 }
 
 public class GameDate
 {
     public string Timezone { get; set; }
-    public string Date { get; set; }  // The "date" property in JSON
+    public string Date { get; set; }  
     public string Time { get; set; }
     public long Timestamp { get; set; }
+    public string Start {  get; set; }
+    public string End { get; set; } 
+    public string Duration { get; set; }
 }
 
 public class Venue
 {
     public string Name { get; set; }
     public string City { get; set; }
+    public string State { get; set; }
+    public string Country { get; set; }
 }
 
 public class Status
@@ -35,6 +43,14 @@ public class Status
     public string Short { get; set; }
     public string Long { get; set; }
     public string Timer { get; set; }
+    public string Clock { get; set; }
+    public bool HalfTime { get; set; }
+}
+public class Period
+{
+    public int Current { get; set; }     
+    public int Total { get; set; }        
+    public bool EndOfPeriod { get; set; } 
 }
 
 public class League
@@ -57,6 +73,7 @@ public class Teams
 {
     public Team Home { get; set; }
     public Team Away { get; set; }
+    public Team Visitors { get; set; }
 }
 
 public class Team
@@ -64,12 +81,15 @@ public class Team
     public int Id { get; set; }
     public string Name { get; set; }
     public string Logo { get; set; }
+    public string Nickname { get; set; }  
+    public string Code { get; set; }
 }
 
 public class Scores
 {
     public ScoreDetails Home { get; set; }
     public ScoreDetails Away { get; set; }
+    public ScoreDetails Visitors { get; set; }
 }
 
 public class ScoreDetails
