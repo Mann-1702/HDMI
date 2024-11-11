@@ -142,10 +142,17 @@
         team1Select.innerHTML = "<option value=''>-- Select Team 1 --</option>";
         team2Select.innerHTML = "<option value=''>-- Select Team 2 --</option>";
 
+        // Define exclusions based on the selected sport
+        const exclusions = {
+            "NBA": "Basketball",
+            "NFL": "NFL",
+            "Soccer": "Soccer"
+        };
+
         if (sport) {
             Object.keys(teamData).forEach(teamName => {
-                // Exclude team with same name as sport and already selected Team 1
-                if (teamData[teamName].Sport === sport && teamName !== sport) {
+                // Exclude terms based on the selected sport
+                if (teamData[teamName].Sport === sport && teamName !== exclusions[sport]) {
                     const option1 = document.createElement("option");
                     option1.value = teamName;
                     option1.textContent = teamName;
@@ -154,6 +161,8 @@
             });
         }
     }
+
+
 
     function updateTeam2Options() {
         const team1 = document.getElementById("team1Select").value;
