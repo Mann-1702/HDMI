@@ -209,16 +209,18 @@ html {
     min-height: 100%;
 }
 
-body {
+html, body {
     margin: 0;
-    padding: 60px;
-    background-image: url('/css/sports.jpg'); /* Replace with the correct image path */
-    background-size: 100%; /* Start with 100% */
-    background-position: center; /* Center the image */
-    background-attachment: fixed; /* Keeps the background fixed on scroll */
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background-image: url('/css/sports.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     background-repeat: no-repeat;
-    animation: backgroundZoom 20s infinite alternate ease-in-out; /* Animates the background */
 }
+
 
 p {
     font-family: 'Nunito', sans-serif;
