@@ -5,7 +5,6 @@
 }
 
 <style>
-    /* Styles remain the same */
     .form-container {
         margin: 20px auto;
         max-width: 600px;
@@ -122,7 +121,10 @@
                 teamData[product.Title] = {
                     FoundingYear: product.FoundingYear,
                     Trophies: product.Trophies,
-                    Sport: product.Sport
+                    Sport: product.Sport,
+                    Coach: product.Coach || "N/A",
+                    Avgpoints: product.Avgpoints || "N/A",
+                    Winpercentage: product.Winpercentage || "N/A"
                 };
             });
 
@@ -135,24 +137,23 @@
     window.onload = fetchTeamData;
 
     function updateTeams() {
-        const sport = document.getElementById("sportSelect").value;
+        const sport = document.getElementById("sportSelect").value;  // Get the selected sport
         const team1Select = document.getElementById("team1Select");
         const team2Select = document.getElementById("team2Select");
 
+        // Clear previous selections
         team1Select.innerHTML = "<option value=''>-- Select Team 1 --</option>";
         team2Select.innerHTML = "<option value=''>-- Select Team 2 --</option>";
 
-        // Define exclusions based on the selected sport
-        const exclusions = {
-            "NBA": "Basketball",
-            "NFL": "NFL",
-            "Soccer": "Soccer"
-        };
-
         if (sport) {
             Object.keys(teamData).forEach(teamName => {
-                // Exclude terms based on the selected sport
-                if (teamData[teamName].Sport === sport && teamName !== exclusions[sport]) {
+                // Exclude specific teams based on the selected sport
+                if (sport === "NBA" && teamName === "Basketball") return;
+                if (sport === "NFL" && teamName === "NFL") return;  // Exclude NFL teams
+                if (sport === "Soccer" && teamName === "Soccer") return;  // Exclude Soccer teams
+
+                // Only add teams that match the selected sport
+                if (teamData[teamName].Sport === sport) {
                     const option1 = document.createElement("option");
                     option1.value = teamName;
                     option1.textContent = teamName;
@@ -162,19 +163,23 @@
         }
     }
 
-
-
     function updateTeam2Options() {
         const team1 = document.getElementById("team1Select").value;
-        const sport = document.getElementById("sportSelect").value;
+        const sport = document.getElementById("sportSelect").value;  // Get the selected sport
         const team2Select = document.getElementById("team2Select");
 
+        // Clear previous selections
         team2Select.innerHTML = "<option value=''>-- Select Team 2 --</option>";
 
         if (sport) {
             Object.keys(teamData).forEach(teamName => {
-                // Exclude team with same name as sport, and already selected Team 1
-                if (teamData[teamName].Sport === sport && teamName !== sport && teamName !== team1) {
+                // Exclude specific teams based on the selected sport
+                if (sport === "NBA" && teamName === "Basketball") return;
+                if (sport === "NFL" && teamName === "NFL") return;  // Exclude NFL teams
+                if (sport === "Soccer" && teamName === "Soccer") return;  // Exclude Soccer teams
+
+                // Ensure that team2 is not the same as team1 and matches the selected sport
+                if (teamData[teamName].Sport === sport && teamName !== team1) {
                     const option2 = document.createElement("option");
                     option2.value = teamName;
                     option2.textContent = teamName;
@@ -184,7 +189,10 @@
         }
     }
 
-    async function compareTeams() {
+
+
+
+    function compareTeams() {
         const team1 = document.getElementById("team1Select").value;
         const team2 = document.getElementById("team2Select").value;
 
@@ -195,9 +203,6 @@
 
         const team1Data = teamData[team1];
         const team2Data = teamData[team2];
-
-        console.log('Selected teams:', team1, team2);
-        console.log('Team data:', team1Data, team2Data);
 
         if (!team1Data || !team2Data) {
             document.getElementById("comparisonResult").innerHTML = "<p class='text-danger'>Data not found for selected teams.</p>";
@@ -225,6 +230,21 @@
                             <td>${team1Data.Trophies}</td>
                             <td>${team2Data.Trophies}</td>
                         </tr>
+                        <tr>
+                            <td>Coach</td>
+                            <td>${team1Data.Coach}</td>
+                            <td>${team2Data.Coach}</td>
+                        </tr>
+                        <tr>
+                            <td>Avg Points</td>
+                            <td>${team1Data.Avgpoints}</td>
+                            <td>${team2Data.Avgpoints}</td>
+                        </tr>
+                        <tr>
+                            <td>Win Percentage</td>
+                            <td>${team1Data.Winpercentage}</td>
+                            <td>${team2Data.Winpercentage}</td>
+                        </tr>
                     </tbody>
                 </table>
             `;
@@ -232,3 +252,4 @@
         document.getElementById("comparisonResult").innerHTML = tableHtml;
     }
 </script>
+
