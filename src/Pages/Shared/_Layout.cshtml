@@ -8,6 +8,80 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="https://fonts.googleapis.com/css?family=Yellowtail&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-navbar border-bottom box-shadow mb-3">
+            <h4 style="font-family='Century Gothic';">HDMI</h4>
+            <div class="container">
+                <img src="~/css/HDMI.png" style="width: 75px; height: 70px;" onclick="goToHome()" />
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Product?refresh=true">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Matches">Matches</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/NFLMatches">NFLMatches</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/NBAMatches">NBAMatches</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/CompareTeams">CompareTeams</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container main-content">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <footer class="footer text-muted bg-footer">
+        <div class="container">
+            &copy; 2024 - HDMI.Sports.WebSite - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>        function goToHome() {
+            window.location.href = "/";
+        }</script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HDMI Sports</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css?family=Yellowtail&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
 
     <style>
         img:hover {
