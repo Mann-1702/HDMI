@@ -19,7 +19,10 @@
     "Sport": "NFL",
     "FoundingYear": 0,
     "Trophies": 0,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "--",
+    "Avgpoints": null,
+    "Winpercentage": null
   },
   {
     "Id": "jenlooper-light",
@@ -33,7 +36,10 @@
     "Sport": "NFL",
     "FoundingYear": 1976,
     "Trophies": 1,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Mike Macdonald",
+    "Avgpoints": 23.3,
+    "Winpercentage": 40
   },
   {
     "Id": "jenlooper-lightshow",
@@ -47,7 +53,10 @@
     "Sport": "Soccer",
     "FoundingYear": 1892,
     "Trophies": 25,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Arne Slot",
+    "Avgpoints": 2.6,
+    "Winpercentage": 81.8
   },
   {
     "Id": "jenlooper-survival",
@@ -61,7 +70,10 @@
     "Sport": "NBA",
     "FoundingYear": 1946,
     "Trophies": 18,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Mazzulla",
+    "Avgpoints": 120.2,
+    "Winpercentage": 83.3
   },
   {
     "Id": "sailorhg-bubblesortpic",
@@ -75,7 +87,10 @@
     "Sport": "Soccer",
     "FoundingYear": 1904,
     "Trophies": 31,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "--",
+    "Avgpoints": null,
+    "Winpercentage": null
   },
   {
     "Id": "sailorhg-corsage",
@@ -91,7 +106,10 @@
     "Sport": "NFL",
     "FoundingYear": 1960,
     "Trophies": 4,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Andy Reid",
+    "Avgpoints": 27.4,
+    "Winpercentage": 54.7
   },
   {
     "Id": "sailorhg-kit",
@@ -105,7 +123,10 @@
     "Sport": "Soccer",
     "FoundingYear": 1902,
     "Trophies": 51,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Carlo Ancelotti",
+    "Avgpoints": 2.12,
+    "Winpercentage": 62.2
   },
   {
     "Id": "sailorhg-led",
@@ -119,7 +140,10 @@
     "Sport": "NBA",
     "FoundingYear": 1980,
     "Trophies": 1,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Jason Kidd",
+    "Avgpoints": 117.9,
+    "Winpercentage": 61.0
   },
   {
     "Id": "selinazawacki-soi-shirt",
@@ -133,7 +157,10 @@
     "Sport": "NBA",
     "FoundingYear": 1946,
     "Trophies": 76,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "--",
+    "Avgpoints": null,
+    "Winpercentage": null
   },
   {
     "Id": "selinazawacki-soi-pins",
@@ -147,7 +174,10 @@
     "Sport": "NFL",
     "FoundingYear": 1996,
     "Trophies": 2,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "John Harbaugh",
+    "Avgpoints": 31.89,
+    "Winpercentage": 57.2
   },
   {
     "Id": "vogueandcode-hipster-dev-bro",
@@ -163,7 +193,10 @@
     "Sport": "Soccer",
     "FoundingYear": 1880,
     "Trophies": 9,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Pep Guardiola",
+    "Avgpoints": 1.89,
+    "Winpercentage": 73.7
   },
   {
     "Id": "vogueandcode-pretty-girls-code-tee",
@@ -177,7 +210,10 @@
     "Sport": "NBA",
     "FoundingYear": 1989,
     "Trophies": 0,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Chris Finch",
+    "Avgpoints": 113,
+    "Winpercentage": 51.2
   },
   {
     "Id": "barcelona",
@@ -191,7 +227,10 @@
     "Sport": "Soccer",
     "FoundingYear": 1899,
     "Trophies": 32,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Hansi Flick",
+    "Avgpoints": 2.08,
+    "Winpercentage": 66.7
   },
   {
     "Id": "manchesterunited",
@@ -205,7 +244,10 @@
     "Sport": "Soccer",
     "FoundingYear": 1890,
     "Trophies": 23,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Ruben Amorim",
+    "Avgpoints": 2.39,
+    "Winpercentage": 65.2
   },
   {
     "Id": "chelsea",
@@ -219,7 +261,10 @@
     "Sport": "Soccer",
     "FoundingYear": 1905,
     "Trophies": 8,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Enzo Maresca",
+    "Avgpoints": 2.03,
+    "Winpercentage": 45
   },
   {
     "Id": "nfl-49ers",
@@ -233,7 +278,10 @@
     "Sport": "NFL",
     "FoundingYear": 1946,
     "Trophies": 5,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Kyle Shanahan",
+    "Avgpoints": 28.9,
+    "Winpercentage": 55.6
   },
   {
     "Id": "nfl-packers",
@@ -247,7 +295,10 @@
     "Sport": "NFL",
     "FoundingYear": 1919,
     "Trophies": 4,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Matt LaFleur",
+    "Avgpoints": 25.6,
+    "Winpercentage": 57.2
   },
   {
     "Id": "nfl-dolphins",
@@ -261,7 +312,10 @@
     "Sport": "NFL",
     "FoundingYear": 1965,
     "Trophies": 2,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Mike McDaniel",
+    "Avgpoints": 115.5,
+    "Winpercentage": 55.4
   },
   {
     "Id": "chicago-bulls",
@@ -275,7 +329,10 @@
     "Sport": "NBA",
     "FoundingYear": 1966,
     "Trophies": 6,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "William John Donovan Jr.",
+    "Avgpoints": 114.8,
+    "Winpercentage": 75.6
   },
   {
     "Id": "brooklyn-nets",
@@ -289,9 +346,11 @@
     "Sport": "NBA",
     "FoundingYear": 1967,
     "Trophies": 2,
-    "CommentList": []
-  },
-  {
+    "CommentList": [],
+    "Coach": "Jordi Fernandez",
+    "Avgpoints": 111.2,
+    "Winpercentage": 39.0
+  },{
     "Id": "washington-wizards",
     "Maker": "nba",
     "img": "https://images2.minutemediacdn.com/image/upload/c_crop,w_3600,h_2025,x_0,y_0/c_fill,w_720,ar_16:9,f_auto,q_auto,g_auto/images/ImagnImages/mmsport/inside_the_wizards/01jaqwgrgpxemw55s01w.jpg",
@@ -303,6 +362,10 @@
     "Sport": "NBA",
     "FoundingYear": 1961,
     "Trophies": 1,
-    "CommentList": []
+    "CommentList": [],
+    "Coach": "Brian Keefe",
+    "Avgpoints": 113.7,
+    "Winpercentage": 33.3
   }
+  
 ]
