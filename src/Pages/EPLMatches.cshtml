@@ -1,4 +1,81 @@
 ﻿@page
-@model ContosoCrafts.WebSite.Pages.EPLMatchesModel
+@model ContosoCrafts.WebSite.Pages.EPLMatches
 @{
+}
+
+<h1>Soccer Matches for 2024</h1>
+
+
+<div class="container">
+    <div class="row">
+        @foreach (var game in Model.Games ?? Enumerable.Empty<FixtureResponse>())
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        
+                        <h6 class="card-subtitle mb-2 text-muted">League: @game.League, Season: @game.Season</h6>
+
+                        <p><strong>Date:</strong> @(game.Date?.Start ?? "N/A") (Timezone: @(game.Date?.Timezone ?? "N/A"))</p>
+
+                        <p><strong>Status:</strong> @(game.Status?.Long ?? "N/A")</p>
+                        @if (!string.IsNullOrEmpty(game.Status?.Clock))
+                        {
+                            <p><strong>Clock:</strong> @game.Status.Clock</p>
+                        }
+                        <p><strong>Halftime:</strong> @(game.Status?.Halftime == true ? "Yes" : "No")</p>
+
+                        <div class="d-flex align-items-center mt-3">
+                            <strong>Home Team:</strong>
+                            <img src="@game.Teams.Home.Logo" alt="@game.Teams.Home.Name Logo" width="30" class="mx-2" />
+                       
+                        </div>
+
+
+
+                        @if (game.Scores?.Home?.Linescore != null && game.Scores?.Visitors?.Linescore != null)
+                        {
+                            <h6 class="mt-3">Period Scores:</h6>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <strong>Home -</strong>
+                                    @foreach (var score in game.Scores.Home.Linescore)
+                                    {
+                                        <span>@score </span>
+                                    }
+                                </li>
+                                <li>
+                                    <strong>Visitors -</strong>
+                                    @foreach (var score in game.Scores.Visitors.Linescore)
+                                    {
+                                        <span>@score </span>
+                                    }
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <p><strong>Period Scores:</strong> N/A</p>
+                        }
+
+                        @if (game.Scores?.Home?.Series != null && game.Scores?.Visitors?.Series != null)
+                        {
+                        <h6 class="mt-3">Series Record:</h6>
+                        <p>Home: Wins - @(game.Scores.Home.Series.Win ?? 0), Losses - @(game.Scores.Home.Series.Loss ?? 0)</p>
+                        <p>Visitors: Wins - @(game.Scores.Visitors.Series.Win ?? 0), Losses - @(game.Scores.Visitors.Series.Loss ?? 0)</p>
+                        }
+                        else
+                        {
+                        <p><strong>Series Record:</strong> N/A</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (!(Model.Games?.Any() ?? false))
+{
+    <p>No games available for 2024.</p>
 }
