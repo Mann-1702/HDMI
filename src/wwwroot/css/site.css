@@ -166,6 +166,11 @@ a {
         color: white;
     }
 
+.btn-uniform-width {
+    min-width: 120px; 
+}
+
+
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
