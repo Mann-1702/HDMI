@@ -55,7 +55,10 @@
             var client = new RestClient(baseUrl);
 
             // Create the GET request to retrieve games
-            var request = new RestRequest("games", Method.Get);
+
+            
+            var endpoint = leagueId == "39" ? "fixtures" : "games";
+            var request = new RestRequest(endpoint, Method.Get);
 
             // Add query parameters for league ID, season year, and timezone
             request.AddQueryParameter("league", leagueId.ToString()); //use league for NBA
