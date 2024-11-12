@@ -2,6 +2,7 @@
 @model ContosoCrafts.WebSite.Pages.Product.ReadModel
 
 @{
+    // Sets the page title in the browser tab.
     ViewData["Title"] = "Product Detail";
 }
 
@@ -10,47 +11,50 @@
 <div class="container my-5">
     <div class="card text-center shadow-sm" style="max-width: 800px; margin: 0 auto;">
 
-       
+        <!-- Card header displaying the product title -->
         <div class="card-header d-flex justify-content-center align-items-center">
-
-           <h1 style="margin: 0; font-size: 1rem; line-height: 1;">@Model.Product.Title</h1>
-   
+            <h1 style="margin: 0; font-size: 1rem; line-height: 1;">@Model.Product.Title</h1>
         </div>
 
-
-
+        <!-- Product image displayed at the top of the card -->
         <img src="@Model.Product.Image" alt="@Model.Product.Title" class="card-img-top img-fluid p-3" style="max-height: 400px; object-fit: cover;" />
 
         <div class="card-body">
+            <!-- Founding year information -->
             <p class="card-text" style="font-family: 'Georgia', serif; font-size: 1.25rem; color: #333;">
                 <strong>Founding Year:</strong> @Model.Product.FoundingYear
             </p>
+
+            <!-- Trophies information displayed conditionally based on ProductType -->
             <p class="card-text trophies-won" style="font-family: 'Arial', sans-serif; font-size: 1.5rem; color: #007bff; font-weight: bold;">
-                @if ((int)Model.Product.ProductType == 1)
+                @if ((int)Model.Product.ProductType == 1) // Assuming ProductType 1 signifies a type with "Major Trophies Given"
                 {
                     <span class="trophy-icon" style="font-size: 1.5rem; color: #007bff;">🏆</span>
                     <strong> Major Trophies Given:</strong> @Model.Product.Trophies
                 }
 
-                @if ((int)Model.Product.ProductType == 2)
+                @if ((int)Model.Product.ProductType == 2) // Assuming ProductType 2 signifies a team
                 {
                     <span class="trophy-icon" style="font-size: 1.5rem; color: #007bff;">🏆</span>
                     <strong> Trophies Won:</strong> @Model.Product.Trophies
                 }
             </p>
 
+            <!-- Product description displayed below the trophy section -->
             <p class="card-text">@Model.Product.Description</p>
 
+            <!-- Buttons for visiting external URLs and viewing team matches if ProductType is Team -->
             <div class="btn-group" role="group" aria-label="Team Links">
                 <a href="@Model.Product.Url" class="btn btn-info" target="_blank" rel="noopener noreferrer">Visit sports/team website</a>
 
-                @if ((int)Model.Product.ProductType == 2)  // Assuming ProductType 2 is Team
+                @if ((int)Model.Product.ProductType == 2)  // If ProductType is Team
                 {
                     <a asp-page="/Matches" asp-route-teamName="@Model.Product.Title" class="btn btn-info">View Team Matches</a>
                 }
             </div>
         </div>
 
+        <!-- Button to navigate back to the product list -->
         <div class="card-footer">
             <a asp-page="/Product/Index" class="btn btn-primary">Back to Product List</a>
         </div>
