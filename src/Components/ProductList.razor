@@ -1,4 +1,4 @@
-@using ContosoCrafts.WebSite.Models
+﻿@using ContosoCrafts.WebSite.Models
 @using ContosoCrafts.WebSite.Services
 @using Microsoft.AspNetCore.Components.Web
 @inject NavigationManager NavigationManager
@@ -79,28 +79,32 @@
                 <h5 class="card-title">@product.Title</h5>
             </div>
             <div class="card-footer">
-                <small class="text-muted">
+                <div class="d-flex flex-column align-items-center">
                     <button @onclick="(e => SelectProduct(product.Id))"
-                            data-toggle="modal" data-target="#productModal" class="btn btn-primary">
+                        data-toggle="modal" data-target="#productModal"
+                        class="btn btn-primary btn-uniform-width">
                         More Info
                     </button>
+
                     @if (product.ProductType == ProductTypeEnum.Sport)
                     {
-                        <!-- Show the 'View Teams' button only if the ProductType is 'Sport' -->
+                       
                         <button @onclick="(e => FilterBySport(product.Sport))"
-                        class="btn btn-custom-blue ml-2">
+                        class="btn btn-custom-blue mt-2 btn-uniform-width">
                             View Teams
                         </button>
                     }
+
                     @if (product.ProductType == ProductTypeEnum.Team)
                     {
-                          <!-- Show the 'Read More' button only if the ProductType is 'Team' -->
+                       
                         <button @onclick="() => NavigateToRead(product.Title)"
-                        class="btn btn-custom-blue ml-2">
+                        class="btn btn-custom-blue mt-2 btn-uniform-width">
                             Read More
                         </button>
                     }
-                </small>
+                </div>
+
             </div>
         </div>
     }
