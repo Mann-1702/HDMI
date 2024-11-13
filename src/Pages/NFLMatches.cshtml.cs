@@ -1,8 +1,11 @@
 using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ContosoCrafts.WebSite.Pages
@@ -20,7 +23,7 @@ namespace ContosoCrafts.WebSite.Pages
 
         public List<GameResponse> Games { get; private set; }
 
-        public async Task OnGetAsync()
+        public IActionResult OnGet()
         {
             try
             {
@@ -32,6 +35,7 @@ namespace ContosoCrafts.WebSite.Pages
 
                 // Fetch game data for NFL 2023 season
                 Games = _sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
+
             }
 
             catch (System.Exception ex)
@@ -40,7 +44,9 @@ namespace ContosoCrafts.WebSite.Pages
                 Games = new List<GameResponse>(); // Handle error 
             }
 
+            return Page();
         }
+
 
     }
 
