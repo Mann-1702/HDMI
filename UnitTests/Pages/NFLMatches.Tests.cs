@@ -107,7 +107,7 @@ namespace UnitTests.Pages
 
 
         [Test]
-        public void OnGet_Should_Fetch_2023_NFL_Games()
+        public void OnGet_Should_Fetch_2024_NFL_Games()
         {
             // Arrange
 
