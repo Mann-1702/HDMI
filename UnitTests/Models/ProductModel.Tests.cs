@@ -18,7 +18,6 @@ namespace UnitTests.Models
             _product = new ProductModel
             {
                 Id = "1",
-                Maker = "Maker",
                 Image = "https://example.com/image.jpg",
                 Url = "https://example.com",
                 Title = "Sample Product",
@@ -42,7 +41,6 @@ namespace UnitTests.Models
         public void ProductModel_Should_Have_Valid_Properties()
         {
             Assert.That(_product.Id, Is.EqualTo("1"));
-            Assert.That(_product.Maker, Is.EqualTo("Maker"));
             Assert.That(_product.Image, Is.EqualTo("https://example.com/image.jpg"));
             Assert.That(_product.Url, Is.EqualTo("https://example.com"));
             Assert.That(_product.Title, Is.EqualTo("Sample Product"));
