@@ -24,35 +24,37 @@ namespace ContosoCrafts.WebSite.Pages
 
         public bool HasOvertime { get; private set; }
 
-        public async Task<IActionResult> OnGetAsync(string gameId)
+        public IActionResult OnGet(string gameId)
         {
             int matchId = int.Parse(gameId);
 
+            string nflLeagueId = "1"; //use "Standard for NBA"
+            int seasonYear = 2023;
+            string baseUrl = "https://v1.american-football.api-sports.io";
+            string baseHost = "v1.american-football.api-sports.io";
+
+
+            // Fetch game data for NFL 2023 season
             try
             {
-
-                string nflLeagueId = "1"; //use "Standard for NBA"
-                int seasonYear = 2023;
-                string baseUrl = "https://v1.american-football.api-sports.io";
-                string baseHost = "v1.american-football.api-sports.io";
-
-                // Fetch game data for NFL 2023 season
-
                 List<GameResponse> Games = _sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
                 Match = Games.FirstOrDefault(m => m.Game.Id == matchId);
-
-                if (Match == null)
-                {
-                    return RedirectToPage("/NFLMatches");
-                }
-                HasOvertime = Match.Scores.Home.Overtime > 0 || Match.Scores.Away.Overtime > 0;
             }
 
             catch (System.Exception ex)
             {
                 _logger.LogError(ex, "Error fetching game results.");
-                Match = new GameResponse(); // Handle error 
             }
+
+            // Makes sure a match is found
+            if (Match == null)
+            {
+                return RedirectToPage("/NFLMatches");
+            }
+
+            // Checks for overtime
+            HasOvertime = Match.Scores.Home.Overtime > 0 || Match.Scores.Away.Overtime > 0;
+
             return Page();
 
         }
