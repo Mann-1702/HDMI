@@ -1,7 +1,6 @@
 [
   {
     "Id": "jenlooper-cactus",
-    "Maker": "@jenlooper",
     "img": "https://th.bing.com/th/id/R.c188d9def5b589995be33a9705ff7609?rik=Yo6IF%2fuH2Utxgg\u0026riu=http%3a%2f%2fpluspng.com%2fimg-png%2flogo-nfl-png-png-465.png\u0026ehk=vCfnFMWyxjjm7KObMjsNyf18ZTqqSuAlKWh6aibiPVI%3d\u0026risl=\u0026pid=ImgRaw\u0026r=0",
     "Url": "https://www.nfl.com/",
     "Title": "NFL",
@@ -26,7 +25,6 @@
   },
   {
     "Id": "jenlooper-light",
-    "Maker": "jenlooper",
     "img": "https://www.hawkblogger.com/wp-content/uploads/2023/01/Real-Hawk-Talk-Episode-248-scaled.jpeg",
     "Url": "https://www.seahawks.com/",
     "Title": "Seahawks",
@@ -43,7 +41,6 @@
   },
   {
     "Id": "jenlooper-lightshow",
-    "Maker": "@jenlooper",
     "img": "https://wallpapercave.com/wp/wp13526980.jpg",
     "Url": "https://www.liverpoolfc.com/",
     "Title": "Liverpool FC",
@@ -60,7 +57,6 @@
   },
   {
     "Id": "jenlooper-survival",
-    "Maker": "jenlooper",
     "img": "https://cdn.wallpapersafari.com/4/27/LgvfiD.jpg",
     "Url": "https://www.nba.com/celtics/",
     "Title": "Boston Celtics",
@@ -77,7 +73,6 @@
   },
   {
     "Id": "sailorhg-bubblesortpic",
-    "Maker": "sailorhg",
     "img": "https://assets.goal.com/images/v3/blt29cc6ca2f67a2d10/Premier_League_2023-24.jpg?auto=webp\u0026format=pjpg\u0026width=3840\u0026quality=60",
     "Url": "https://www.fifa.com/en",
     "Title": "Soccer",
@@ -94,7 +89,6 @@
   },
   {
     "Id": "sailorhg-corsage",
-    "Maker": "sailorhg",
     "img": "https://wallpapercave.com/wp/wp11990422.jpeg",
     "Url": "https://www.chiefs.com/",
     "Title": "Kansas City Chiefs",
@@ -113,7 +107,6 @@
   },
   {
     "Id": "sailorhg-kit",
-    "Maker": "sailorhg",
     "img": "https://assets.goal.com/v3/assets/bltcc7a7ffd2fbf71f5/blt2eae8c383ce1039d/648793e195265c8303833751/Real_Madrid_2025.jpg?auto=webp\u0026format=pjpg\u0026width=2048\u0026quality=60",
     "Url": "https://www.realmadrid.com/en-US",
     "Title": "Real Madrid CF",
@@ -130,7 +123,6 @@
   },
   {
     "Id": "sailorhg-led",
-    "Maker": "sailorhg",
     "img": "https://cdn-tp4.mozu.com/27977-44902/cms/44902/files/8cbdba7f-be79-4e1b-9ab4-cbb4f2313246",
     "Url": "https://www.mavs.com/",
     "Title": "Dallas Mavericks",
@@ -147,7 +139,6 @@
   },
   {
     "Id": "selinazawacki-soi-shirt",
-    "Maker": "selinazawacki",
     "img": "https://images5.alphacoders.com/467/thumb-1920-467394.jpg",
     "Url": "https://www.nba.com/",
     "Title": "Basketball",
@@ -164,7 +155,6 @@
   },
   {
     "Id": "selinazawacki-soi-pins",
-    "Maker": "selinazawacki",
     "img": "https://wallpaperaccess.com/full/1301077.jpg",
     "Url": "https://www.baltimoreravens.com/",
     "Title": "Baltimore Ravens",
@@ -181,7 +171,6 @@
   },
   {
     "Id": "vogueandcode-hipster-dev-bro",
-    "Maker": "vogueandcode",
     "img": "https://www.emirates247.com/polopoly_fs/1.712989.1686480051!/image/image.jpg",
     "Url": "https://www.mancity.com/",
     "Title": "Manchester City FC",
@@ -200,7 +189,6 @@
   },
   {
     "Id": "vogueandcode-pretty-girls-code-tee",
-    "Maker": "vogueandcode",
     "img": "https://wp.clutchpoints.com/wp-content/uploads/2023/05/3-major-offseason-fixes-Minnesota-must-make-to-become-2024-NBA-Finals-contender.jpeg",
     "Url": "https://www.nba.com/timberwolves/",
     "Title": "Minnesota Timberwolves",
@@ -217,7 +205,6 @@
   },
   {
     "Id": "barcelona",
-    "Maker": "barcelona",
     "img": "https://www.fcbarcelona.com/photo-resources/2024/07/17/7cd82a6e-c4c9-461c-8c24-87722938e296/mini_2015-01-11Barcelona-AtleticoMiguel_pic_2015-01-11barcelona-atletico45.jpg?width=640\u0026height=400",
     "Url": "https://www.fcbarcelona.com/en/",
     "Title": "FC Barcelona",
@@ -234,7 +221,6 @@
   },
   {
     "Id": "manchesterunited",
-    "Maker": "Manchester United",
     "img": "https://ichef.bbci.co.uk/ace/standard/883/cpsprodpb/45a9/live/1f589140-5746-11ef-8f0f-0577398c3339.jpg",
     "Url": "https://www.manutd.com/",
     "Title": "Manchester United FC",
@@ -251,7 +237,6 @@
   },
   {
     "Id": "chelsea",
-    "Maker": "Chelsea",
     "img": "https://assets.goal.com/images/v3/blt59d95b2c7572dd06/Chelsea.jpg?auto=webp\u0026format=pjpg\u0026width=3840\u0026quality=60",
     "Url": "https://www.chelseafc.com/en",
     "Title": "Chelsea FC",
@@ -268,7 +253,6 @@
   },
   {
     "Id": "nfl-49ers",
-    "Maker": "nfl",
     "img": "https://wallpaperaccess.com/full/3263061.jpg",
     "Url": "https://www.49ers.com/",
     "Title": "San Francisco 49ers",
@@ -285,7 +269,6 @@
   },
   {
     "Id": "nfl-packers",
-    "Maker": "nfl",
     "img": "https://i.ebayimg.com/images/g/3DoAAOSwWz5cJUgu/s-l400.jpg",
     "Url": "https://www.packers.com/",
     "Title": "Green Bay Packers",
@@ -302,7 +285,6 @@
   },
   {
     "Id": "nfl-dolphins",
-    "Maker": "nfl",
     "img": "https://vm-storage.nyc3.digitaloceanspaces.com/2021/11/miami-dolphins-03.png",
     "Url": "https://www.miamidolphins.com/",
     "Title": "Miami Dolphins",
@@ -319,7 +301,6 @@
   },
   {
     "Id": "chicago-bulls",
-    "Maker": "nba",
     "img": "https://www.chicagotribune.com/wp-content/uploads/2024/10/CTC-L-BULLS-PRESEASON-101824-56_209004744.jpg?w=516",
     "Url": "https://www.nba.com/bulls/",
     "Title": "Chicago Bulls",
@@ -336,7 +317,6 @@
   },
   {
     "Id": "brooklyn-nets",
-    "Maker": "nba",
     "img": "https://images2.minutemediacdn.com/image/upload/c_crop,w_2233,h_1256,x_0,y_40/c_fill,w_540,ar_16:9,f_auto,q_auto,g_auto/images/ImagnImages/mmsport/inside_the_nets/01jatc0e5dpkhjsct3f9.jpg",
     "Url": "https://www.nba.com/nets/",
     "Title": "Brooklyn Nets",
@@ -352,7 +332,6 @@
     "Winpercentage": 39.0
   },{
     "Id": "washington-wizards",
-    "Maker": "nba",
     "img": "https://images2.minutemediacdn.com/image/upload/c_crop,w_3600,h_2025,x_0,y_0/c_fill,w_720,ar_16:9,f_auto,q_auto,g_auto/images/ImagnImages/mmsport/inside_the_wizards/01jaqwgrgpxemw55s01w.jpg",
     "Url": "https://www.nba.com/wizards/",
     "Title": "Washington Wizards",
