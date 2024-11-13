@@ -7,18 +7,19 @@ using System.Collections.Generic;
 
 namespace ContosoCrafts.WebSite.Pages
 {
-    public class NBAMatches : PageModel
+    public class NBAMatchesModel : PageModel
     {
         private readonly SportsApiClient _sportsApiClient;
-        private readonly ILogger<NBAMatches> _logger;
+        private readonly ILogger<NBAMatchesModel> _logger;
 
-        public NBAMatches(SportsApiClient sportsApiClient, ILogger<NBAMatches> logger)
+        public NBAMatchesModel(SportsApiClient sportsApiClient, ILogger<NBAMatchesModel> logger)
         {
             _sportsApiClient = sportsApiClient;
             _logger = logger;
         }
 
         public List<NbaGameResponse> Games { get; private set; }
+
         public void OnGet()
         {
             try
@@ -27,7 +28,7 @@ namespace ContosoCrafts.WebSite.Pages
                 string NBAleagueId = "standard"; //use "Standard for NBA"
                 int seasonYear = 2024;
                 string baseUrl = "https://v2.nba.api-sports.io";
-                string baseHost = "v2.nba.api-sports.io";
+                string baseHost = "v2.aenba.api-sports.io";
 
                 // Fetch game data for NBA 2023 season
                 Games = _sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost);
