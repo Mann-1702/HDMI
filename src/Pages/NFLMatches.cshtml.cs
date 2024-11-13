@@ -33,7 +33,7 @@ namespace ContosoCrafts.WebSite.Pages
                 string baseUrl = "https://v1.american-football.api-sports.io";
                 string baseHost = "v1.american-football.api-sports.io";
 
-                // Fetch game data for NFL 2023 season
+                // Fetch game data for NFL 2024 season
                 Games = _sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
 
             }
