@@ -29,7 +29,7 @@ namespace ContosoCrafts.WebSite.Pages
             {
 
                 string nflLeagueId = "1"; //use "Standard for NBA"
-                int seasonYear = 2023;
+                int seasonYear = 2024;
                 string baseUrl = "https://v1.american-football.api-sports.io";
                 string baseHost = "v1.american-football.api-sports.io";
 
