@@ -24,7 +24,7 @@ namespace ContosoCrafts.WebSite.Pages
 
         public bool HasOvertime { get; private set; }
 
-        public async Task<IActionResult> OnGetAsync(string gameId)
+        public IActionResult OnGet(string gameId)
         {
             int matchId = int.Parse(gameId);
 
