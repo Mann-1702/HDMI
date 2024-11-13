@@ -33,11 +33,9 @@ namespace ContosoCrafts.WebSite
             {
                 var configuration = provider.GetRequiredService<IConfiguration>();
                 var logger = provider.GetRequiredService<ILogger<SportsApiClient>>();
-
-                var defaultbaseUrl = configuration["SportsApi:BaseUrl"];
                 var apiKey = configuration["SportsApi:ApiKey"];
-                var defaultapiHost = configuration["SportsApi:ApiHost"];
-                return new SportsApiClient(defaultbaseUrl, apiKey, defaultapiHost, logger);
+                
+                return new SportsApiClient(apiKey, logger);
             });
            
 
