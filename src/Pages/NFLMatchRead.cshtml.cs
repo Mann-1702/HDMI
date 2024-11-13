@@ -28,7 +28,8 @@ namespace ContosoCrafts.WebSite.Pages
         {
             int matchId = int.Parse(gameId);
 
-            string nflLeagueId = "1"; //use "Standard for NBA"
+            //use "Standard for NBA"
+            string nflLeagueId = "1";
             int seasonYear = 2024;
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
