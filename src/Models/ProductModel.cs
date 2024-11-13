@@ -16,11 +16,6 @@ namespace ContosoCrafts.WebSite.Models
         public string Id { get; set; }
 
         /// <summary>
-        /// Name of the company or individual who made the product.
-        /// </summary>
-        public string Maker { get; set; }
-
-        /// <summary>
         /// URL of the product image.
         /// Uses custom JSON property name "img" and validates the URL format.
         /// </summary>
