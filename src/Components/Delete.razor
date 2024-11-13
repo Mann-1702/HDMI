@@ -1,0 +1,41 @@
+﻿@page "/Delete/{productId}"
+
+@using ContosoCrafts.WebSite.Models
+@using ContosoCrafts.WebSite.Services
+@using Microsoft.AspNetCore.Components.Web
+@inject JsonFileProductService ProductService
+
+<a asp-page="Delete" asp-route-id="@productId" class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmation">Delete</a>
+<div class="modal fade" id="deleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productTitle">
+                    Are you sure you want to PERMANENTLY delete this product?
+                    @productId
+                </h5>
+            </div>
+            <div class="modal-body">
+                <button data-dismiss="modal" data-target="#deleteConfirmation" class="btn btn-primary">
+                    Cancel
+                </button>
+                <button class="btn btn-danger" @onclick="(e => DeleteThis())">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@code
+{
+    [Parameter]
+    public string productId { get; set; }
+
+    void DeleteThis()
+    {
+        ProductService.DeleteData(productId);
+        // Optionally, redirect back to the product list after deletion
+    }
+
+}
