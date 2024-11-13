@@ -32,7 +32,7 @@ namespace UnitTests.Pages
             testLogger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<NFLMatchesModel>();
 
 
-            var apiKey = "2197d2c028586a9d23e6dc1ddefd0068";
+            var apiKey = "51272e96672158d36c1baffaefc7f223";
             sportsApiClient = new SportsApiClient(apiKey, logger);
 
 
