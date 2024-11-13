@@ -33,12 +33,8 @@ namespace UnitTests.Pages
             logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<SportsApiClient>();
             testLogger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<NFLReadModel>();
 
-            //var logger = provider.GetRequiredService<ILogger<SportsApiClient>>();
-
-            var defaultbaseUrl = "https://v1.american-football.api-sports.io";
-            var apiKey = "0bdf1ab9c075fe06b71cd75ed665d7c3";
-            var defaultapiHost = "v1.american-football.api-sports.io";
-            sportsApiClient = new SportsApiClient(defaultbaseUrl, apiKey, defaultapiHost, logger);
+            var apiKey = "2197d2c028586a9d23e6dc1ddefd0068";
+            sportsApiClient = new SportsApiClient(apiKey, logger);
 
 
             // Instantiate NFLMatches
