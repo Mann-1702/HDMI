@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -90,11 +91,11 @@ namespace UnitTests.Pages
 
 
         [Test]
-        public void OnGet_Valid_gameId_Should_Fetch_Specific_2023_NFL_Game()
+        public void OnGet_Valid_gameId_Should_Fetch_Specific_2024_NFL_Game()
         {
             // Arrange
             string nflLeagueId = "1";
-            int seasonYear = 2023;
+            int seasonYear = 2024;
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
 
@@ -131,7 +132,7 @@ namespace UnitTests.Pages
         {
             // Arrange
             string nflLeagueId = "1";
-            int seasonYear = 2023;
+            int seasonYear = 2024;
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
 
@@ -152,7 +153,7 @@ namespace UnitTests.Pages
         {
             // Arrange
             string nflLeagueId = "1";
-            int seasonYear = 2023;
+            int seasonYear = 2024;
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
 
