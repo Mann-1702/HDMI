@@ -34,7 +34,7 @@ namespace UnitTests.Pages
             testLogger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<EPLMatches>();
 
 
-            var apiKey = "51272e96672158d36c1baffaefc7f223";
+            var apiKey = "b4ed364047f61b7a0ae7699c69c7ad57";
             sportsApiClient = new SportsApiClient(apiKey, logger);
 
 
