@@ -32,7 +32,7 @@ namespace UnitTests.Pages
             testLogger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<NBAMatchesModel>();
 
 
-            var apiKey = "2197d2c028586a9d23e6dc1ddefd0068";
+            var apiKey = "b4ed364047f61b7a0ae7699c69c7ad57";
             sportsApiClient = new SportsApiClient(apiKey, logger);
 
 
