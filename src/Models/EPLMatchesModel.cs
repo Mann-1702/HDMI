@@ -120,11 +120,3 @@ public class ScoreDetails1
     public int? Away { get; set; }
 }
 
-public class SeriesRecord1
-{
-    [JsonProperty("win")]
-    public int? Win { get; set; }
-
-    [JsonProperty("loss")]
-    public int? Loss { get; set; }
-}
