@@ -248,6 +248,28 @@ namespace ContosoCrafts.WebSite.Services
 
         }
 
+        public Dictionary<string, IEnumerable<ProductModel>> GetTopTeamsByTrophies(int topCount = 3)
+        {
+            // Fetch all products
+            var allProducts = GetAllData();
+
+            // Filter for products of type "Team"
+            var teams = allProducts.Where(p => p.ProductType == ProductTypeEnum.Team);
+
+            // Group teams by sport and select top N teams by trophies for each sport
+            var topTeamsBySport = teams
+                .GroupBy(t => t.Sport) // Group by sport
+                .ToDictionary(
+                    group => group.Key, // Sport name as the key
+                    group => group.OrderByDescending(t => t.Trophies) // Sort by trophies in descending order
+                                  .ThenBy(t => t.Title) // Tie-breaker: sort by title alphabetically
+                                  .Take(topCount) // Take top N teams
+                );
+
+            return topTeamsBySport;
+        }
+
+
     }
 
 }
