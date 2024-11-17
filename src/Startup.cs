@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 using ContosoCrafts.WebSite.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ContosoCrafts.WebSite
 {
@@ -27,15 +28,18 @@ namespace ContosoCrafts.WebSite
             services.AddControllers();
             services.AddTransient<JsonFileProductService>();
             services.AddTransient<JsonFileMatchService>();
+            services.AddMemoryCache();
+           ;
 
             // Register SportsApiClient with ILogger<SportsApiClient>
             services.AddSingleton<SportsApiClient>(provider =>
             {
+                var memoryCache = provider.GetRequiredService<IMemoryCache>();
                 var configuration = provider.GetRequiredService<IConfiguration>();
                 var logger = provider.GetRequiredService<ILogger<SportsApiClient>>();
                 var apiKey = configuration["SportsApi:ApiKey"];
                 
-                return new SportsApiClient(apiKey, logger);
+                return new SportsApiClient(apiKey, logger,memoryCache);
             });
            
 
