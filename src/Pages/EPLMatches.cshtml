@@ -1,51 +1,53 @@
 ﻿@page
 @model ContosoCrafts.WebSite.Pages.EPLMatches
 @{
+    ViewData["Title"] = "EPL Match Results for 2024";
 }
 
-<h1>Soccer Matches for 2024</h1>
+<h2>EPL Match Results for 2024</h2>
 
+<table class="table table-bordered table-striped" style="background-color:lightgrey;">
+    <thead>
+        <tr>
+            <th>Match (Home vs Away)</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model.Games ?? Enumerable.Empty<FixtureResponse>())
+        {
+            <tr>
+                <td>
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <!-- Home Team with logo on the right and aligned right -->
+                        <div style="display: flex; align-items: center; justify-content: flex-end; width: 45%;">
+                            <span>@game.Teams.Home.Name</span>
+                            <img src="@game.Teams.Home.Logo" width="30" class="mx-2" alt="Home Team Logo" />
+                        </div>
 
-<div class="row">
-    @foreach (var game in Model.Games ?? Enumerable.Empty<FixtureResponse>())
-    {
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+                        <!-- Separator text "vs" centered and slightly shifted left -->
+                        <span style="text-align: center; width: 10%; margin-right: -10px;">vs</span>
 
-                    <h6 class="card-subtitle mb-2 text-muted">
-                        League: @game.League?.Name, Country: @game.League?.Country
-                    </h6>
-
-                    <p><strong>Date:</strong> @(game.Date?.Start ?? "N/A") (Timezone: @(game.Date?.Timezone ?? "N/A"))</p>
-                    
-
-                    <div class="d-flex align-items-center mt-3">
-                        <strong>Home Team:</strong>
-                        <img src="@game.Teams?.Home?.Logo" alt="@game.Teams?.Home?.Name Logo" width="30" class="mx-2" />
-                        <span>@game.Teams?.Home?.Name </span>
+                        <!-- Away Team with fixed width for alignment -->
+                        <div style="display: flex; align-items: center; width: 45%;">
+                            <img src="@game.Teams.Visitors.Logo" width="30" class="mx-2" alt="Away Team Logo" />
+                            <span>@game.Teams.Visitors.Name</span>
+                        </div>
                     </div>
+                </td>
 
-                    <div class="d-flex align-items-center mt-3">
-                        <strong>Away Team:</strong>
-                        <img src="@game.Teams?.Visitors?.Logo" alt="@game.Teams?.Visitors?.Name Logo" width="30" class="mx-2" />
-                        <span>@game.Teams?.Visitors?.Name </span>
-                    </div>
 
-                    <p>
-                        <strong>Final Score:</strong>
-                        Home: @(game.Scores?.Fulltime?.Home?.ToString() ?? "N/A")
-                        - Away: @(game.Scores?.Fulltime?.Away?.ToString() ?? "N/A")
-                    </p>
+                <td align="center">
+                    @((game.Scores.Fulltime.Home.HasValue && game.Scores.Fulltime.Away.HasValue)
+                        ? $"{game.Scores.Fulltime.Home} - {game.Scores.Fulltime.Away}"
+                        : "N/A")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-                    <p>
-                        <strong>Halftime Score:</strong>
-                        Home: @(game.Scores?.Halftime?.Home?.ToString() ?? "N/A")
-                        - Away: @(game.Scores?.Halftime?.Away?.ToString() ?? "N/A")
-                    </p>
-
-                   </div>
-            </div>
-        </div>
-    }
-</div>
+@if (!(Model.Games?.Any() ?? false))
+{
+    <p>No matches available for 2024.</p>
+}
