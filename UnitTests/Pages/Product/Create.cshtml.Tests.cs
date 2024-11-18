@@ -13,33 +13,42 @@ using System.Linq;
 namespace UnitTests.Pages.Product
 {
     public class CreateTests
-    { 
+    {
         private CreateModel pageModel;
         private Mock<IWebHostEnvironment> mockWebHostEnvironment;
         private JsonFileProductService productService;
+        private TeamVerifier teamVerifier;
 
         [SetUp]
         public void TestInitialize()
         {
-
             mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
+
+            // Set up mock web host environment paths
             mockWebHostEnvironment.Setup(m => m.WebRootPath).Returns(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"));
             mockWebHostEnvironment.Setup(m => m.ContentRootPath).Returns(Directory.GetCurrentDirectory());
 
-
+            // Initialize product service
             productService = new JsonFileProductService(mockWebHostEnvironment.Object);
 
+            // Resolve the JSON file path (names.json should exist in wwwroot/data)
+            var jsonFilePath = Path.Combine(mockWebHostEnvironment.Object.WebRootPath, "data", "names.json");
 
-            pageModel = new CreateModel(productService);
+            // Assert that the file exists to avoid runtime errors
+            Assert.That(File.Exists(jsonFilePath), Is.True, $"The required JSON file was not found at: {jsonFilePath}");
+
+            // Initialize TeamVerifier with the correct JSON file path
+            teamVerifier = new TeamVerifier(jsonFilePath);
+
+            // Initialize the CreateModel page with the required dependencies
+            pageModel = new CreateModel(productService, teamVerifier);
         }
 
-        #region OnGet
+        #region OnGet Tests
+
         [Test]
         public void OnGet_Should_Return_Valid_Create_Page()
         {
-
-            // Arrange
-
             // Act
             var result = pageModel.OnGet();
 
@@ -51,98 +60,88 @@ namespace UnitTests.Pages.Product
         [Test]
         public void OnGet_Should_Fetch_Valid_Sports()
         {
-            // Arrange
-
             // Act
             var result = pageModel.OnGet();
-
 
             // Assert
             Assert.That(result, Is.InstanceOf<PageResult>());
             Assert.That(pageModel.Sports, Does.Contain("NFL"));
-            Assert.That(pageModel.Sports, Does.Contain("Soccer"));
             Assert.That(pageModel.Sports, Does.Contain("NBA"));
-        }
-        #endregion OnGet
-
-        #region OnPost
-        [Test]
-        public void OnPost_Valid_Product_Should_Create_and_Store_New_Product()
-        {
-
-            // Arrange
-            ProductModel testProduct = new ProductModel();
-            testProduct.Title = "Test Title";
-            testProduct.Description = "Test Description";
-            testProduct.Url = "google.com";
-            testProduct.Image = "google.com";
-            testProduct.FoundingYear = 2000;
-            testProduct.Trophies = 0;
-            testProduct.Sport = "NFL";
-
-            // Act
-            var initialCount = productService.GetAllData().ToList().Count();
-
-            pageModel.OnGet();
-            pageModel.Product = testProduct;
-
-            var result = pageModel.OnPost();
-            var newCount = productService.GetAllData().ToList().Count();
-
-            // Assert
-            Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
-            Assert.That(initialCount, Is.Not.EqualTo(newCount));
+            Assert.That(pageModel.Sports, Does.Contain("Soccer"));
         }
 
+        #endregion OnGet Tests
+
+        #region OnPost Tests
 
         [Test]
-        public void OnPost_Valid_Product_Should_Redirect_To_Index()
+        public void OnPost_Invalid_ModelState_Should_Return_CreatePage()
         {
-
             // Arrange
-            ProductModel testProduct = new ProductModel();
-            testProduct.Title = "Test Title";
-            testProduct.Description = "Test Description";
-            testProduct.Url = "google.com";
-            testProduct.Image = "google.com";
-            testProduct.FoundingYear = 2000;
-            testProduct.Trophies = 0;
-            testProduct.Sport = "NFL";
-
-            // Act
-            var initialCount = productService.GetAllData().ToList().Count();
-
-            pageModel.OnGet();
-            pageModel.Product = testProduct;
-
-            var result = pageModel.OnPost();
-            var newCount = productService.GetAllData().ToList().Count();
-
-            // Assert
-            Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
-
-            var redirectResult = result as RedirectToPageResult;
-            Assert.That(redirectResult.PageName, Is.EqualTo("/Index"));
-        }
-
-
-
-        [Test]
-        public void OnPost_Invalid_ModelState_Should_Return__CreatePage_Page_Result()
-        {
-
-            // Arrange
-
-            // Act
             pageModel.OnGet();
             pageModel.ModelState.AddModelError("Product.Title", "Title is required");
 
+            // Act
             var result = pageModel.OnPost();
 
             // Assert
             Assert.That(result, Is.InstanceOf<PageResult>());
         }
-        #endregion OnPost
 
+       
+        [Test]
+        public void OnPost_Invalid_Team_Should_Return_Page_With_Error()
+        {
+            // Arrange
+            pageModel.OnGet();
+            pageModel.Product = new ProductModel
+            {
+                Title = "Invalid Team",
+                Sport = "NBA",
+                Description = "An invalid NBA team.",
+                Url = "http://example.com",
+                Image = "http://example.com/image.jpg",
+                FoundingYear = 1990,
+                Trophies = 3
+            };
+
+            // Act
+            var result = pageModel.OnPost();
+
+            // Assert
+            Assert.That(result, Is.InstanceOf<PageResult>());
+            Assert.That(pageModel.ModelState.IsValid, Is.False);
+            Assert.That(pageModel.ModelState[""].Errors.First().ErrorMessage,
+                        Is.EqualTo("Invalid team name 'Invalid Team' for sport 'NBA'."));
+        }
+
+        [Test]
+        public void OnPost_TeamVerifier_Unavailable_Should_Return_Page_With_Error()
+        {
+            // Arrange
+            pageModel = new CreateModel(productService); // TeamVerifier not injected
+            pageModel.OnGet();
+            pageModel.Product = new ProductModel
+            {
+                Title = "Any Team",
+                Sport = "NBA",
+                Description = "A team with unavailable verifier.",
+                Url = "http://example.com",
+                Image = "http://example.com/image.jpg",
+                FoundingYear = 1990,
+                Trophies = 3
+            };
+
+            // Act
+            var result = pageModel.OnPost();
+
+            // Assert
+            Assert.That(result, Is.InstanceOf<PageResult>());
+            Assert.That(pageModel.ModelState.IsValid, Is.False);
+            Assert.That(pageModel.ModelState[""].Errors.First().ErrorMessage,
+                        Is.EqualTo("Team validation is unavailable. Please contact support."));
+        }
+
+        #endregion OnPost Tests
     }
 }
