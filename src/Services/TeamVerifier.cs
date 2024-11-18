@@ -47,6 +47,11 @@ namespace ContosoCrafts.WebSite.Services
                 .SelectMany(teams => teams) // Combine all team lists
                 .Any(t => t.Equals(teamName, StringComparison.OrdinalIgnoreCase));
         }
+        // Combine validity and duplicate checks
+        public bool IsValidAndNotDuplicate(string sportType, string teamName)
+        {
+            return IsValidName(sportType, teamName) && !IsDuplicateTeam(teamName);
+        }
 
 
     }
