@@ -34,6 +34,21 @@ namespace ContosoCrafts.WebSite.Services
             Console.WriteLine($"Sport type '{sportType}' not found in the data.");
             return false;
         }
+
+        // Check if a team name exists across all sports (for duplicate checking)
+        public bool IsDuplicateTeam(string teamName)
+        {
+            if (string.IsNullOrWhiteSpace(teamName))
+            {
+                return false;
+            }
+
+            return _sportsTeams.Values
+                .SelectMany(teams => teams) // Combine all team lists
+                .Any(t => t.Equals(teamName, StringComparison.OrdinalIgnoreCase));
+        }
+
+
     }
     public class SportsData
     {
