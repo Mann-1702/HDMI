@@ -35,23 +35,7 @@ namespace ContosoCrafts.WebSite.Services
             return false;
         }
 
-        // Check if a team name exists across all sports (for duplicate checking)
-        public bool IsDuplicateTeam(string teamName)
-        {
-            if (string.IsNullOrWhiteSpace(teamName))
-            {
-                return false;
-            }
-
-            return _sportsTeams.Values
-                .SelectMany(teams => teams) // Combine all team lists
-                .Any(t => t.Equals(teamName, StringComparison.OrdinalIgnoreCase));
-        }
-        // Combine validity and duplicate checks
-        public bool IsValidAndNotDuplicate(string sportType, string teamName)
-        {
-            return IsValidName(sportType, teamName) && !IsDuplicateTeam(teamName);
-        }
+    }
 
 
     }
@@ -59,4 +43,4 @@ namespace ContosoCrafts.WebSite.Services
     {
         public Dictionary<string, List<string>> Sports { get; set; }
     }
-}
+
