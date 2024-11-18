@@ -1,7 +1,7 @@
-using ContosoCrafts.WebSite.Models;
-using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ContosoCrafts.WebSite.Models;
+using ContosoCrafts.WebSite.Services;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
@@ -18,28 +18,26 @@ namespace ContosoCrafts.WebSite.Pages
             _logger = logger;
         }
 
+        // This property holds the list of games
         public List<FixtureResponse> Games { get; private set; }
+
+        // Fetching data and initializing the games property
         public void OnGet()
         {
+            string eplLeagueId = "39"; // EPL League ID
+            int seasonYear = 2024;
+            string baseUrl = "https://v3.football.api-sports.io";
+            string baseHost = "v3.football.api-sports.io";
+
             try
             {
-
-                string NBAleagueId = "39"; //use "Standard for NBA"
-                int seasonYear = 2022;
-                string baseUrl = "https://v3.football.api-sports.io";
-                string baseHost = "v3.football.api-sports.io";
-
-                // Fetch game data for NBA 2023 season
-                Games = _sportsApiClient.GetGamesForSeason<FixtureResponse>(NBAleagueId, seasonYear, baseUrl, baseHost);
+                // Fetch games for the 2024 season
+                Games = _sportsApiClient.GetGamesForSeason<FixtureResponse>(eplLeagueId, seasonYear, baseUrl, baseHost);
             }
-
             catch (System.Exception ex)
             {
-                _logger.LogError(ex, "Error fetching game results.");
-                Games = new List<FixtureResponse>(); // Handle error 
+                _logger.LogError(ex, "Error fetching EPL game data.");
             }
-
-
         }
     }
 }
