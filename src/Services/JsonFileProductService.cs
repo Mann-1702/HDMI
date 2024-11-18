@@ -270,6 +270,20 @@ namespace ContosoCrafts.WebSite.Services
         }
 
 
+
+        public bool IsDuplicateTeam(string teamName)
+        {
+            if (string.IsNullOrWhiteSpace(teamName))
+            {
+                return false;
+            }
+
+            return GetAllData()
+                .Where(p => p.ProductType == ProductTypeEnum.Team) 
+                .Any(p => p.Title.Equals(teamName, StringComparison.OrdinalIgnoreCase)); 
+        }
+
+
     }
 
 }
