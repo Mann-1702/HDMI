@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
+using System.IO;
+
 
 namespace ContosoCrafts.WebSite
 {
@@ -41,7 +43,15 @@ namespace ContosoCrafts.WebSite
                 
                 return new SportsApiClient(apiKey, logger,memoryCache);
             });
-           
+
+            // Register TeamVerifier with the JSON file path
+            services.AddSingleton(provider =>
+            {
+                var env = provider.GetRequiredService<IWebHostEnvironment>();
+                var jsonFilePath = Path.Combine(env.WebRootPath, "data", "names.json"); 
+                return new TeamVerifier(jsonFilePath);
+            });
+
 
         }
 
