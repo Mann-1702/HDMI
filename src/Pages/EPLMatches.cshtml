@@ -49,8 +49,8 @@
                         )
                 </td>
                 <td style="text-align: center; font-family:'Century Gothic';">
-                    <!-- View Match Details Button -->
-                    <a asp-page="EPLMatchRead" asp-route-gameId="@game.Date?.Timestamp" class="btn btn-teal">View Match Details</a>
+                    <!-- View Match Details Button: passing team as route parameter -->
+                    <a asp-page="EPLMatchRead" asp-route-homeTeamId="@game.Teams?.Home?.Id" asp-route-awayTeamId="@game.Teams?.Visitors?.Id" class="btn btn-teal">View Match Details</a>
                 </td>
             </tr>
         }
