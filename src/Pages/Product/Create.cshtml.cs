@@ -4,6 +4,7 @@ using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ContosoCrafts.WebSite.Pages.Product
 {
@@ -11,10 +12,22 @@ namespace ContosoCrafts.WebSite.Pages.Product
     {
         private readonly JsonFileProductService _productService;
 
+        private readonly TeamVerifier _teamVerifier;
+
+        [ActivatorUtilitiesConstructor]
+        public CreateModel(JsonFileProductService productService, TeamVerifier teamVerifier)
+        {
+            _productService = productService;
+            _teamVerifier = teamVerifier;
+        }
+
+        // Overloaded Constructor: Takes only ProductService
         public CreateModel(JsonFileProductService productService)
         {
             _productService = productService;
+            _teamVerifier = null; // Set to null when not needed
         }
+
 
         // Bind the ProductModel to receive form data
         [BindProperty]
@@ -43,6 +56,25 @@ namespace ContosoCrafts.WebSite.Pages.Product
         {
             if (!ModelState.IsValid)
             {
+                return Page();
+            }
+
+            if (_teamVerifier == null)
+            {
+                ModelState.AddModelError(string.Empty, "Team validation is unavailable. Please contact support.");
+                return Page();
+            }
+
+            if (!_teamVerifier.IsValidName(Product.Sport, Product.Title))
+            {
+                // Reinitialize Sports list before returning the page
+                Sports = _productService.GetAllData()
+                    .Where(p => !string.IsNullOrEmpty(p.Sport))
+                    .Select(p => p.Sport)
+                    .Distinct()
+                    .ToList();
+
+                ModelState.AddModelError(string.Empty, $"Invalid team name '{Product.Title}' for sport '{Product.Sport}'.");
                 return Page();
             }
 
