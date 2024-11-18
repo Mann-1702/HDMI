@@ -65,6 +65,19 @@ namespace ContosoCrafts.WebSite.Pages.Product
                 return Page();
             }
 
+            if (_productService.IsDuplicateTeam(Product.Title))
+            {
+
+                Sports = _productService.GetAllData()
+                    .Where(p => !string.IsNullOrEmpty(p.Sport))
+                    .Select(p => p.Sport)
+                    .Distinct()
+                    .ToList();
+
+                ModelState.AddModelError(string.Empty, $"Team '{Product.Title}' already exists.");
+                return Page();
+            }
+
             if (!_teamVerifier.IsValidName(Product.Sport, Product.Title))
             {
                 // Reinitialize Sports list before returning the page
@@ -77,6 +90,9 @@ namespace ContosoCrafts.WebSite.Pages.Product
                 ModelState.AddModelError(string.Empty, $"Invalid team name '{Product.Title}' for sport '{Product.Sport}'.");
                 return Page();
             }
+
+
+
 
             Product.ProductType = ProductTypeEnum.Team;
 
