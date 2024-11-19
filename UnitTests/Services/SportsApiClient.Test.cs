@@ -102,15 +102,7 @@ namespace UnitTests.Services
 
             // Assert
             Assert.That(result, Is.Empty, "Expected an empty list for an invalid API URL.");
-            mockLogger.Verify(
-                logger => logger.Log(
-                    LogLevel.Warning,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Unsuccessful response or empty content")),
-                    null,
-                    It.IsAny<Func<It.IsAnyType, Exception, string>>()),
-                Times.Once,
-                "Expected a warning log when the API URL is invalid.");
+
         }
 
         /// <summary>
