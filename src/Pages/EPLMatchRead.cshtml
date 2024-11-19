@@ -16,20 +16,11 @@
     <table class="table table-bordered" style="background-color:lightgrey; border-radius:5px; width: 100%;">
         <tbody>
             <tr>
-                <td><strong>Status</strong></td>
-                <td>@Model.Match.Status?.Long</td>
-            </tr>
-            <tr>
-                <td><strong>Date</strong></td>
-                <td>@Model.Match.Date?.DateTime.ToString("yyyy-MM-dd")</td>
-            </tr>
-            <tr>
                 <td><strong>Score</strong></td>
                 <td>
                     @if (Model.Match.Scores?.Fulltime?.Home.HasValue == true && Model.Match.Scores?.Fulltime?.Away.HasValue == true)
                     {
-                        var scoreDifference = Model.Match.Scores.Fulltime.Home.Value - Model.Match.Scores.Fulltime.Away.Value;
-                        @scoreDifference
+                        <strong>@Model.Match.Scores.Fulltime.Home - @Model.Match.Scores.Fulltime.Away</strong>
                     }
                     else
                     {
@@ -37,26 +28,19 @@
                     }
                 </td>
             </tr>
-            <tr>
-                <td><strong>Stage</strong></td>
-                <td>@Model.Match.Stage</td>
-            </tr>
         </tbody>
     </table>
 </div>
 
+<h2>Score by Halves</h2>
 
-<h2>Score by Quarter</h2>
-
-@if (Model.Match.Scores?.Fulltime != null)
+@if (Model.Match.Scores?.Halftime != null || Model.Match.Scores?.Fulltime != null)
 {
-
-
     <div style="display: flex; justify-content: center;">
         <table class="table table-striped" style="width: 60%; background-color:white;">
             <thead>
                 <tr style="background-color:#d3d3d3;">
-                    <th>Quarter</th>
+                    <th>Half</th>
                     <th>Team</th>
                     <th>Score</th>
                     <th>Total Score</th>
@@ -68,15 +52,15 @@
                     int visitorTotal = 0;
                 }
 
-                <!-- 1st Quarter -->
+                <!-- 1st Half -->
                 <tr>
-                    <td>1st Quarter</td>
+                    <td>1st Half</td>
                     <td>
                         <img src="@Model.Match.Teams?.Home?.Logo" width="30" class="mx-2" />
                         @Model.Match.Teams?.Home?.Name
                     </td>
-                    <td>@Model.Match.Scores?.Fulltime?.Home</td>
-                    <td style="text-align: center;">@(homeTotal += Model.Match.Scores?.Fulltime?.Home ?? 0)</td>
+                    <td>@Model.Match.Scores?.Halftime?.Home</td>
+                    <td style="text-align: center;">@(homeTotal += Model.Match.Scores?.Halftime?.Home ?? 0)</td>
                 </tr>
                 <tr>
                     <td></td>
@@ -84,19 +68,19 @@
                         <img src="@Model.Match.Teams?.Visitors?.Logo" width="30" class="mx-2" />
                         @Model.Match.Teams?.Visitors?.Name
                     </td>
-                    <td>@Model.Match.Scores?.Fulltime?.Away</td>
-                    <td style="text-align: center;">@(visitorTotal += Model.Match.Scores?.Fulltime?.Away ?? 0)</td>
+                    <td>@Model.Match.Scores?.Halftime?.Away</td>
+                    <td style="text-align: center;">@(visitorTotal += Model.Match.Scores?.Halftime?.Away ?? 0)</td>
                 </tr>
 
-                <!-- 2nd Quarter -->
+                <!-- 2nd Half -->
                 <tr>
-                    <td>2nd Quarter</td>
+                    <td>2nd Half</td>
                     <td>
                         <img src="@Model.Match.Teams?.Home?.Logo" width="30" class="mx-2" />
                         @Model.Match.Teams?.Home?.Name
                     </td>
-                    <td>@Model.Match.Scores?.Fulltime?.Home</td>
-                    <td style="text-align: center;">@(homeTotal += Model.Match.Scores?.Fulltime?.Home ?? 0)</td>
+                    <td>@(Model.Match.Scores?.Fulltime?.Home - Model.Match.Scores?.Halftime?.Home ?? 0)</td>
+                    <td style="text-align: center;">@(homeTotal += (Model.Match.Scores?.Fulltime?.Home - Model.Match.Scores?.Halftime?.Home ?? 0))</td>
                 </tr>
                 <tr>
                     <td></td>
@@ -104,58 +88,16 @@
                         <img src="@Model.Match.Teams?.Visitors?.Logo" width="30" class="mx-2" />
                         @Model.Match.Teams?.Visitors?.Name
                     </td>
-                    <td>@Model.Match.Scores?.Fulltime?.Away</td>
-                    <td style="text-align: center;">@(visitorTotal += Model.Match.Scores?.Fulltime?.Away ?? 0)</td>
+                    <td>@(Model.Match.Scores?.Fulltime?.Away - Model.Match.Scores?.Halftime?.Away ?? 0)</td>
+                    <td style="text-align: center;">@(visitorTotal += (Model.Match.Scores?.Fulltime?.Away - Model.Match.Scores?.Halftime?.Away ?? 0))</td>
                 </tr>
-
-                <!-- 3rd Quarter -->
-                <tr>
-                    <td>3rd Quarter</td>
-                    <td>
-                        <img src="@Model.Match.Teams?.Home?.Logo" width="30" class="mx-2" />
-                        @Model.Match.Teams?.Home?.Name
-                    </td>
-                    <td>@Model.Match.Scores?.Fulltime?.Home</td>
-                    <td style="text-align: center;">@(homeTotal += Model.Match.Scores?.Fulltime?.Home ?? 0)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <img src="@Model.Match.Teams?.Visitors?.Logo" width="30" class="mx-2" />
-                        @Model.Match.Teams?.Visitors?.Name
-                    </td>
-                    <td>@Model.Match.Scores?.Fulltime?.Away</td>
-                    <td style="text-align: center;">@(visitorTotal += Model.Match.Scores?.Fulltime?.Away ?? 0)</td>
-                </tr>
-
-                <!-- 4th Quarter -->
-                <tr>
-                    <td>4th Quarter</td>
-                    <td>
-                        <img src="@Model.Match.Teams?.Home?.Logo" width="30" class="mx-2" />
-                        @Model.Match.Teams?.Home?.Name
-                    </td>
-                    <td>@Model.Match.Scores?.Fulltime?.Home</td>
-                    <td style="text-align: center;">@(homeTotal += Model.Match.Scores?.Fulltime?.Home ?? 0)</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <img src="@Model.Match.Teams?.Visitors?.Logo" width="30" class="mx-2" />
-                        @Model.Match.Teams?.Visitors?.Name
-                    </td>
-                    <td>@Model.Match.Scores?.Fulltime?.Away</td>
-                    <td style="text-align: center;">@(visitorTotal += Model.Match.Scores?.Fulltime?.Away ?? 0)</td>
-                </tr>
-
-
             </tbody>
         </table>
     </div>
 }
 else
 {
-    <p>No quarter scores available.</p>
+    <p>No data available for scores by halves.</p>
 }
 
 <!-- Back button -->
