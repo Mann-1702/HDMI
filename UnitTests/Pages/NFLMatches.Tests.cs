@@ -80,23 +80,10 @@ namespace UnitTests.Pages
             // Attempt to find the `Games` property
             var gamesProperty = typeof(NFLMatchesModel).GetProperty("Games", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
-            if (gamesProperty != null)
-            {
 
-                // Set the value if `Games` is a property
-                gamesProperty.SetValue(pageModel, mockGames);
-            }
-
-            else
-            {
-
-                // Attempt to find the `Games` field (likely an auto-property backing field)
-                var gamesField = typeof(NFLMatchesModel).GetField("<Games>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
-                Assert.That(gamesField, Is.Not.Null, "Games property or backing field not found.");
-
-                // Set the value if `Games` is a field
-                gamesField.SetValue(pageModel, mockGames);
-            }
+            // Set the value
+            gamesProperty.SetValue(pageModel, mockGames);
+          
 
             // Assert that Games has been set correctly
             Assert.That(pageModel.Games, Is.Not.Null);
