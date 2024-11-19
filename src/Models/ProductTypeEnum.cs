@@ -10,7 +10,6 @@ namespace ContosoCrafts.WebSite.Models
         Undefined = 0,
         Sport = 1,
         Team = 2,
-        Match = 3,
     }
 
     public static class ProductTypeEnumExtensions
@@ -21,7 +20,6 @@ namespace ContosoCrafts.WebSite.Models
             {
                 ProductTypeEnum.Sport => "Sport / Sport League",
                 ProductTypeEnum.Team => "Sport Team",
-                ProductTypeEnum.Match => "Sport Match",
  
                 // Default, Unknown
                 _ => "",
