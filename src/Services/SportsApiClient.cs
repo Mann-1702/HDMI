@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using RestSharp;
 
 namespace ContosoCrafts.WebSite.Services
 {
@@ -19,7 +19,7 @@ namespace ContosoCrafts.WebSite.Services
         // Logger instance for recording information and errors
         private readonly ILogger<SportsApiClient> _logger;
 
-        // In memory instance for storing data to memory for a given time period
+        // In-memory instance for storing data to memory for a given time period
         private readonly IMemoryCache _memoryCache;
 
         /// <summary>
@@ -29,15 +29,15 @@ namespace ContosoCrafts.WebSite.Services
         /// <param name="apiKey">The API key for authentication.</param>
         /// <param name="apiHost">The API host for authentication.</param>
         /// <param name="logger">Logger instance for logging messages and errors.</param>
-        public SportsApiClient( string apiKey, ILogger<SportsApiClient> logger, IMemoryCache memoryCache)
+        public SportsApiClient(string apiKey, ILogger<SportsApiClient> logger, IMemoryCache memoryCache)
         {
-            
             _apiKey = apiKey.Trim();
             _logger = logger;
             _memoryCache = memoryCache;
         }
+
         public SportsApiClient(string apiKey, ILogger<SportsApiClient> logger)
-        : this(apiKey, logger,null) // constructor overload to allow already established testing
+            : this(apiKey, logger, null) // constructor overload to allow already established testing
         {
         }
 
@@ -54,11 +54,15 @@ namespace ContosoCrafts.WebSite.Services
             string cacheKey = $"Games_{leagueId}_{seasonYear}";
 
             // Check if the data is already in the cache
-            if (_memoryCache != null && _memoryCache.TryGetValue(cacheKey, out List<T> cachedGames))
+            if (_memoryCache != null)
             {
-                _logger.LogInformation("Cache hit for {CacheKey}. Returning cached data.", cacheKey);
-                return cachedGames;
+                if (_memoryCache.TryGetValue(cacheKey, out List<T> cachedGames))
+                {
+                    _logger.LogInformation("Cache hit for {CacheKey}. Returning cached data.", cacheKey);
+                    return cachedGames;
+                }
             }
+
             _logger.LogInformation("Cache miss for {CacheKey}. Fetching data from API.", cacheKey);
 
             // Initialize RestClient with the provided base URL
@@ -77,29 +81,29 @@ namespace ContosoCrafts.WebSite.Services
                 // Execute the request
                 var response = client.Execute(request);
 
-                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content))
+                if (response.IsSuccessful)
                 {
-                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(response.Content);
-                    var games = apiResponse?.Response ?? new List<T>();
-
-                    // Cache the data
-                    if (_memoryCache != null)
+                    if (!string.IsNullOrEmpty(response.Content))
                     {
-                        _logger.LogInformation("Caching data for {CacheKey}.", cacheKey);
-                        _memoryCache.Set(cacheKey, games, TimeSpan.FromMinutes(25));
+                        var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(response.Content);
+                        var games = apiResponse?.Response ?? new List<T>();
+
+                        var limitedGames = games.Take(100).ToList();
+
+                        // Cache the data
+                        if (_memoryCache != null)
+                        {
+                            _logger.LogInformation("Caching data for {CacheKey}.", cacheKey);
+                            _memoryCache.Set(cacheKey, limitedGames, TimeSpan.FromMinutes(25));
+                        }
+
+                        return limitedGames;
                     }
-
-                    return games.Take(100).ToList();
                 }
 
-                // Handle unsuccessful response
-                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-                {
-                    _logger.LogInformation("No games data available.");
-                    return new List<T>();
-                }
+                _logger.LogWarning("Unsuccessful response or empty content. Returning an empty list.");
+                return new List<T>();
 
-                throw new Exception($"Request failed with status code: {response.StatusCode}, Error: {response.ErrorMessage}");
             }
             catch (Exception ex)
             {
@@ -107,8 +111,6 @@ namespace ContosoCrafts.WebSite.Services
                 throw;
             }
         }
-
-
     }
 
     /// <summary>
@@ -124,8 +126,7 @@ namespace ContosoCrafts.WebSite.Services
         public List<object> Errors { get; set; }
 
         public int Results { get; set; }
-  
+
         public List<T> Response { get; set; }
     }
-
 }
