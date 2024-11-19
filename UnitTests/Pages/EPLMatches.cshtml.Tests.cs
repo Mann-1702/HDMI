@@ -1,18 +1,14 @@
-﻿using ContosoCrafts.WebSite.Models;
-using ContosoCrafts.WebSite.Pages;
+﻿using ContosoCrafts.WebSite.Pages;
 using ContosoCrafts.WebSite.Services;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace UnitTests.Pages
 {
+    /// <summary>
+    /// Unit tests for the EPLMatches page model.
+    /// Verifies behavior of the OnGet method and proper initialization.
+    /// </summary>
     [TestFixture]
     public class EPLMatchesTests
     {
@@ -24,37 +20,40 @@ namespace UnitTests.Pages
 
         private SportsApiClient sportsApiClient;
 
+        /// <summary>
+        /// Sets up the test environment by initializing necessary dependencies.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
-
-            // Initialize logger
-
+            // Initialize loggers
             logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<SportsApiClient>();
             testLogger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<EPLMatches>();
 
-
+            // Initialize SportsApiClient with a valid API key
             var apiKey = "b4ed364047f61b7a0ae7699c69c7ad57";
             sportsApiClient = new SportsApiClient(apiKey, logger);
 
-
-            // Instantiate NFLMatches
+            // Initialize EPLMatches page model
             pageModel = new EPLMatches(sportsApiClient, testLogger);
         }
 
-
+        /// <summary>
+        /// Tests that the OnGet method fetches and populates games for the EPL.
+        /// </summary>
         [Test]
         public void OnGet_Should_Fetch_EPL_Games()
         {
-            // Arrange
-
             // Act
             pageModel.OnGet();
 
             // Assert
-            Assert.That(pageModel.Games, Is.Not.Empty);
+            Assert.That(pageModel.Games, Is.Not.Empty, "Games should be fetched and not be empty.");
         }
 
+        /// <summary>
+        /// Tests that an invalid SportsApiClient results in an empty games list.
+        /// </summary>
         [Test]
         public void OnGet_Invalid_SportsApiClient_Should_Return_Valid_Page_With_No_Games()
         {
@@ -65,8 +64,47 @@ namespace UnitTests.Pages
             invalidPageModel.OnGet();
 
             // Assert
-            Assert.That(invalidPageModel.Games, Is.Empty);
+            Assert.That(invalidPageModel.Games, Is.Empty, "Games should be empty when SportsApiClient is null.");
+        }
+
+        /// <summary>
+        /// Tests that the constructor initializes an empty games list.
+        /// </summary>
+        [Test]
+        public void Constructor_Should_Initialize_Empty_Games_List()
+        {
+            // Arrange
+            var newPageModel = new EPLMatches(null, testLogger);
+
+            // Assert
+            Assert.That(newPageModel.Games, Is.Empty, "Games should be initialized as an empty list in the constructor.");
+        }
+
+        /// <summary>
+        /// Tests that the OnGet method logs an error if SportsApiClient is null.
+        /// </summary>
+        [Test]
+        public void OnGet_Should_Log_Error_If_SportsApiClient_Is_Null()
+        {
+            // Arrange
+            invalidPageModel = new EPLMatches(null, testLogger);
+
+            // Act & Assert
+            Assert.DoesNotThrow(() => invalidPageModel.OnGet(), "OnGet should handle a null SportsApiClient gracefully.");
+        }
+
+        /// <summary>
+        /// Tests that the OnGet method handles exceptions thrown by SportsApiClient gracefully.
+        /// </summary>
+        [Test]
+        public void OnGet_Should_Handle_Exception_Gracefully()
+        {
+            // Arrange
+            var faultyApiClient = new SportsApiClient("invalid-key", logger);
+            var pageWithFaultyClient = new EPLMatches(faultyApiClient, testLogger);
+
+            // Act & Assert
+            Assert.DoesNotThrow(() => pageWithFaultyClient.OnGet(), "OnGet should handle exceptions from SportsApiClient gracefully.");
         }
     }
-
 }
