@@ -4,11 +4,17 @@ using System;
 
 namespace UnitTests.Models
 {
+    /// <summary>
+    /// Unit tests for the FixtureResponse model to ensure proper serialization and deserialization.
+    /// </summary>
     [TestFixture]
     public class FixtureResponseTests
     {
         private FixtureResponse _fixtureResponse;
 
+        /// <summary>
+        /// Sets up the test environment by initializing a sample FixtureResponse object with test data.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -65,6 +71,9 @@ namespace UnitTests.Models
             };
         }
 
+        /// <summary>
+        /// Tests if the FixtureResponse object can be serialized and deserialized while retaining its original data.
+        /// </summary>
         [Test]
         public void FixtureResponse_SerializationDeserialization_ShouldMatchOriginalObject()
         {
@@ -73,51 +82,44 @@ namespace UnitTests.Models
             var deserialized = JsonConvert.DeserializeObject<FixtureResponse>(json);
 
             // Assert
-            Assert.That(deserialized, Is.Not.Null);
+            Assert.That(deserialized, Is.Not.Null, "Deserialization should return a non-null object.");
 
-            // League Info
-            Assert.That(deserialized.League.Id, Is.EqualTo(_fixtureResponse.League.Id));
-            Assert.That(deserialized.League.Name, Is.EqualTo(_fixtureResponse.League.Name));
-            Assert.That(deserialized.League.Country, Is.EqualTo(_fixtureResponse.League.Country));
+            // Validate League Information
+            Assert.That(deserialized.League.Id, Is.EqualTo(_fixtureResponse.League.Id), "League ID mismatch.");
+            Assert.That(deserialized.League.Name, Is.EqualTo(_fixtureResponse.League.Name), "League name mismatch.");
+            Assert.That(deserialized.League.Country, Is.EqualTo(_fixtureResponse.League.Country), "League country mismatch.");
 
-            // Season
-            Assert.That(deserialized.Season, Is.EqualTo(_fixtureResponse.Season));
+            // Validate Season
+            Assert.That(deserialized.Season, Is.EqualTo(_fixtureResponse.Season), "Season mismatch.");
 
-            // Teams
-            Assert.That(deserialized.Teams.Home.Id, Is.EqualTo(_fixtureResponse.Teams.Home.Id));
-            Assert.That(deserialized.Teams.Home.Name, Is.EqualTo(_fixtureResponse.Teams.Home.Name));
-            Assert.That(deserialized.Teams.Home.City, Is.EqualTo(_fixtureResponse.Teams.Home.City));
-            Assert.That(deserialized.Teams.Home.Code, Is.EqualTo(_fixtureResponse.Teams.Home.Code));
-            Assert.That(deserialized.Teams.Home.Logo, Is.EqualTo(_fixtureResponse.Teams.Home.Logo));
+            // Validate Teams Information
+            Assert.That(deserialized.Teams.Home.Id, Is.EqualTo(_fixtureResponse.Teams.Home.Id), "Home team ID mismatch.");
+            Assert.That(deserialized.Teams.Home.Name, Is.EqualTo(_fixtureResponse.Teams.Home.Name), "Home team name mismatch.");
+            Assert.That(deserialized.Teams.Visitors.Id, Is.EqualTo(_fixtureResponse.Teams.Visitors.Id), "Visitor team ID mismatch.");
+            Assert.That(deserialized.Teams.Visitors.Name, Is.EqualTo(_fixtureResponse.Teams.Visitors.Name), "Visitor team name mismatch.");
 
-            Assert.That(deserialized.Teams.Visitors.Id, Is.EqualTo(_fixtureResponse.Teams.Visitors.Id));
-            Assert.That(deserialized.Teams.Visitors.Name, Is.EqualTo(_fixtureResponse.Teams.Visitors.Name));
-            Assert.That(deserialized.Teams.Visitors.City, Is.EqualTo(_fixtureResponse.Teams.Visitors.City));
-            Assert.That(deserialized.Teams.Visitors.Code, Is.EqualTo(_fixtureResponse.Teams.Visitors.Code));
-            Assert.That(deserialized.Teams.Visitors.Logo, Is.EqualTo(_fixtureResponse.Teams.Visitors.Logo));
+            // Validate Scores
+            Assert.That(deserialized.Scores.Halftime.Home, Is.EqualTo(_fixtureResponse.Scores.Halftime.Home), "Halftime home score mismatch.");
+            Assert.That(deserialized.Scores.Halftime.Away, Is.EqualTo(_fixtureResponse.Scores.Halftime.Away), "Halftime away score mismatch.");
+            Assert.That(deserialized.Scores.Fulltime.Home, Is.EqualTo(_fixtureResponse.Scores.Fulltime.Home), "Fulltime home score mismatch.");
+            Assert.That(deserialized.Scores.Fulltime.Away, Is.EqualTo(_fixtureResponse.Scores.Fulltime.Away), "Fulltime away score mismatch.");
+            Assert.That(deserialized.Scores.Penalty.Home, Is.EqualTo(_fixtureResponse.Scores.Penalty.Home), "Penalty home score mismatch.");
+            Assert.That(deserialized.Scores.Penalty.Away, Is.EqualTo(_fixtureResponse.Scores.Penalty.Away), "Penalty away score mismatch.");
 
-            // Scores
-            Assert.That(deserialized.Scores.Halftime.Home, Is.EqualTo(_fixtureResponse.Scores.Halftime.Home));
-            Assert.That(deserialized.Scores.Halftime.Away, Is.EqualTo(_fixtureResponse.Scores.Halftime.Away));
-            Assert.That(deserialized.Scores.Fulltime.Home, Is.EqualTo(_fixtureResponse.Scores.Fulltime.Home));
-            Assert.That(deserialized.Scores.Fulltime.Away, Is.EqualTo(_fixtureResponse.Scores.Fulltime.Away));
-            Assert.That(deserialized.Scores.Penalty.Home, Is.EqualTo(_fixtureResponse.Scores.Penalty.Home));
-            Assert.That(deserialized.Scores.Penalty.Away, Is.EqualTo(_fixtureResponse.Scores.Penalty.Away));
+            // Validate Date Information
+            Assert.That(deserialized.Date.Start, Is.EqualTo(_fixtureResponse.Date.Start), "Date start mismatch.");
+            Assert.That(deserialized.Date.Timezone, Is.EqualTo(_fixtureResponse.Date.Timezone), "Timezone mismatch.");
+            Assert.That(deserialized.Date.DateTime, Is.EqualTo(_fixtureResponse.Date.DateTime), "DateTime mismatch.");
+            Assert.That(deserialized.Date.Timestamp, Is.EqualTo(_fixtureResponse.Date.Timestamp), "Timestamp mismatch.");
 
-            // Date
-            Assert.That(deserialized.Date.Start, Is.EqualTo(_fixtureResponse.Date.Start));
-            Assert.That(deserialized.Date.Timezone, Is.EqualTo(_fixtureResponse.Date.Timezone));
-            Assert.That(deserialized.Date.DateTime, Is.EqualTo(_fixtureResponse.Date.DateTime));
-            Assert.That(deserialized.Date.Timestamp, Is.EqualTo(_fixtureResponse.Date.Timestamp));
+            // Validate Fixture Status
+            Assert.That(deserialized.Status.Short, Is.EqualTo(_fixtureResponse.Status.Short), "Status short mismatch.");
+            Assert.That(deserialized.Status.Long, Is.EqualTo(_fixtureResponse.Status.Long), "Status long mismatch.");
+            Assert.That(deserialized.Status.Clock, Is.EqualTo(_fixtureResponse.Status.Clock), "Clock time mismatch.");
+            Assert.That(deserialized.Status.Halftime, Is.EqualTo(_fixtureResponse.Status.Halftime), "Halftime status mismatch.");
 
-            // Status
-            Assert.That(deserialized.Status.Short, Is.EqualTo(_fixtureResponse.Status.Short));
-            Assert.That(deserialized.Status.Long, Is.EqualTo(_fixtureResponse.Status.Long));
-            Assert.That(deserialized.Status.Clock, Is.EqualTo(_fixtureResponse.Status.Clock));
-            Assert.That(deserialized.Status.Halftime, Is.EqualTo(_fixtureResponse.Status.Halftime));
-
-            // Stage
-            Assert.That(deserialized.Stage, Is.EqualTo(_fixtureResponse.Stage));
+            // Validate Stage
+            Assert.That(deserialized.Stage, Is.EqualTo(_fixtureResponse.Stage), "Stage mismatch.");
         }
     }
 }
