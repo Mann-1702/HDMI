@@ -16,6 +16,7 @@ namespace ContosoCrafts.WebSite.Pages
         {
             _sportsApiClient = sportsApiClient;
             _logger = logger;
+            Games = new List<FixtureResponse>();
         }
 
         // This property holds the list of games
@@ -31,6 +32,11 @@ namespace ContosoCrafts.WebSite.Pages
 
             try
             {
+                if (_sportsApiClient == null)
+                {
+                    _logger.LogError("SportsApiClient is null. Cannot fetch game data.");
+                    return; // Exit early if the client is null
+                }
                 // Fetch games for the 2024 season
                 Games = _sportsApiClient.GetGamesForSeason<FixtureResponse>(eplLeagueId, seasonYear, baseUrl, baseHost);
             }
