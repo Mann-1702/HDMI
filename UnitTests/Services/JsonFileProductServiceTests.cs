@@ -474,6 +474,19 @@ namespace UnitTests.Pages.Product
             Assert.That(result.Description, Is.EqualTo("Updated Description with spaces"));
         }
         #endregion UpdateData
+
+        [Test]
+        public void IsDuplicateTeam_Invalid_Null_Input_Should_Return_False()
+        {
+            // Arrange
+            string nullString = null;
+
+            // Act
+            var result = TestHelper.ProductService.IsDuplicateTeam(nullString);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(false));
+        }
     }
 
 }
