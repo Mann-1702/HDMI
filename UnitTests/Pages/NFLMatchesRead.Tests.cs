@@ -65,23 +65,10 @@ namespace UnitTests.Pages
             // Attempt to find the `Games` property
             var matchProperty = typeof(NFLReadModel).GetProperty("Match", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
-            if (matchProperty != null)
-            {
+            // Set the value
+            matchProperty.SetValue(pageModel, mockGame);
 
-                // Set the value if `Games` is a property
-                matchProperty.SetValue(pageModel, mockGame);
-            }
 
-            else
-            {
-
-                // Attempt to find the `Games` field (likely an auto-property backing field)
-                var matchField = typeof(NFLReadModel).GetField("<Games>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
-                Assert.That(matchField, Is.Not.Null, "Games property or backing field not found.");
-
-                // Set the value if `Games` is a field
-                matchField.SetValue(pageModel, mockGame);
-            }
 
             // Assert that Games has been set correctly
             Assert.That(pageModel.Match, Is.Not.Null);
@@ -157,10 +144,8 @@ namespace UnitTests.Pages
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
 
-            // OBtain a matchId from a match that contains an overtime score
-            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
-            var match = matches.FirstOrDefault(m => m.Scores.Home.Overtime == null && m.Scores.Away.Overtime == null);
-            var matchId = match.Game.Id.ToString();
+            // matchId from Patriots vs Panthers 8-8-24. No overtime
+            var matchId = "13147";
 
             // Act
             var result = pageModel.OnGet(matchId);
