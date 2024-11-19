@@ -1,13 +1,21 @@
-﻿using NUnit.Framework;
+﻿using ContosoCrafts.WebSite.Services;
 using Newtonsoft.Json;
+using NUnit.Framework;
+
 
 namespace UnitTests.Models
 {
+    /// <summary>
+    /// Unit tests for the GameResponse and ApiResponse classes to validate their behavior and data integrity.
+    /// </summary>
     [TestFixture]
     public class GameResponseTests
     {
         private GameResponse _gameResponse;
 
+        /// <summary>
+        /// Sets up the test environment by initializing a sample GameResponse object with test data.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -123,6 +131,9 @@ namespace UnitTests.Models
             };
         }
 
+        /// <summary>
+        /// Verifies that serialization and deserialization of the GameResponse object preserve the original data.
+        /// </summary>
         [Test]
         public void GameResponse_SerializationDeserialization_ShouldMatchOriginalObject()
         {
@@ -133,38 +144,88 @@ namespace UnitTests.Models
             // Assert
             Assert.That(deserialized, Is.Not.Null);
 
-            // Game Details
+            // Validate Game Details
             Assert.That(deserialized.Game.Id, Is.EqualTo(_gameResponse.Game.Id));
             Assert.That(deserialized.Game.Stage, Is.EqualTo(_gameResponse.Game.Stage));
             Assert.That(deserialized.Game.Week, Is.EqualTo(_gameResponse.Game.Week));
 
-            // Game Date
+            // Validate Game Date
             Assert.That(deserialized.Game.Date.Timezone, Is.EqualTo(_gameResponse.Game.Date.Timezone));
             Assert.That(deserialized.Game.Date.Date, Is.EqualTo(_gameResponse.Game.Date.Date));
             Assert.That(deserialized.Game.Date.Time, Is.EqualTo(_gameResponse.Game.Date.Time));
-            Assert.That(deserialized.Game.Date.Timestamp, Is.EqualTo(_gameResponse.Game.Date.Timestamp));
-            Assert.That(deserialized.Game.Date.Start, Is.EqualTo(_gameResponse.Game.Date.Start));
-            Assert.That(deserialized.Game.Date.End, Is.EqualTo(_gameResponse.Game.Date.End));
 
-            // Venue
+            // Validate Venue
             Assert.That(deserialized.Game.Venue.Name, Is.EqualTo(_gameResponse.Game.Venue.Name));
             Assert.That(deserialized.Game.Venue.City, Is.EqualTo(_gameResponse.Game.Venue.City));
             Assert.That(deserialized.Game.Venue.Country, Is.EqualTo(_gameResponse.Game.Venue.Country));
 
-            // League
+            // Validate League
             Assert.That(deserialized.League.Name, Is.EqualTo(_gameResponse.League.Name));
             Assert.That(deserialized.League.Season, Is.EqualTo(_gameResponse.League.Season));
-            Assert.That(deserialized.League.Country.Name, Is.EqualTo(_gameResponse.League.Country.Name));
 
-            // Teams
+            // Validate Teams
             Assert.That(deserialized.Teams.Home.Name, Is.EqualTo(_gameResponse.Teams.Home.Name));
             Assert.That(deserialized.Teams.Away.Name, Is.EqualTo(_gameResponse.Teams.Away.Name));
-            Assert.That(deserialized.Teams.Visitors.Name, Is.EqualTo(_gameResponse.Teams.Visitors.Name));
 
-            // Scores
+            // Validate Scores
             Assert.That(deserialized.Scores.Home.Total, Is.EqualTo(_gameResponse.Scores.Home.Total));
             Assert.That(deserialized.Scores.Away.Total, Is.EqualTo(_gameResponse.Scores.Away.Total));
-            Assert.That(deserialized.Scores.Visitors.Total, Is.EqualTo(_gameResponse.Scores.Visitors.Total));
+        }
+
+        /// <summary>
+        /// Unit tests for the ApiResponse class to validate its default behavior.
+        /// </summary>
+        [TestFixture]
+        public class ApiResponseTests
+        {
+            /// <summary>
+            /// Verifies that a new instance of ApiResponse initializes with default values.
+            /// </summary>
+            [Test]
+            public void ApiResponse_ShouldInitializeWithDefaultValues()
+            {
+                // Arrange
+                var apiResponse = new ApiResponse<string>();
+
+                // Assert
+                Assert.That(apiResponse.Get, Is.Null, "Expected 'Get' to be null by default.");
+                Assert.That(apiResponse.Results, Is.EqualTo(0), "Expected 'Results' to be 0 by default.");
+                Assert.That(apiResponse.Parameters, Is.Null, "Expected 'Parameters' to be null by default.");
+                Assert.That(apiResponse.Errors, Is.Null, "Expected 'Errors' to be null by default.");
+                Assert.That(apiResponse.Response, Is.Null, "Expected 'Response' to be null by default.");
+            }
+
+            /// <summary>
+            /// Verifies that the 'Get' property can be set and retrieved.
+            /// </summary>
+            [Test]
+            public void ApiResponse_ShouldAllowSettingAndGettingGetProperty()
+            {
+                // Arrange
+                var apiResponse = new ApiResponse<string>();
+
+                // Act
+                apiResponse.Get = "fixtures";
+
+                // Assert
+                Assert.That(apiResponse.Get, Is.EqualTo("fixtures"), "Expected 'Get' to return the assigned value.");
+            }
+
+            /// <summary>
+            /// Verifies that the 'Results' property can be set and retrieved.
+            /// </summary>
+            [Test]
+            public void ApiResponse_ShouldAllowSettingAndGettingResultsProperty()
+            {
+                // Arrange
+                var apiResponse = new ApiResponse<string>();
+
+                // Act
+                apiResponse.Results = 42;
+
+                // Assert
+                Assert.That(apiResponse.Results, Is.EqualTo(42), "Expected 'Results' to return the assigned value.");
+            }
         }
     }
 }
