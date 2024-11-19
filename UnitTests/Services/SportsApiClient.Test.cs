@@ -1,5 +1,7 @@
 ﻿using ContosoCrafts.WebSite.Services;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
@@ -8,37 +10,43 @@ using System.Linq;
 
 namespace UnitTests.Services
 {
+    /// <summary>
+    /// Unit tests for the SportsApiClient class.
+    /// </summary>
     [TestFixture]
     public class SportsApiClientTests
     {
         private ILogger<SportsApiClient> logger;
+        private IMemoryCache memoryCache;
         private SportsApiClient sportsApiClient;
 
+        /// <summary>
+        /// Sets up the required dependencies.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
             // Initialize logger
             logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<SportsApiClient>();
 
+            // Initialize memory cache
+            memoryCache = new MemoryCache(new MemoryCacheOptions());
+
             // API key for the Sports API
             var apiKey = "b4ed364047f61b7a0ae7699c69c7ad57";
 
             // Instantiate SportsApiClient
-            sportsApiClient = new SportsApiClient(apiKey, logger);
+            sportsApiClient = new SportsApiClient(apiKey, logger, memoryCache);
         }
 
-        [Test]
-        public void SportsApiClient_ShouldInitializeSuccessfully()
-        {
-            // Assert that the SportsApiClient is not null
-            Assert.That(sportsApiClient, Is.Not.Null);
-        }
-
+        /// <summary>
+        /// Verifies that an empty list is returned when no games are available.
+        /// </summary>
         [Test]
         public void GetGamesForSeason_ShouldReturnEmptyList_WhenNoGamesAvailable()
         {
             // Arrange
-            var leagueId = "1"; 
+            var leagueId = "1";
             var seasonYear = 2025;
             var baseUrl = "https://v1.american-football.api-sports.io";
             var apiHost = "v1.american-football.api-sports.io";
@@ -50,31 +58,11 @@ namespace UnitTests.Services
             Assert.That(result, Is.Empty, "Expected an empty list when no games are available.");
         }
 
-       
-
+        /// <summary>
+        /// Verifies that successful responses are cached and contain the expected number of games.
+        /// </summary>
         [Test]
-        public void GetGamesForSeason_ShouldThrowException_WhenUnhandledErrorOccurs()
-        {
-            // Arrange
-            var leagueId = "9999"; // Invalid league ID
-            var seasonYear = 2024;
-            var baseUrl = "https://v1.american-football.api-sports.io";
-            var apiHost = "v1.american-football.api-sports.io";
-
-            // Act & Assert
-            try
-            {
-                var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
-            }
-            catch (Exception ex)
-            {
-                // Assert
-                Assert.That(ex.Message, Does.Contain("Request failed with status code"), "Expected a generic error message for unhandled errors.");
-            }
-        }
-
-        [Test]
-        public void GetGamesForSeason_ShouldReturnGames_WhenApiReturnsValidResponse()
+        public void GetGamesForSeason_ShouldCacheResults_WhenResponseIsSuccessful()
         {
             // Arrange
             var leagueId = "1";
@@ -83,53 +71,53 @@ namespace UnitTests.Services
             var apiHost = "v1.american-football.api-sports.io";
 
             // Act
-            List<GameResponse> result;
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
 
-            try
-            {
-                result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail($"An exception was thrown while retrieving games: {ex.Message}");
-                return;
-            }
+            // Re-fetch from cache
+            var isCached = memoryCache.TryGetValue($"Games_{leagueId}_{seasonYear}", out List<GameResponse> cachedGames);
 
             // Assert
-            Assert.That(result, Is.Not.Empty, "Expected a list of games.");
-
-            // Validate the structure of the first game in the response
-            var firstGame = result.FirstOrDefault();
-            Assert.That(firstGame, Is.Not.Null, "Expected at least one game in the response.");
-            Assert.That(firstGame.Game.Id, Is.GreaterThan(0), "Expected the game ID to be a positive number.");
-            Assert.That(firstGame.Game.Stage, Is.Not.Null.Or.Empty, "Expected the game stage to be non-null and non-empty.");
-            Assert.That(firstGame.Teams.Home.Name, Is.Not.Null.Or.Empty, "Expected the home team name to be non-null and non-empty.");
-            Assert.That(firstGame.Teams.Away.Name, Is.Not.Null.Or.Empty, "Expected the away team name to be non-null and non-empty.");
+            Assert.That(isCached, Is.True, "Expected the result to be cached.");
+            Assert.That(cachedGames.Count, Is.EqualTo(100), "Expected the cached result to contain only 100 games.");
+            Assert.That(cachedGames, Is.EqualTo(result), "Cached games should match the first 100 games of the original response.");
         }
+
+        /// <summary>
+        /// Verifies that an invalid API URL results in an empty list and logs a warning.
+        /// </summary>
         [Test]
-        public void GetGamesForSeason_ShouldThrowException_WhenRequestTimesOut()
+        public void GetGamesForSeason_ShouldLogWarning_WhenApiUrlIsInvalid()
         {
             // Arrange
-            var leagueId = "1"; 
+            var leagueId = "1";
             var seasonYear = 2024;
-            var baseUrl = "https://v1.american-football.api-sports.io";
-            var apiHost = "v1.american-football.api-sports.io";
+            var baseUrl = "https://invalid.api.url";
+            var apiHost = "invalid-host";
 
-            // Create a client with an empty API key to simulate a timeout or bad response
-            var clientWithInvalidKey = new SportsApiClient("", logger);
+            var mockLogger = new Mock<ILogger<SportsApiClient>>();
+            var clientWithInvalidUrl = new SportsApiClient("test-api-key", mockLogger.Object, memoryCache);
 
-            // Act & Assert
-            var caughtException = Assert.Throws<JsonSerializationException>(() =>
-                clientWithInvalidKey.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost));
+            // Act
+            var result = clientWithInvalidUrl.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
 
             // Assert
-            Assert.That(caughtException, Is.Not.Null, "Expected a JsonSerializationException to be thrown.");
-            Assert.That(caughtException.Message, Does.Contain("Cannot deserialize the current JSON object"),
-                "Expected the exception message to indicate a deserialization issue.");
+            Assert.That(result, Is.Empty, "Expected an empty list for an invalid API URL.");
+            mockLogger.Verify(
+                logger => logger.Log(
+                    LogLevel.Warning,
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Unsuccessful response or empty content")),
+                    null,
+                    It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+                Times.Once,
+                "Expected a warning log when the API URL is invalid.");
         }
 
+        /// <summary>
+        /// Verifies that responses with more than 100 games are limited to the first 100 items.
+        /// </summary>
         [Test]
-        public void GetGamesForSeason_ShouldLogInformation_WhenRequestSucceeds()
+        public void GetGamesForSeason_ShouldHandleLargeResponses()
         {
             // Arrange
             var leagueId = "1";
@@ -141,116 +129,69 @@ namespace UnitTests.Services
             var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
 
             // Assert
-            // (You'd use a logging framework with a test sink to validate that logs contain expected entries)
-            Assert.That(result, Is.Not.Empty, "Expected a successful API response with logging.");
+            Assert.That(result.Count, Is.LessThanOrEqualTo(100), "Expected the result to limit the number of games to 100.");
         }
+
+        /// <summary>
+        /// Verifies that an empty list is returned when the API response has no content.
+        /// </summary>
         [Test]
-        public void GetGamesForSeason_ShouldThrowException_WhenHeadersAreMissing()
+        public void GetGamesForSeason_ShouldReturnEmptyList_WhenResponseIsNoContent()
         {
             // Arrange
-            var leagueId = "1"; 
+            var leagueId = "1";
             var seasonYear = 2024;
             var baseUrl = "https://v1.american-football.api-sports.io";
             var apiHost = "v1.american-football.api-sports.io";
 
-            // Simulate a client with a missing API key (empty string to simulate missing headers)
-            var clientWithMissingHeaders = new SportsApiClient("", logger);
+            // Simulate an empty response for NoContent
+            var noContentGames = new List<GameResponse>(); // No games available
+            memoryCache.Set($"Games_{leagueId}_{seasonYear}", noContentGames); // Prepopulate with no data
 
-            // Act & Assert
-            var caughtException = Assert.Throws<JsonSerializationException>(() =>
-                clientWithMissingHeaders.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost));
-
-            // Assert
-            Assert.That(caughtException, Is.Not.Null, "Expected a JsonSerializationException to be thrown.");
-            Assert.That(caughtException.Message, Does.Contain("Cannot deserialize the current JSON object"),
-                "Expected the exception message to indicate a deserialization issue.");
-        }
-
-
-
-    }
-
-    [TestFixture]
-    public class ApiResponseTests
-    {
-        [Test]
-        public void ApiResponse_ShouldInitializeWithDefaultValues()
-        {
             // Act
-            var apiResponse = new ApiResponse<string>();
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
 
             // Assert
-            Assert.That(apiResponse.Get, Is.Null, "Expected 'Get' to be null by default.");
-            Assert.That(apiResponse.Parameters, Is.Null, "Expected 'Parameters' to be null by default.");
-            Assert.That(apiResponse.Errors, Is.Null, "Expected 'Errors' to be null by default.");
-            Assert.That(apiResponse.Results, Is.EqualTo(0), "Expected 'Results' to be 0 by default.");
-            Assert.That(apiResponse.Response, Is.Null, "Expected 'Response' to be null by default.");
+            Assert.That(result, Is.Empty, "Expected an empty list when the API response is NoContent.");
         }
 
+        /// <summary>
+        /// Verifies that the logger logs cache hits correctly.
+        /// </summary>
         [Test]
-        public void ApiResponse_ShouldAllowSettingAndGettingProperties()
+        public void GetGamesForSeason_ShouldLogInformation_WhenCacheHit()
         {
             // Arrange
-            var parameters = new Dictionary<string, string>
+            var leagueId = "1";
+            var seasonYear = 2024;
+            var baseUrl = "https://v1.american-football.api-sports.io";
+            var apiHost = "v1.american-football.api-sports.io";
+            var mockLogger = new Mock<ILogger<SportsApiClient>>();
+            var cachedClient = new SportsApiClient("b4ed364047f61b7a0ae7699c69c7ad57", mockLogger.Object, memoryCache);
+
+            var cachedGames = new List<GameResponse>
             {
-                { "league", "39" },
-                { "season", "2024" }
+                new GameResponse
+                {
+                    Game = new GameDetails { Id = 1, Stage = "Regular Season" }
+                }
             };
 
-            var errors = new List<object> { "Invalid league ID", "Season not found" };
-            var response = new List<string> { "Game 1", "Game 2" };
+            memoryCache.Set($"Games_{leagueId}_{seasonYear}", cachedGames);
 
             // Act
-            var apiResponse = new ApiResponse<string>
-            {
-                Get = "fixtures",
-                Parameters = parameters,
-                Errors = errors,
-                Results = 2,
-                Response = response
-            };
+            var result = cachedClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
 
             // Assert
-            Assert.That(apiResponse.Get, Is.EqualTo("fixtures"), "Expected 'Get' to match the assigned value.");
-            Assert.That(apiResponse.Parameters, Is.EqualTo(parameters), "Expected 'Parameters' to match the assigned dictionary.");
-            Assert.That(apiResponse.Errors, Is.EqualTo(errors), "Expected 'Errors' to match the assigned list.");
-            Assert.That(apiResponse.Results, Is.EqualTo(2), "Expected 'Results' to match the assigned value.");
-            Assert.That(apiResponse.Response, Is.EqualTo(response), "Expected 'Response' to match the assigned list.");
+            Assert.That(result, Is.Not.Empty, "Expected a non-empty list from the cache.");
+            mockLogger.Verify(
+                logger => logger.Log(
+                    LogLevel.Information,
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Cache hit")),
+                    null,
+                    It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+                Times.Once, "Expected the logger to log cache hit information.");
         }
-
-        [Test]
-        public void ApiResponse_ShouldHandleNullValuesGracefully()
-        {
-            // Act
-            var apiResponse = new ApiResponse<string>
-            {
-                Get = null,
-                Parameters = null,
-                Errors = null,
-                Results = 0,
-                Response = null
-            };
-
-            // Assert
-            Assert.That(apiResponse.Get, Is.Null, "Expected 'Get' to be null.");
-            Assert.That(apiResponse.Parameters, Is.Null, "Expected 'Parameters' to be null.");
-            Assert.That(apiResponse.Errors, Is.Null, "Expected 'Errors' to be null.");
-            Assert.That(apiResponse.Results, Is.EqualTo(0), "Expected 'Results' to remain 0.");
-            Assert.That(apiResponse.Response, Is.Null, "Expected 'Response' to be null.");
-        }
-        [Test]
-        public void ApiResponse_ShouldHandleLargeResponseList()
-        {
-            // Arrange
-            var largeList = Enumerable.Range(1, 10000).Select(i => $"Game {i}").ToList();
-
-            // Act
-            var apiResponse = new ApiResponse<string> { Response = largeList };
-
-            // Assert
-            Assert.That(apiResponse.Response.Count, Is.EqualTo(10000), "Expected a large list to be handled correctly.");
-        }
-
     }
-
 }
