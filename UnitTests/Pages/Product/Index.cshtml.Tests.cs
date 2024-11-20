@@ -17,7 +17,7 @@ using NUnit.Framework;
 using ContosoCrafts.WebSite.Pages.Product;
 using ContosoCrafts.WebSite.Services;
 
-namespace UnitTests.Pages.Product.Index
+namespace UnitTests.Pages.Product
 {
     public class IndexTests
     {
@@ -31,8 +31,9 @@ namespace UnitTests.Pages.Product.Index
         public static ViewDataDictionary viewData;
         public static TempDataDictionary tempData;
         public static PageContext pageContext;
-
         public static IndexModel pageModel;
+        JsonFileProductService productService;
+
 
         [SetUp]
         public void TestInitialize()
@@ -62,7 +63,6 @@ namespace UnitTests.Pages.Product.Index
             mockWebHostEnvironment.Setup(m => m.ContentRootPath).Returns("./data/");
 
             var MockLoggerDirect = Mock.Of<ILogger<IndexModel>>();
-            JsonFileProductService productService;
 
             productService = new JsonFileProductService(mockWebHostEnvironment.Object);
 
@@ -90,6 +90,23 @@ namespace UnitTests.Pages.Product.Index
             Assert.That(pageModel.Products.ToList().Count, Is.EqualTo(21));
         }
 
+
+        [Test]
+        public void OnGet_Search_Valid_SearchTerm_Should_Return_Filtered_Page()
+        {
+
+            // Arrange
+            IndexModel validSearchPageModel = new IndexModel(productService)
+            {
+                SearchTerm = "Seahawks"
+            };
+
+            // Act
+            validSearchPageModel.OnGet();
+
+            // Assert
+            Assert.That(validSearchPageModel.Products.Count, Is.EqualTo(1));
+        }
         #endregion OnGet
     }
 
