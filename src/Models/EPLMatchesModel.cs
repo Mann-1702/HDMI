@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class FixtureResponse
 {
+
+    [JsonProperty("fixture")]
+    public FixtureDetails Fixture { get; set; } // New property for fixture details
+
     [JsonProperty("league")]
     public LeagueInfo League { get; set; }
 
@@ -24,6 +28,27 @@ public class FixtureResponse
 
     [JsonProperty("stage")]
     public string Stage { get; set; }
+}
+
+public class FixtureDetails
+{
+    [JsonProperty("id")]
+    public int FixtureId { get; set; }
+
+    [JsonProperty("referee")]
+    public string Referee { get; set; }
+
+    [JsonProperty("timezone")]
+    public string Timezone { get; set; }
+
+    [JsonProperty("date")]
+    public string Date { get; set; }
+
+    [JsonProperty("timestamp")]
+    public long Timestamp { get; set; }
+
+    [JsonProperty("status")]
+    public FixtureStatus Status { get; set; }
 }
 
 public class LeagueInfo
