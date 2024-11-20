@@ -9,6 +9,7 @@ using System.IO;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;
 using System.Linq;
+using System;
 
 namespace UnitTests.Pages.Product
 {
@@ -140,6 +141,49 @@ namespace UnitTests.Pages.Product
             Assert.That(pageModel.ModelState.IsValid, Is.False);
             Assert.That(pageModel.ModelState[""].Errors.First().ErrorMessage,
                         Is.EqualTo("Team validation is unavailable. Please contact support."));
+        }
+
+        [Test]
+        public void OnPost_Duplicate_Team_Should_Add_Error_And_Return_Page()
+        {
+            // Arrange
+            pageModel.OnGet();
+
+            // Get a duplicate team product
+            pageModel.Product = productService.GetAllData().FirstOrDefault(p => p.ProductType == ProductTypeEnum.Team);
+
+            // Act
+            var result = pageModel.OnPost();
+
+            // Assert
+            Assert.That(result, Is.InstanceOf<PageResult>());
+            Assert.That(pageModel.ModelState.IsValid, Is.False);
+            Assert.That(pageModel.ModelState[""].Errors.First().ErrorMessage,
+                        Is.EqualTo($"Team '{pageModel.Product.Title}' already exists."));
+        }
+
+        [Test]
+        public void OnPost_Valid_Team_Should_Add_Team_And_Return_To_Index()
+        {
+            // Arrange
+            pageModel = new CreateModel(productService, teamVerifier);
+            pageModel.OnGet();
+
+            // Get a duplicate team product
+            pageModel.Product = productService.GetAllData().LastOrDefault(p => p.ProductType == ProductTypeEnum.Team);
+            var productTitle = pageModel.Product.Title;
+
+            // Delete Product
+            productService.DeleteData(pageModel.Product.Id);
+
+            // Act
+            var result = pageModel.OnPost();
+            var products = productService.GetAllData();
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.True);
+            Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
+            Assert.That(products.Any(p => p.Title == productTitle));
         }
 
         #endregion OnPost Tests
