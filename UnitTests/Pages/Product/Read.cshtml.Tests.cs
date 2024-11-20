@@ -37,7 +37,7 @@ namespace UnitTests.Pages.Product
         {
 
             // Arrange
-            string validTeamName = "Seahawks"; 
+            string validTeamName = "Seattle Seahawks"; 
 
             // Act
             var result = pageModel.OnGet(validTeamName);
