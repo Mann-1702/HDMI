@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ContosoCrafts.WebSite.Pages
 {
@@ -20,7 +21,7 @@ namespace ContosoCrafts.WebSite.Pages
 
         public List<NbaGameResponse> Games { get; private set; }
 
-        public void OnGet()
+        public IActionResult OnGet(string teamName = null)
         {
             try
             {
@@ -30,8 +31,13 @@ namespace ContosoCrafts.WebSite.Pages
                 string baseUrl = "https://v2.nba.api-sports.io";
                 string baseHost = "v2.aenba.api-sports.io";
 
-                // Fetch game data for NBA 2023 season
+                // Fetch game data for NBA 2024 season
                 Games = _sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost);
+
+                if (teamName != null)
+                {
+                    Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Visitors.Name == teamName).ToList();
+                }
             }
 
             catch (System.Exception ex)
@@ -40,6 +46,7 @@ namespace ContosoCrafts.WebSite.Pages
                 Games = new List<NbaGameResponse>(); // Handle error 
             }
 
+            return Page();
 
         }
     }

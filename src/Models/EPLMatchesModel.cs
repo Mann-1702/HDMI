@@ -35,17 +35,6 @@ public class FixtureDetails
     [JsonProperty("id")]
     public int FixtureId { get; set; }
 
-    [JsonProperty("referee")]
-    public string Referee { get; set; }
-
-    [JsonProperty("timezone")]
-    public string Timezone { get; set; }
-
-    [JsonProperty("date")]
-    public string Date { get; set; }
-
-    [JsonProperty("timestamp")]
-    public long Timestamp { get; set; }
 
     [JsonProperty("status")]
     public FixtureStatus Status { get; set; }

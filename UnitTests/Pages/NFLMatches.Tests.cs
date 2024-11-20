@@ -120,6 +120,21 @@ namespace UnitTests.Pages
             Assert.That(result, Is.InstanceOf<PageResult>());
 
         }
+
+        [Test]
+        public void OnGet_Valid_Input_Seahawks_Should_Return_Valid_Page_With_Seahawk_Games()
+        {
+            // Arrange
+            string team = "Seattle Seahawks";
+
+            // Act
+            var result = pageModel.OnGet(team);
+
+            // Assert
+            Assert.That(pageModel.Games, Is.Not.Empty);
+            Assert.That(result, Is.InstanceOf<PageResult>());
+
+        }
     }
 
 }

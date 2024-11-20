@@ -1,7 +1,9 @@
 ﻿using ContosoCrafts.WebSite.Pages;
 using ContosoCrafts.WebSite.Services;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
+using System.Linq;
 
 namespace UnitTests.Pages
 {
@@ -105,6 +107,24 @@ namespace UnitTests.Pages
 
             // Act & Assert
             Assert.DoesNotThrow(() => pageWithFaultyClient.OnGet(), "OnGet should handle exceptions from SportsApiClient gracefully.");
+        }
+
+        [Test]
+        public void OnGet_Valid_Input_Manchester_United_Should_Return_Valid_Page_With_Manchester_United_Games()
+        {
+            // Arrange
+            string team = "Manchester United";
+
+            // Act
+            var result = pageModel.OnGet(team);
+            var game = pageModel.Games.First();
+            var teams = game.Teams.Home.Name + game.Teams.Visitors.Name;
+
+            // Assert
+            Assert.That(result, Is.InstanceOf<PageResult>());
+            Assert.That(pageModel.Games, Is.Not.Empty);
+            Assert.That(teams.Contains("Manchester"));
+
         }
     }
 }

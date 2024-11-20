@@ -23,7 +23,7 @@ namespace ContosoCrafts.WebSite.Pages
 
         public List<GameResponse> Games { get; private set; }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(string teamName = null)
         {
             try
             {
@@ -36,12 +36,18 @@ namespace ContosoCrafts.WebSite.Pages
                 // Fetch game data for NFL 2024 season
                 Games = _sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
 
+                if (teamName != null)
+                {
+                    Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Away.Name == teamName).ToList();
+                }
             }
 
             catch (System.Exception ex)
             {
                 _logger.LogError(ex, "Error fetching game results.");
-                Games = new List<GameResponse>(); // Handle error 
+
+                // Handle error 
+                Games = new List<GameResponse>(); 
             }
 
             return Page();
