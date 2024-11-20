@@ -33,15 +33,6 @@
         filteredProducts = ProductService.GetFilteredData(ProductTypeFilter, SportFilter);
     }
 
-    // Method to handle filtering for just teams
-    private async Task FilterByProductType(string type)
-    {
-        SportFilter = null; // Set SportFilter to null for "Sport" filter. only will search that type
-        ProductTypeFilter = type;
-
-        await LoadFilteredProducts(); // Fetch filtered products
-    }
-
     private async Task FilterBySport(string sport)
     {
         SportFilter = sport; // Set SportFilter to null for "Sport" filter
@@ -68,7 +59,7 @@
 
 <div>
     <!-- Filter buttons -->
-    <button @onclick="FilterShowAllSports" class="btn btn-primary">Show Sports</button>
+    <button id="ShowSportsButton" @onclick="FilterShowAllSports" class="btn btn-primary">Show Sports</button>
 </div>
 
 
@@ -76,7 +67,7 @@
     @foreach (var product in filteredProducts)
     {
         <div class="card">
-            <button class="card-img" style="background-image: url('@product.Image'); border: none; background-size: cover; background-repeat: no-repeat; background-position: center;"
+            <button id="@($"SportsPictureButton_{product.Title}")" class="card-img" style="background-image: url('@product.Image'); border: none; background-size: cover; background-repeat: no-repeat; background-position: center;"
                     @onclick="(e => FilterBySport(product.Sport))">
             </button>
             <div class="card-body">
@@ -84,7 +75,7 @@
             </div>
             <div class="card-footer">
                 <div class="d-flex flex-column align-items-center">
-                    <button @onclick="(e => SelectProduct(product.Id))"
+                    <button id="@($"MoreInfoButton_{product.Title}")" @onclick="(e => SelectProduct(product.Id))"
                         data-toggle="modal" data-target="#productModal"
                         class="btn btn-primary btn-uniform-width">
                         More Info
@@ -92,8 +83,8 @@
 
                     @if (product.ProductType == ProductTypeEnum.Sport)
                     {
-                       
-                        <button @onclick="(e => FilterBySport(product.Sport))"
+
+                        <button id="@($"ViewTeamsButton_{product.Title}")" @onclick="(e => FilterBySport(product.Sport))"
                         class="btn btn-custom-blue mt-2 btn-uniform-width">
                             View Teams
                         </button>
@@ -101,8 +92,8 @@
 
                     @if (product.ProductType == ProductTypeEnum.Team)
                     {
-                       
-                        <button @onclick="() => NavigateToRead(product.Title)"
+
+                        <button id="@($"ReadMoreButton_{product.Title}")" @onclick="() => NavigateToRead(product.Title)"
                         class="btn btn-custom-blue mt-2 btn-uniform-width">
                             Read More
                         </button>
@@ -136,7 +127,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-center">
-                            <button @onclick="() => NavigateToRead(team.Title)" class="btn btn-primary">Read More</button>
+                            <button id="@($"ReadMoreTopTeamButton_{team.Title}")" @onclick="() => NavigateToRead(team.Title)" class="btn btn-primary">Read More</button>
                         </div>
                     </div>
                 }
