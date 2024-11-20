@@ -19,18 +19,15 @@ namespace ContosoCrafts.WebSite.Pages
             _logger = logger;
         }
 
-        [BindProperty(SupportsGet = true)]
-        public string HomeTeamId { get; set; }
-        [BindProperty(SupportsGet = true)]
-        public string AwayTeamId { get; set; }
 
         public FixtureResponse Match { get; private set; }
 
-        public void OnGet(string homeTeamId, string awayTeamId)
+        public IActionResult OnGet(int matchId)
         {
             try
             {
-                string leagueId = "39"; // EPL League ID
+                // EPL League ID
+                string leagueId = "39";
                 int seasonYear = 2024;
                 string baseUrl = "https://v3.football.api-sports.io";
                 string apiHost = "v3.football.api-sports.io";
@@ -39,20 +36,22 @@ namespace ContosoCrafts.WebSite.Pages
                 var allGames = _sportsApiClient.GetGamesForSeason<FixtureResponse>(leagueId, seasonYear, baseUrl, apiHost);
 
                 // Find the match between the specified teams
-                Match = allGames.FirstOrDefault(game =>
-                    game.Teams?.Home?.Id.ToString() == homeTeamId &&
-                    game.Teams?.Visitors?.Id.ToString() == awayTeamId);
+                Match = allGames.FirstOrDefault(game => game.Fixture.FixtureId == matchId);
 
                 if (Match == null)
                 {
-                    _logger.LogWarning($"Match between {homeTeamId} and {awayTeamId} not found.");
+                    _logger.LogWarning($"Match with MatchId: {matchId} not found.");
+                    return RedirectToPage("/EPLMatches");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error fetching details for match between {homeTeamId} and {awayTeamId}");
+                _logger.LogError(ex, $"Error fetching details for match with matchId {matchId}");
                 Match = null;
+                return RedirectToPage("/NFLMatches");
             }
+
+            return Page();
         }
 
     }
