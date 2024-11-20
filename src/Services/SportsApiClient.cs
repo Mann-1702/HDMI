@@ -81,34 +81,29 @@ namespace ContosoCrafts.WebSite.Services
                 // Execute the request
                 var response = client.Execute(request);
 
-                if (response.IsSuccessful)
+                if (!response.IsSuccessful || string.IsNullOrEmpty(response.Content))
                 {
-                    if (!string.IsNullOrEmpty(response.Content))
-                    {
-                        var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(response.Content);
-                        var games = apiResponse?.Response ?? new List<T>();
-
-                        var limitedGames = games.Take(100).ToList();
-
-                        // Cache the data
-                        if (_memoryCache != null)
-                        {
-                            _logger.LogInformation("Caching data for {CacheKey}.", cacheKey);
-                            _memoryCache.Set(cacheKey, limitedGames, TimeSpan.FromMinutes(25));
-                        }
-
-                        return limitedGames;
-                    }
+                    _logger.LogWarning("Unsuccessful response or empty content. Throwing an exception.");
+                    throw new Exception("Unsuccessful response or empty content. Unable to retrieve game data.");
                 }
 
-                _logger.LogWarning("Unsuccessful response or empty content. Returning an empty list.");
-                return new List<T>();
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(response.Content);
+                var games = apiResponse?.Response ?? new List<T>();
+                var limitedGames = games.Take(100).ToList();
 
+                if (_memoryCache != null)
+                {
+                    _logger.LogInformation("Caching data for {CacheKey}.", cacheKey);
+                    _memoryCache.Set(cacheKey, limitedGames, TimeSpan.FromMinutes(25));
+                }
+
+                return limitedGames;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while executing the request.");
                 throw;
+
             }
         }
     }
