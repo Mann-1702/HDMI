@@ -4,6 +4,8 @@ using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ContosoCrafts.WebSite.Pages
 {
@@ -23,7 +25,7 @@ namespace ContosoCrafts.WebSite.Pages
         public List<FixtureResponse> Games { get; private set; }
 
         // Fetching data and initializing the games property
-        public void OnGet()
+        public IActionResult OnGet(string teamName = null)
         {
             string eplLeagueId = "39"; // EPL League ID
             int seasonYear = 2024;
@@ -35,15 +37,25 @@ namespace ContosoCrafts.WebSite.Pages
                 if (_sportsApiClient == null)
                 {
                     _logger.LogError("SportsApiClient is null. Cannot fetch game data.");
-                    return; // Exit early if the client is null
+
+                    // Exit early if the client is null
+                    return RedirectToPage("/Error");
                 }
+
                 // Fetch games for the 2024 season
                 Games = _sportsApiClient.GetGamesForSeason<FixtureResponse>(eplLeagueId, seasonYear, baseUrl, baseHost);
+
+                if (teamName != null)
+                {
+                    Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Visitors.Name == teamName).ToList();
+                }
             }
             catch (System.Exception ex)
             {
                 _logger.LogError(ex, "Error fetching EPL game data.");
             }
+
+            return Page();
         }
     }
 }
