@@ -40,18 +40,16 @@ namespace ContosoCrafts.WebSite.Pages.Product
         /// </summary>
         public void OnGet()
         {
-            var allProducts = ProductService.GetAllData();
+            Products = ProductService.GetAllData();
 
             // Filter products if SearchTerm is provided
             if (!string.IsNullOrEmpty(SearchTerm))
             {
-                Products = allProducts.Where(p =>
+                Products = Products.Where(p =>
                     p.Title.Contains(SearchTerm, System.StringComparison.OrdinalIgnoreCase));
             }
-            else
-            {
-                Products = allProducts;
-            }
+
+
         }
     }
 }
