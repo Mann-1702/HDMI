@@ -107,7 +107,7 @@
 
 
 
-@if (selectedProduct != null)
+@if (selectedProduct is object)
 {
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -197,7 +197,7 @@
 
 @code
 {
-    ProductModel selectedProduct;
+    ProductModel selectedProduct = new ProductModel();
     string selectedProductId;
 
     void SelectProduct(string productId)
