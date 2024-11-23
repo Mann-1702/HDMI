@@ -1,0 +1,55 @@
+﻿@page "/NFLMatches/{teamName?}"
+@model ContosoCrafts.WebSite.Pages.Matches.NFLMatchesModel
+
+@{
+    ViewData["Title"] = "NFL Match Results for 2024";
+}
+
+<h2>NFL Match Results for 2024</h2>
+
+<table class="table table-bordered table-striped" style="background-color:lightgrey;">
+    <thead>
+        <tr>
+            <th>Match (Home vs Away)</th>
+            <th>Date</th>
+            <th>Score</th>
+            <th style="text-align: center;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model.Games)
+        {
+            <tr>
+                <td>
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <!-- Home Team with logo on the right and aligned right -->
+                        <div style="display: flex; align-items: center; justify-content: flex-end; width: 45%; text-align: right;">
+                            <span style="white-space: normal;">@game.Teams.Home.Name</span>
+                            <img src="@game.Teams.Home.Logo" width="30" class="mx-2" />
+                        </div>
+
+                        <!-- Separator text "vs" centered and slightly shifted left -->
+                        <span style="text-align: center; width: 10%; margin-right: -10px;">vs</span>
+
+                        <!-- Away Team with fixed width for alignment -->
+                        <div style="display: flex; align-items: center; width: 45%;">
+                            <img src="@game.Teams.Away.Logo" width="30" class="mx-2" />
+                            <span>@game.Teams.Away.Name</span>
+                        </div>
+                    </div>
+                </td>
+                <td>@game.Game.Date.Date @game.Game.Date.Time</td>
+                <td align="center">@game.Scores.Home.Total - @game.Scores.Away.Total</td>
+                <td style="text-align: center; font-family:'Century Gothic';">
+                    <!-- Read Button -->
+                    <a asp-page="NFLMatchRead" asp-route-gameId="@game.Game.Id" class="btn btn-teal">View Match Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!(Model.Games?.Any() ?? false))
+{
+    <p>No games available for 2024.</p>
+}
