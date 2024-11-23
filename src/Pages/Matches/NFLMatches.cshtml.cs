@@ -41,11 +41,16 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             {
                 // Fetch game data for NFL season with specified year
                 Games = _sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, SeasonYear, baseUrl, baseHost);
-
-                if (teamName != null)
+                
+                // Return page if no specified team to filter for
+                if (teamName == null)
                 {
-                    Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Away.Name == teamName).ToList();
+                    return Page();
                 }
+
+                // Filters for a specific team
+                Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Away.Name == teamName).ToList();
+
             }
 
             catch (Exception ex)
