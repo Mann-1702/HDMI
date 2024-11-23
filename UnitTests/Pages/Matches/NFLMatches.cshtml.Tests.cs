@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace UnitTests.Pages.Matches
@@ -94,15 +95,47 @@ namespace UnitTests.Pages.Matches
 
 
         [Test]
-        public void OnGet_Should_Fetch_2024_NFL_Games()
+        public void OnGet_Defaut_Should_Fetch_2024_NFL_Games()
         {
             // Arrange
 
             // Act
             var result = pageModel.OnGet();
+            var game = pageModel.Games.First();
 
             // Assert
             Assert.That(pageModel.Games, Is.Not.Empty);
+            Assert.That(game.Game.Date.Date.Contains("2024"));
+            Assert.That(result, Is.InstanceOf<PageResult>());
+        }
+
+        [Test]
+        public void OnGet_Defaut_Valid_Input_Fetch_2023_NFL_Games()
+        {
+            // Arrange
+
+            // Act
+            var result = pageModel.OnGet(year: 2023);
+            var game = pageModel.Games.First();
+
+            // Assert
+            Assert.That(pageModel.Games, Is.Not.Empty);
+            Assert.That(game.Game.Date.Date.Contains("2023"));
+            Assert.That(result, Is.InstanceOf<PageResult>());
+        }
+
+        [Test]
+        public void OnGet_Defaut_Valid_Input_Fetch_2022_NFL_Games()
+        {
+            // Arrange
+
+            // Act
+            var result = pageModel.OnGet(year: 2022);
+            var game = pageModel.Games.First();
+
+            // Assert
+            Assert.That(pageModel.Games, Is.Not.Empty);
+            Assert.That(game.Game.Date.Date.Contains("2022"));
             Assert.That(result, Is.InstanceOf<PageResult>());
         }
 
