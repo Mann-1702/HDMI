@@ -1,0 +1,104 @@
+﻿@page "/EPLMatchRead/Read/{matchId}"
+@model ContosoCrafts.WebSite.Pages.Matches.EPLMatchReadModel
+
+@{
+    ViewData["Title"] = "Match Details";
+}
+
+<h2>
+    <img src="@Model.Match.Teams?.Home?.Logo" width="50" class="mx-2" />
+    @Model.Match.Teams?.Home?.Name vs.
+    <img src="@Model.Match.Teams?.Visitors?.Logo" width="50" class="mx-2" />
+    @Model.Match.Teams?.Visitors?.Name
+</h2>
+
+<div style="width: 60%; margin: 0 auto;">
+    <table class="table table-bordered" style="background-color:lightgrey; border-radius:5px; width: 100%;">
+        <tbody>
+            <tr>
+                <td><strong>Score</strong></td>
+                <td>
+                    @if (Model.Match.Scores?.Fulltime?.Home.HasValue == true && Model.Match.Scores?.Fulltime?.Away.HasValue == true)
+                    {
+                        <strong>@Model.Match.Scores.Fulltime.Home - @Model.Match.Scores.Fulltime.Away</strong>
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Score by Halves</h2>
+
+@if (Model.Match.Scores?.Halftime != null || Model.Match.Scores?.Fulltime != null)
+{
+    <div style="display: flex; justify-content: center;">
+        <table class="table table-striped" style="width: 60%; background-color:white;">
+            <thead>
+                <tr style="background-color:#d3d3d3;">
+                    <th>Half</th>
+                    <th>Team</th>
+                    <th>Score</th>
+                    <th>Total Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int homeTotal = 0;
+                    int visitorTotal = 0;
+                }
+
+                <!-- 1st Half -->
+                <tr>
+                    <td>1st Half</td>
+                    <td>
+                        <img src="@Model.Match.Teams?.Home?.Logo" width="30" class="mx-2" />
+                        @Model.Match.Teams?.Home?.Name
+                    </td>
+                    <td>@Model.Match.Scores?.Halftime?.Home</td>
+                    <td style="text-align: center;">@(homeTotal += Model.Match.Scores?.Halftime?.Home ?? 0)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <img src="@Model.Match.Teams?.Visitors?.Logo" width="30" class="mx-2" />
+                        @Model.Match.Teams?.Visitors?.Name
+                    </td>
+                    <td>@Model.Match.Scores?.Halftime?.Away</td>
+                    <td style="text-align: center;">@(visitorTotal += Model.Match.Scores?.Halftime?.Away ?? 0)</td>
+                </tr>
+
+                <!-- 2nd Half -->
+                <tr>
+                    <td>2nd Half</td>
+                    <td>
+                        <img src="@Model.Match.Teams?.Home?.Logo" width="30" class="mx-2" />
+                        @Model.Match.Teams?.Home?.Name
+                    </td>
+                    <td>@(Model.Match.Scores?.Fulltime?.Home - Model.Match.Scores?.Halftime?.Home ?? 0)</td>
+                    <td style="text-align: center;">@(homeTotal += (Model.Match.Scores?.Fulltime?.Home - Model.Match.Scores?.Halftime?.Home ?? 0))</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <img src="@Model.Match.Teams?.Visitors?.Logo" width="30" class="mx-2" />
+                        @Model.Match.Teams?.Visitors?.Name
+                    </td>
+                    <td>@(Model.Match.Scores?.Fulltime?.Away - Model.Match.Scores?.Halftime?.Away ?? 0)</td>
+                    <td style="text-align: center;">@(visitorTotal += (Model.Match.Scores?.Fulltime?.Away - Model.Match.Scores?.Halftime?.Away ?? 0))</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p>No data available for scores by halves.</p>
+}
+
+<!-- Back button -->
+<a href="/EPLMatches" class="btn btn-primary" style="margin-top: 20px;">Back to Matches</a>
