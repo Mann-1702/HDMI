@@ -20,25 +20,28 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             _sportsApiClient = sportsApiClient;
             _logger = logger;
         }
+
         public GameResponse Match { get; private set; }
 
         public bool HasOvertime { get; private set; }
 
-        public IActionResult OnGet(string gameId)
+
+        public IActionResult OnGet(string gameId, int year = 2024)
         {
             int matchId = int.Parse(gameId);
 
-            //use "Standard for NBA"
-            string nflLeagueId = "1";
-            int seasonYear = 2024;
+            // leagueId = 1 for NFL"
+            string leagueId = "1";
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
 
 
-            // Fetch game data for NFL 2024 season
             try
             {
-                List<GameResponse> Games = _sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
+                // Fetch game data for NFL season with specified year
+                List<GameResponse> Games = _sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, year, baseUrl, baseHost);
+
+                // Find specific match
                 Match = Games.FirstOrDefault(m => m.Game.Id == matchId);
             }
 
