@@ -29,17 +29,15 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/Product?refresh=true">Products</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="/Matches">Matches</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="/NFLMatches">NFLMatches</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="/NBAMatches">NBAMatches</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="/EPLMatches">EPLMatches</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="matchesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Matches
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="matchesDropdown">
+                                    <a class="dropdown-item" href="/NFLMatches">NFL Matches</a>
+                                    <a class="dropdown-item" href="/NBAMatches">NBA Matches</a>
+                                    <a class="dropdown-item" href="/EPLMatches">EPL Matches</a>
+                                </div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/CompareTeams">CompareTeams</a>
