@@ -21,20 +21,26 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             _logger = logger;
         }
 
+        // List of NFL Games
         public List<GameResponse> Games { get; private set; }
 
-        public IActionResult OnGet(string teamName = null)
+        // Year of the NFL Season (Default = 2024)
+        public int SeasonYear { get; private set; }
+
+        public IActionResult OnGet(string teamName = null, int year = 2024)
         {
+
+            SeasonYear = year;
+
+            // leagueId = 1 for NFL"
+            string leagueId = "1";
+            string baseUrl = "https://v1.american-football.api-sports.io";
+            string baseHost = "v1.american-football.api-sports.io";
+
             try
             {
-                //use "Standard for NBA"
-                string nflLeagueId = "1";
-                int seasonYear = 2024;
-                string baseUrl = "https://v1.american-football.api-sports.io";
-                string baseHost = "v1.american-football.api-sports.io";
-
-                // Fetch game data for NFL 2024 season
-                Games = _sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
+                // Fetch game data for NFL season with specified year
+                Games = _sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, SeasonYear, baseUrl, baseHost);
 
                 if (teamName != null)
                 {
