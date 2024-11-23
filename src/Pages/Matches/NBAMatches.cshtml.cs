@@ -19,20 +19,25 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             _logger = logger;
         }
 
+        // List of NBA Games
         public List<NbaGameResponse> Games { get; private set; }
 
-        public IActionResult OnGet(string teamName = null)
+        // Year of the NFL Season (Default = 2024)
+        public int SeasonYear { get; private set; }
+
+        public IActionResult OnGet(string teamName = null, int year = 2024)
         {
+            SeasonYear = year;
+
+            //use "Standard for NBA"
+            string NBAleagueId = "standard";
+            string baseUrl = "https://v2.nba.api-sports.io";
+            string baseHost = "v2.aenba.api-sports.io";
+
             try
             {
-                //use "Standard for NBA"
-                string NBAleagueId = "standard";
-                int seasonYear = 2024;
-                string baseUrl = "https://v2.nba.api-sports.io";
-                string baseHost = "v2.aenba.api-sports.io";
-
                 // Fetch game data for NBA 2024 season
-                Games = _sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost);
+                Games = _sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, SeasonYear, baseUrl, baseHost);
 
                 if (teamName != null)
                 {
@@ -47,7 +52,6 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             }
 
             return Page();
-
         }
     }
 }
