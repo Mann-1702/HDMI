@@ -110,7 +110,7 @@ namespace UnitTests.Pages.Matches
         }
 
         [Test]
-        public void OnGet_Defaut_Valid_Input_Fetch_2023_NFL_Games()
+        public void OnGet_Valid_Input_Year_2023_Should_Fetch_2023_NFL_Games()
         {
             // Arrange
 
@@ -125,7 +125,7 @@ namespace UnitTests.Pages.Matches
         }
 
         [Test]
-        public void OnGet_Defaut_Valid_Input_Fetch_2022_NFL_Games()
+        public void OnGet_Valid_Input_Year_2023_Should_Fetch_2022_NFL_Games()
         {
             // Arrange
 
