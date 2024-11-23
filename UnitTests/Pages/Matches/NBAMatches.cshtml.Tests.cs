@@ -44,15 +44,48 @@ namespace UnitTests.Pages.Matches
 
 
         [Test]
-        public void OnGet_Should_Fetch_2024_NBA_Games()
+        public void OnGet_Defaut_Should_Fetch_2024_NBA_Games()
         {
             // Arrange
 
             // Act
-            pageModel.OnGet();
+            var result = pageModel.OnGet();
+            var game = pageModel.Games.First();
 
             // Assert
             Assert.That(pageModel.Games, Is.Not.Empty);
+            Assert.That(game.Date.Start.ToString().Contains("2024"));
+            Assert.That(result, Is.InstanceOf<PageResult>());
+        }
+
+        [Test]
+        public void OnGet_Valid_Input_Year_2023_Should_Fetch_2023_NBA_Games()
+        {
+            // Arrange
+
+            // Act
+            var result = pageModel.OnGet(year: 2023);
+            var game = pageModel.Games.First();
+
+            // Assert
+            Assert.That(pageModel.Games, Is.Not.Empty);
+            Assert.That(game.Date.Start.ToString().Contains("2023"));
+            Assert.That(result, Is.InstanceOf<PageResult>());
+        }
+
+        [Test]
+        public void OnGet_Valid_Input_Year_2022_Should_Fetch_2022_NBA_Games()
+        {
+            // Arrange
+
+            // Act
+            var result = pageModel.OnGet(year: 2022);
+            var game = pageModel.Games.First();
+
+            // Assert
+            Assert.That(pageModel.Games, Is.Not.Empty);
+            Assert.That(game.Date.Start.ToString().Contains("2022"));
+            Assert.That(result, Is.InstanceOf<PageResult>());
         }
 
         [Test]
