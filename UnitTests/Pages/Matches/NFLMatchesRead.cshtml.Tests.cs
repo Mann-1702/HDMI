@@ -78,23 +78,77 @@ namespace UnitTests.Pages.Matches
 
 
         [Test]
-        public void OnGet_Valid_gameId_Should_Fetch_Specific_2024_NFL_Game()
+        public void OnGet_Valid_GameId_Default_Year_Should_Fetch_Specific_2024_NFL_Game()
         {
             // Arrange
+
+            // Getting matches from 2024
             string nflLeagueId = "1";
             int seasonYear = 2024;
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
 
-            // Act
+            // Obtain first match gameId
             var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
             var match = matches.FirstOrDefault();
             var matchId = match.Game.Id.ToString();
 
+            // Act
             var result = pageModel.OnGet(matchId);
 
             // Assert
-            Assert.That(pageModel.Match, Is.Not.Null); // Ensure Match is not null
+            Assert.That(pageModel.Match, Is.Not.Null);
+            Assert.That(pageModel.Match.Game.Id.ToString, Is.EqualTo(matchId));
+            Assert.That(result, Is.InstanceOf<PageResult>());
+        }
+
+        [Test]
+        public void OnGet_Valid_2023_GameId_And_2023_YearInput_Should_Fetch_Specific_2023_NFL_Game()
+        {
+            // Arrange
+
+            // Getting matches from 2023
+            string nflLeagueId = "1";
+            int seasonYear = 2023;
+            string baseUrl = "https://v1.american-football.api-sports.io";
+            string baseHost = "v1.american-football.api-sports.io";
+
+            // Obtain first match gameId
+            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
+            var match = matches.FirstOrDefault();
+            var matchId = match.Game.Id.ToString();
+
+            // Act
+            var result = pageModel.OnGet(matchId, 2023);
+
+            // Assert
+            Assert.That(pageModel.Match, Is.Not.Null);
+            Assert.That(pageModel.Match.Game.Id.ToString, Is.EqualTo(matchId));
+            Assert.That(result, Is.InstanceOf<PageResult>());
+        }
+
+        [Test]
+        public void OnGet_Valid_2022_GameId_And_2022_YearInput_Should_Fetch_Specific_2023_NFL_Game()
+        {
+            // Arrange
+
+            // Getting matches from 2022
+            string nflLeagueId = "1";
+            int seasonYear = 2022;
+            string baseUrl = "https://v1.american-football.api-sports.io";
+            string baseHost = "v1.american-football.api-sports.io";
+
+            // Obtain first match gameId
+            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
+            var match = matches.FirstOrDefault();
+            var matchId = match.Game.Id.ToString();
+
+            // Act
+            var result = pageModel.OnGet(matchId, 2022);
+
+            // Assert
+            Assert.That(pageModel.Match, Is.Not.Null);
+            Assert.That(pageModel.Match.Game.Id.ToString, Is.EqualTo(matchId));
             Assert.That(result, Is.InstanceOf<PageResult>());
         }
 
