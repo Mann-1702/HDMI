@@ -27,7 +27,8 @@ namespace ContosoCrafts.WebSite.Pages.Matches
         // Fetching data and initializing the games property
         public IActionResult OnGet(string teamName = null)
         {
-            string eplLeagueId = "39"; // EPL League ID
+            // EPL League ID
+            string eplLeagueId = "39";
             int seasonYear = 2024;
             string baseUrl = "https://v3.football.api-sports.io";
             string baseHost = "v3.football.api-sports.io";
@@ -45,10 +46,14 @@ namespace ContosoCrafts.WebSite.Pages.Matches
                 // Fetch games for the 2024 season
                 Games = _sportsApiClient.GetGamesForSeason<FixtureResponse>(eplLeagueId, seasonYear, baseUrl, baseHost);
 
-                if (teamName != null)
+                // Return page if no specified team to filter for
+                if (teamName == null)
                 {
-                    Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Visitors.Name == teamName).ToList();
+                    return Page();
                 }
+
+                // Filters for a specific team
+                Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Visitors.Name == teamName).ToList();
             }
             catch (System.Exception ex)
             {
