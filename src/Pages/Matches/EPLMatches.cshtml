@@ -1,0 +1,59 @@
+﻿@page "/EPLMatches/{teamName?}"
+@model ContosoCrafts.WebSite.Pages.Matches.EPLMatches
+
+@{
+    ViewData["Title"] = "EPL Match Results for 2024";
+}
+
+<h2>EPL Match Results for 2024</h2>
+
+<table class="table table-bordered table-striped" style="background-color:lightgrey;">
+    <thead>
+        <tr>
+            <th>Match (Home vs Away)</th>
+            <th>Score</th>
+            <th style="text-align: center;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model.Games ?? new List<FixtureResponse>())
+        {
+            <tr>
+                <td>
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <!-- Home Team with logo -->
+                        <div style="display: flex; align-items: center; justify-content: flex-end; width: 45%;">
+                            <span>@(game.Teams?.Home?.Name ?? "Unknown Team")</span>
+                            <img src="@(game.Teams?.Home?.Logo ?? "placeholder.png")" width="30" class="mx-2" alt="Home Team Logo" />
+                        </div>
+
+                        <!-- Separator text "vs" -->
+                        <span style="text-align: center; width: 10%; margin-right: -10px;">vs</span>
+
+                        <!-- Away Team with logo -->
+                        <div style="display: flex; align-items: center; width: 45%;">
+                            <img src="@(game.Teams?.Visitors?.Logo ?? "placeholder.png")" width="30" class="mx-2" alt="Away Team Logo" />
+                            <span>@(game.Teams?.Visitors?.Name ?? "Unknown Team")</span>
+                        </div>
+                    </div>
+                </td>
+                <td align="center">
+                    @(
+                        (game.Scores?.Fulltime?.Home != null && game.Scores?.Fulltime?.Away != null)
+                        ? $"{game.Scores.Fulltime.Home} - {game.Scores.Fulltime.Away}"
+                        : "N/A"
+                        )
+                </td>
+                <td style="text-align: center; font-family:'Century Gothic';">
+                    <!-- View Match Details Button: passing team as route parameter -->
+                    <a asp-page="EPLMatchRead" asp-route-matchId=@game.Fixture.FixtureId class="btn btn-teal">View Match Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!(Model.Games?.Any() ?? false))
+{
+    <p>No games available for 2024.</p>
+}
