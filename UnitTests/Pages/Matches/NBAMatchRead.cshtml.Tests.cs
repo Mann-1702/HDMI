@@ -43,7 +43,7 @@ namespace UnitTests.Pages.Matches
         }
 
         [Test]
-        public void OnGet_Valid_gameId_Should_Fetch_Specific_2024_NBA_Game()
+        public void OnGet_Valid_GameId_Default_Year_Should_Fetch_Specific_2024_NBA_Game()
         {
             // Arrange
             string NBAleagueId = "standard";
@@ -59,7 +59,52 @@ namespace UnitTests.Pages.Matches
             var result = pageModel.OnGet(matchId);
 
             // Assert
-            Assert.That(pageModel.Match, Is.Not.Null); // Ensure Match is not null
+            Assert.That(pageModel.Match, Is.Not.Null);
+            Assert.That(pageModel.Match.Id.ToString, Is.EqualTo(matchId));
+            Assert.That(result, Is.InstanceOf<PageResult>());
+        }
+
+        [Test]
+        public void OnGet_Valid_GameId_Year_2023_Should_Fetch_Specific_2023_NBA_Game()
+        {
+            // Arrange
+            string NBAleagueId = "standard";
+            int seasonYear = 2023;
+            string baseUrl = "https://v2.nba.api-sports.io";
+            string baseHost = "v2.aenba.api-sports.io";
+
+            // Act
+            var matches = sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost);
+            var match = matches.FirstOrDefault();
+            var matchId = match.Id.ToString();
+
+            var result = pageModel.OnGet(matchId, seasonYear);
+
+            // Assert
+            Assert.That(pageModel.Match, Is.Not.Null);
+            Assert.That(pageModel.Match.Id.ToString, Is.EqualTo(matchId));
+            Assert.That(result, Is.InstanceOf<PageResult>());
+        }
+
+        [Test]
+        public void OnGet_Valid_GameId_Year_2022_Should_Fetch_Specific_2022_NBA_Game()
+        {
+            // Arrange
+            string NBAleagueId = "standard";
+            int seasonYear = 2022;
+            string baseUrl = "https://v2.nba.api-sports.io";
+            string baseHost = "v2.aenba.api-sports.io";
+
+            // Act
+            var matches = sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost);
+            var match = matches.FirstOrDefault();
+            var matchId = match.Id.ToString();
+
+            var result = pageModel.OnGet(matchId, seasonYear);
+
+            // Assert
+            Assert.That(pageModel.Match, Is.Not.Null);
+            Assert.That(pageModel.Match.Id.ToString, Is.EqualTo(matchId));
             Assert.That(result, Is.InstanceOf<PageResult>());
         }
 
