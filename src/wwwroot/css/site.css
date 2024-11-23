@@ -422,3 +422,60 @@ ul {
 
 
 
+/* Dropdown menu*/
+.dropdown-menu {
+    background: linear-gradient(135deg, #90EE90, #FFA500); /* Same gradient as navbar */
+    background-size: 200% 200%; /* Smooth animation */
+    animation: gradientShift 12s ease-in-out infinite; /* Shifting gradient */
+    border: none !important; /* Seamless look */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+}
+
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    background-color: #f8f9fa; /* Same as navbar background */
+    border: 1px solid #ddd; /* Subtle border for dropdown menu */
+    border-radius: 5px; /* Optional rounded corners */
+}
+
+/* Prevent the arrow from being displayed */
+.nav-item.dropdown .dropdown-toggle::after {
+    content: none;
+}
+
+/* Parent link hover effect */
+.nav-item.dropdown:hover > .nav-link {
+    color: #0056b3; /* Match other link hover color */
+    text-decoration: underline; /* Optional underline for hover */
+}
+
+/* Dropdown items*/
+.dropdown-item {
+    font-family: 'Nunito', sans-serif; /* Same font as Product/CompareTeams */
+    font-size: 1rem; /* Match the text size */
+    font-weight: 400; /* Normal weight */
+    color: #343a40; /* Match text color */
+    background-color: transparent; /* Transparent to show gradient */
+    padding: 0.5rem 1rem; /* Consistent padding */
+    text-align: left; /* Align text like other links */
+}
+
+    .dropdown-item:hover {
+        text-decoration: underline; /* Optional underline */
+        background-color: rgba(255, 255, 255, 0.2); /* Subtle highlight on hover */
+    }
+
+
+/* Ensure navbar links are consistent */
+.nav-link {
+    color: #343a40; /* Default text color */
+    text-decoration: none; /* No underline by default */
+}
+
+    .nav-link:hover {
+        color: #0056b3; /* Blue hover color */
+        text-decoration: underline; /* Optional underline */
+    }
+
