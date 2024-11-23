@@ -2,10 +2,20 @@
 @model ContosoCrafts.WebSite.Pages.Matches.NBAMatchesModel
 
 @{
-    ViewData["Title"] = "NBA Match Results for 2024";
+    ViewData["Title"] = "NBA Match Results for {Model.SeasonYear}";
 }
 
-<h2>NBA Match Results for 2024</h2>
+<h2>NBA Match Results for @Model.SeasonYear</h2>
+
+<!-- Year Dropdown -->
+<div class="select-year-container d-inline-flex align-items-center mb-3">
+    <label for="yearSelect" class="form-label me-2">Select Year:</label>
+    <select id="yearSelect" class="form-control year-dropdown" onchange="window.location.href = `?year=${this.value}`">
+        <option value="2024" selected="@(Model.SeasonYear == 2024)">2024</option>
+        <option value="2023" selected="@(Model.SeasonYear == 2023)">2023</option>
+        <option value="2022" selected="@(Model.SeasonYear == 2022)">2022</option>
+    </select>
+</div>
 
 <table class="table table-bordered table-striped" style="background-color:lightgrey;">
     <thead>
@@ -42,7 +52,7 @@
                 <td align="center">@game.Scores.Home.Points - @game.Scores.Visitors.Points</td>
                 <td style="text-align: center; font-family:'Century Gothic';">
                     <!-- Read Button -->
-                    <a asp-page="NBAMatchRead" asp-route-gameId="@game.Id" class="btn btn-teal">View Match Details</a>
+                    <a asp-page="NBAMatchRead" asp-route-gameId="@game.Id" asp-route-year="@Model.SeasonYear" class="btn btn-teal">View Match Details</a>
                 </td>
             </tr>
         }
