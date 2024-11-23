@@ -39,10 +39,14 @@ namespace ContosoCrafts.WebSite.Pages.Matches
                 // Fetch game data for NBA 2024 season
                 Games = _sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, SeasonYear, baseUrl, baseHost);
 
-                if (teamName != null)
+                // Return page if no specified team to filter for
+                if (teamName == null)
                 {
-                    Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Visitors.Name == teamName).ToList();
+                    return Page();
                 }
+
+                // Filters for a specific team
+                Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Visitors.Name == teamName).ToList();
             }
 
             catch (System.Exception ex)
