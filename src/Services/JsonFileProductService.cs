@@ -236,17 +236,60 @@ namespace ContosoCrafts.WebSite.Services
         public void DeleteData(string productId)
         {
             var products = GetAllData().ToList();
+
+            // Find the product to delete
             var productToRemove = products.FirstOrDefault(p => p.Id == productId);
 
-            if (productToRemove != null)
+            if (productToRemove == null)
             {
-                products.Remove(productToRemove);
-
-                // Saves data to json file
-                SaveData(products); 
+                return;
             }
 
+            // If the product is a Sport, remove associated Teams
+            if (productToRemove.ProductType == ProductTypeEnum.Sport)
+            {
+                string sportTitle = productToRemove.Title;
+
+                // Find and remove all teams associated with this sport
+                var teamsToRemove = products
+                    .Where(p => p.ProductType == ProductTypeEnum.Team && IsSportAssociated(p.Sport, sportTitle))
+                    .ToList();
+
+                foreach (var team in teamsToRemove)
+                {
+                    products.Remove(team);
+                }
+            }
+
+            // Remove the sport product
+            products.Remove(productToRemove);
+
+            // Save changes back to the JSON file
+            SaveData(products);
         }
+
+        /// <summary>
+        /// Checks if a team is associated with a given sport.
+        /// Handles cases where team sports fields use different values (e.g., "Basketball" vs. "NBA").
+        /// </summary>
+        /// <param name="teamSport">The sport field in the team (e.g., "NBA").</param>
+        /// <param name="sportTitle">The title of the sport being deleted (e.g., "Basketball").</param>
+        /// <returns>True if the team is associated with the sport.</returns>
+        private bool IsSportAssociated(string teamSport, string sportTitle)
+        {
+            // Define mappings if a sport's title and team Sport fields differ
+            var sportMapping = new Dictionary<string, string>
+    {
+        { "Basketball", "NBA" },
+        { "Soccer", "Soccer" }, // Example: if consistent, map to itself
+        { "Football", "NFL" }  // Example for additional mappings
+    };
+
+            // Use mapping if available, or default to direct comparison
+            return string.Equals(teamSport, sportMapping.GetValueOrDefault(sportTitle, sportTitle), StringComparison.OrdinalIgnoreCase);
+        }
+
+
 
         public Dictionary<string, IEnumerable<ProductModel>> GetTopTeamsByTrophies(int topCount = 3)
         {
