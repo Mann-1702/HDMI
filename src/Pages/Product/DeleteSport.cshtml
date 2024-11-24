@@ -1,0 +1,34 @@
+﻿@page "{id}"
+@model ContosoCrafts.WebSite.Pages.Product.DeleteSportModel
+
+@{
+    ViewData["Title"] = "Delete Sport";
+}
+
+<div class="container delete-page">
+    <h1>Delete Sport</h1>
+    <div class="form-container">
+        <!-- Display sport product details to confirm deletion -->
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" class="form-control" value="@Model.Product.Title" readonly />
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <input type="text" class="form-control" value="@Model.Product.Description" readonly />
+        </div>
+        <div class="form-group">
+            <label>Sport</label>
+            <input type="text" class="form-control" value="@Model.Product.Sport" readonly />
+        </div>
+        <div class="form-group">
+            <label>Image</label>
+            <input type="text" class="form-control" value="@Model.Product.Image" readonly />
+        </div>
+        <!-- Delete and Cancel buttons -->
+        <form method="post">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
