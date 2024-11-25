@@ -82,9 +82,6 @@
         <label for="sportSelect">Select Sport:</label>
         <select id="sportSelect" class="form-control" onchange="updateTeams()">
             <option value="">-- Select Sport --</option>
-            <option value="NFL">NFL</option>
-            <option value="NBA">NBA</option>
-            <option value="Soccer">Soccer</option>
         </select>
     </div>
 
@@ -111,12 +108,14 @@
 
 <script>
     const teamData = {};
+    const sportsSet = new Set(); // To store unique sports
 
     async function fetchTeamData() {
         try {
             const response = await fetch('/data/products.json');
             const data = await response.json();
 
+            // Process the fetched data
             data.forEach(product => {
                 teamData[product.Title] = {
                     FoundingYear: product.FoundingYear,
@@ -126,15 +125,25 @@
                     Avgpoints: product.Avgpoints || "N/A",
                     Winpercentage: product.Winpercentage || "N/A"
                 };
+                sportsSet.add(product.Sport); // Collect unique sports
             });
 
+            populateSportsDropdown();
             console.log('Fetched team data:', teamData);
         } catch (error) {
             console.error('Error fetching team data:', error);
         }
     }
 
-    window.onload = fetchTeamData;
+    function populateSportsDropdown() {
+        const sportSelect = document.getElementById("sportSelect");
+        sportsSet.forEach(sport => {
+            const option = document.createElement("option");
+            option.value = sport;
+            option.textContent = sport;
+            sportSelect.appendChild(option);
+        });
+    }
 
     function updateTeams() {
         const sport = document.getElementById("sportSelect").value;  // Get the selected sport
@@ -145,15 +154,17 @@
         team1Select.innerHTML = "<option value=''>-- Select Team 1 --</option>";
         team2Select.innerHTML = "<option value=''>-- Select Team 2 --</option>";
 
+        // Clear comparison results
+        document.getElementById("comparisonResult").innerHTML = "";
+
         if (sport) {
             Object.keys(teamData).forEach(teamName => {
-                // Exclude specific teams based on the selected sport
-                if (sport === "NBA" && teamName === "Basketball") return;
-                if (sport === "NFL" && teamName === "NFL") return;  // Exclude NFL teams
-                if (sport === "Soccer" && teamName === "Soccer") return;  // Exclude Soccer teams
-
-                // Only add teams that match the selected sport
-                if (teamData[teamName].Sport === sport) {
+                // Exclude sport-related names (e.g., sport name itself or similar terms like 'Basketball' for 'NBA')
+                if (
+                    teamData[teamName].Sport === sport &&
+                    teamName.toLowerCase() !== sport.toLowerCase() &&
+                    teamName.toLowerCase() !== "basketball" // Specifically exclude 'Basketball' for 'NBA'
+                ) {
                     const option1 = document.createElement("option");
                     option1.value = teamName;
                     option1.textContent = teamName;
@@ -162,6 +173,7 @@
             });
         }
     }
+
 
     function updateTeam2Options() {
         const team1 = document.getElementById("team1Select").value;
@@ -173,13 +185,13 @@
 
         if (sport) {
             Object.keys(teamData).forEach(teamName => {
-                // Exclude specific teams based on the selected sport
-                if (sport === "NBA" && teamName === "Basketball") return;
-                if (sport === "NFL" && teamName === "NFL") return;  // Exclude NFL teams
-                if (sport === "Soccer" && teamName === "Soccer") return;  // Exclude Soccer teams
-
-                // Ensure that team2 is not the same as team1 and matches the selected sport
-                if (teamData[teamName].Sport === sport && teamName !== team1) {
+                // Exclude sport-related names (e.g., sport name itself or similar terms like 'Basketball' for 'NBA')
+                if (
+                    teamData[teamName].Sport === sport &&
+                    teamName.toLowerCase() !== sport.toLowerCase() &&
+                    teamName.toLowerCase() !== "basketball" && // Specifically exclude 'Basketball' for 'NBA'
+                    teamName !== team1 // Ensure Team 2 is not the same as Team 1
+                ) {
                     const option2 = document.createElement("option");
                     option2.value = teamName;
                     option2.textContent = teamName;
@@ -191,11 +203,11 @@
 
 
 
-
     function compareTeams() {
         const team1 = document.getElementById("team1Select").value;
         const team2 = document.getElementById("team2Select").value;
 
+        // Clear previous results if inputs are invalid
         if (!team1 || !team2) {
             document.getElementById("comparisonResult").innerHTML = "<p class='text-danger'>Please select both teams to compare.</p>";
             return;
@@ -204,52 +216,55 @@
         const team1Data = teamData[team1];
         const team2Data = teamData[team2];
 
+        // Validate that data exists for both teams
         if (!team1Data || !team2Data) {
             document.getElementById("comparisonResult").innerHTML = "<p class='text-danger'>Data not found for selected teams.</p>";
             return;
         }
 
         const tableHtml = `
-                <h4>Comparison of ${team1} vs ${team2}</h4>
-                <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Attribute</th>
-                            <th>${team1}</th>
-                            <th>${team2}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Founding Year</td>
-                            <td>${team1Data.FoundingYear}</td>
-                            <td>${team2Data.FoundingYear}</td>
-                        </tr>
-                        <tr>
-                            <td>Trophies</td>
-                            <td>${team1Data.Trophies}</td>
-                            <td>${team2Data.Trophies}</td>
-                        </tr>
-                        <tr>
-                            <td>Coach</td>
-                            <td>${team1Data.Coach}</td>
-                            <td>${team2Data.Coach}</td>
-                        </tr>
-                        <tr>
-                            <td>Avg Points</td>
-                            <td>${team1Data.Avgpoints}</td>
-                            <td>${team2Data.Avgpoints}</td>
-                        </tr>
-                        <tr>
-                            <td>Win Percentage</td>
-                            <td>${team1Data.Winpercentage}</td>
-                            <td>${team2Data.Winpercentage}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            `;
+            <h4>Comparison of ${team1} vs ${team2}</h4>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>${team1}</th>
+                        <th>${team2}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Founding Year</td>
+                        <td>${team1Data.FoundingYear}</td>
+                        <td>${team2Data.FoundingYear}</td>
+                    </tr>
+                    <tr>
+                        <td>Trophies</td>
+                        <td>${team1Data.Trophies}</td>
+                        <td>${team2Data.Trophies}</td>
+                    </tr>
+                    <tr>
+                        <td>Coach</td>
+                        <td>${team1Data.Coach}</td>
+                        <td>${team2Data.Coach}</td>
+                    </tr>
+                    <tr>
+                        <td>Avg Points</td>
+                        <td>${team1Data.Avgpoints}</td>
+                        <td>${team2Data.Avgpoints}</td>
+                    </tr>
+                    <tr>
+                        <td>Win Percentage</td>
+                        <td>${team1Data.Winpercentage}</td>
+                        <td>${team2Data.Winpercentage}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
 
         document.getElementById("comparisonResult").innerHTML = tableHtml;
     }
-</script>
 
+
+    window.onload = fetchTeamData;
+</script>
