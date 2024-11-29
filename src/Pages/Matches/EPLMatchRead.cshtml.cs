@@ -31,9 +31,10 @@ namespace ContosoCrafts.WebSite.Pages.Matches
                 int seasonYear = 2024;
                 string baseUrl = "https://v3.football.api-sports.io";
                 string apiHost = "v3.football.api-sports.io";
+                string endPoint = "fixture";
 
                 // Fetch games for the given season
-                var allGames = _sportsApiClient.GetGamesForSeason<FixtureResponse>(leagueId, seasonYear, baseUrl, apiHost);
+                var allGames = _sportsApiClient.GetGamesForSeason<FixtureResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
                 // Find the match between the specified teams
                 Match = allGames.FirstOrDefault(game => game.Fixture.FixtureId == matchId);
