@@ -50,9 +50,10 @@ namespace UnitTests.Pages.Matches
             int seasonYear = 2024;
             string baseUrl = "https://v2.nba.api-sports.io";
             string baseHost = "v2.aenba.api-sports.io";
+            string endPoint = "games";
 
             // Act
-            var matches = sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost);
+            var matches = sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost, endPoint);
             var match = matches.FirstOrDefault();
             var matchId = match.Id.ToString();
 
@@ -72,9 +73,10 @@ namespace UnitTests.Pages.Matches
             int seasonYear = 2023;
             string baseUrl = "https://v2.nba.api-sports.io";
             string baseHost = "v2.aenba.api-sports.io";
+            string endPoint = "games";
 
             // Act
-            var matches = sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost);
+            var matches = sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost,endPoint);
             var match = matches.FirstOrDefault();
             var matchId = match.Id.ToString();
 
@@ -94,9 +96,10 @@ namespace UnitTests.Pages.Matches
             int seasonYear = 2022;
             string baseUrl = "https://v2.nba.api-sports.io";
             string baseHost = "v2.aenba.api-sports.io";
+            string endPoint = "games";
 
             // Act
-            var matches = sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost);
+            var matches = sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, seasonYear, baseUrl, baseHost,endPoint);
             var match = matches.FirstOrDefault();
             var matchId = match.Id.ToString();
 
