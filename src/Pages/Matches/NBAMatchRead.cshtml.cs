@@ -37,11 +37,12 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             string NBAleagueId = "standard";
             string baseUrl = "https://v2.nba.api-sports.io";
             string baseHost = "v2.aenba.api-sports.io";
+            string endPoint = "games";
 
             try
             {
                 // Fetch game data for NBA season with specified year
-                List<NbaGameResponse> Games = _sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, year, baseUrl, baseHost);
+                List<NbaGameResponse> Games = _sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, year, baseUrl, baseHost,endPoint);
 
                 // Find specific match
                 Match = Games.FirstOrDefault(m => m.Id == matchId);
