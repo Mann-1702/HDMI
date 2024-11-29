@@ -32,6 +32,7 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             int seasonYear = 2024;
             string baseUrl = "https://v3.football.api-sports.io";
             string baseHost = "v3.football.api-sports.io";
+            string endPoint = "fixtures";
 
             try
             {
@@ -44,7 +45,7 @@ namespace ContosoCrafts.WebSite.Pages.Matches
                 }
 
                 // Fetch games for the 2024 season
-                Games = _sportsApiClient.GetGamesForSeason<FixtureResponse>(eplLeagueId, seasonYear, baseUrl, baseHost);
+                Games = _sportsApiClient.GetGamesForSeason<FixtureResponse>(eplLeagueId, seasonYear, baseUrl, baseHost,endPoint);
 
                 // Return page if no specified team to filter for
                 if (teamName == null)
