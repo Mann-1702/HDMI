@@ -54,9 +54,10 @@ namespace UnitTests.Pages.Matches
             int seasonYear = 2024;
             string baseUrl = "https://v3.football.api-sports.io";
             string apiHost = "v3.football.api-sports.io";
+            string endPoint = "fixtures";
 
             // Act
-            var matches = sportsApiClient.GetGamesForSeason<FixtureResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var matches = sportsApiClient.GetGamesForSeason<FixtureResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
             var match = matches.LastOrDefault();
             var matchId = match.Fixture.FixtureId;
 
