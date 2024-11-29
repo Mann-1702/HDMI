@@ -39,12 +39,12 @@
         transition: border-color 0.3s; /* Smooth transition */
     }
 
-    /* Styles when input fields are focused */
-    .form-container .form-control:focus {
-        border-color: #3498db; /* Change border color on focus */
-        outline: none; /* Remove default outline */
-        box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Add a shadow on focus */
-    }
+        /* Styles when input fields are focused */
+        .form-container .form-control:focus {
+            border-color: #3498db; /* Change border color on focus */
+            outline: none; /* Remove default outline */
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Add a shadow on focus */
+        }
 
     /* Styles for the submit button */
     .form-container .btn-primary {
@@ -55,11 +55,11 @@
         transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
     }
 
-    /* Styles when the button is hovered */
-    .form-container .btn-primary:hover {
-        background-color: #2980b9; /* Darker blue on hover */
-        border-color: #1c598a; /* Darker border on hover */
-    }
+        /* Styles when the button is hovered */
+        .form-container .btn-primary:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+            border-color: #1c598a; /* Darker border on hover */
+        }
 
     /* Styles for validation messages */
     .form-container .text-danger {
@@ -73,20 +73,46 @@
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+        <!-- Sport Title -->
         <div class="form-group">
-            <label asp-for="Sport" class="control-label">Sport Name</label>
-            <input asp-for="Sport" class="form-control" />
-            <span asp-validation-for="Sport" class="text-danger"></span>
+            <label asp-for="Product.Title" class="control-label">Sport Title</label>
+            <input asp-for="Product.Title" class="form-control" />
+            <span asp-validation-for="Product.Title" class="text-danger"></span>
         </div>
 
+        <!-- Description -->
         <div class="form-group">
-            <label class="control-label">Existing Sports</label>
-            <ul>
-                @foreach (var existingSport in Model.ExistingSports)
-                {
-                    <li>@existingSport</li>
-                }
-            </ul>
+            <label asp-for="Product.Description" class="control-label">Description</label>
+            <textarea asp-for="Product.Description" class="form-control"></textarea>
+            <span asp-validation-for="Product.Description" class="text-danger"></span>
+        </div>
+
+        <!-- URL -->
+        <div class="form-group">
+            <label asp-for="Product.Url" class="control-label">URL</label>
+            <input asp-for="Product.Url" class="form-control" />
+            <span asp-validation-for="Product.Url" class="text-danger"></span>
+        </div>
+
+        <!-- Image URL -->
+        <div class="form-group">
+            <label asp-for="Product.Image" class="control-label">Image URL</label>
+            <input asp-for="Product.Image" class="form-control" />
+            <span asp-validation-for="Product.Image" class="text-danger"></span>
+        </div>
+
+        <!-- Founding Year -->
+        <div class="form-group">
+            <label asp-for="Product.FoundingYear" class="control-label">Founding Year</label>
+            <input asp-for="Product.FoundingYear" type="number" class="form-control" />
+            <span asp-validation-for="Product.FoundingYear" class="text-danger"></span>
+        </div>
+
+        <!-- Trophies -->
+        <div class="form-group">
+            <label asp-for="Product.Trophies" class="control-label">Trophies</label>
+            <input asp-for="Product.Trophies" type="number" class="form-control" />
+            <span asp-validation-for="Product.Trophies" class="text-danger"></span>
         </div>
 
         <div class="form-group">
