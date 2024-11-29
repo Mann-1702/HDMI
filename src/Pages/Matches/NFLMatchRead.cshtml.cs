@@ -34,12 +34,13 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             string leagueId = "1";
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
+            string endPoint = "games";
 
 
             try
             {
                 // Fetch game data for NFL season with specified year
-                List<GameResponse> Games = _sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, year, baseUrl, baseHost);
+                List<GameResponse> Games = _sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, year, baseUrl, baseHost,endPoint);
 
                 // Find specific match
                 Match = Games.FirstOrDefault(m => m.Game.Id == matchId);
