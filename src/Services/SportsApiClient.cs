@@ -48,7 +48,7 @@ namespace ContosoCrafts.WebSite.Services
         /// <param name="seasonYear">The year of the season.</param>
         /// <param name="timezone">Timezone for date and time fields (default is "UTC").</param>
         /// <returns>A list of <see cref="GameResponse"/> objects for the specified league and season.</returns>
-        public List<T> GetGamesForSeason<T>(string leagueId, int seasonYear, string baseUrl, string apiHost)
+        public List<T> GetGamesForSeason<T>(string leagueId, int seasonYear, string baseUrl, string apiHost,string endpoint)
         {
             // Unique cache key for retrieving games
             string cacheKey = $"Games_{leagueId}_{seasonYear}";
@@ -67,7 +67,7 @@ namespace ContosoCrafts.WebSite.Services
 
             // Initialize RestClient with the provided base URL
             var client = new RestClient(baseUrl);
-            var endpoint = leagueId == "39" ? "fixtures" : "games";
+            //var endpoint = leagueId == "39" ? "fixtures" : "games";
             var request = new RestRequest(endpoint, Method.Get);
 
             // Add query parameters
@@ -85,8 +85,10 @@ namespace ContosoCrafts.WebSite.Services
                 {
                     if (!string.IsNullOrEmpty(response.Content))
                     {
+                        _logger.LogInformation("Response Content: {ResponseContent}", response.Content);
                         var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(response.Content);
                         var games = apiResponse?.Response ?? new List<T>();
+                       
 
                         var limitedGames = games.Take(100).ToList();
 
