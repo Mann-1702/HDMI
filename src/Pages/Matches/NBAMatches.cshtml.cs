@@ -33,11 +33,12 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             string NBAleagueId = "standard";
             string baseUrl = "https://v2.nba.api-sports.io";
             string baseHost = "v2.aenba.api-sports.io";
+            string endPoint = "games";
 
             try
             {
                 // Fetch game data for NBA 2024 season
-                Games = _sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, SeasonYear, baseUrl, baseHost);
+                Games = _sportsApiClient.GetGamesForSeason<NbaGameResponse>(NBAleagueId, SeasonYear, baseUrl, baseHost,endPoint);
 
                 // Return page if no specified team to filter for
                 if (teamName == null)
