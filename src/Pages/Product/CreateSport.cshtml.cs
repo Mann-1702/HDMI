@@ -18,19 +18,21 @@ namespace ContosoCrafts.WebSite.Pages.Product
             _productService = productService;
         }
 
-        // Property to bind the sport name entered by the user
+        // Bind the ProductModel to receive form data
         [BindProperty]
-        public string Sport { get; set; }
+        public ProductModel Product { get; set; }
 
-        // List of existing sports
-        public List<string> ExistingSports { get; set; }
+        // List to store unique sports types retrieved from existing product data
+        public List<string> Sports { get; set; }
 
-        /// <summary> Initialize an empty sport entry for the form </summary>
+        /// <summary> Initialize an empty Product model for the form </summary>
         public IActionResult OnGet()
         {
-            // Retrieve unique sports from the product data
-            ExistingSports = _productService.GetAllData()
-                .Where(p => !string.IsNullOrEmpty(p.Sport))
+            Product = new ProductModel();
+
+            // Retrieve unique sports from existing product data
+            Sports = _productService.GetAllData()
+                .Where(p => !string.IsNullOrEmpty(p.Sport)) // Ensure Sport field is not empty
                 .Select(p => p.Sport)
                 .Distinct()
                 .ToList();
@@ -38,13 +40,13 @@ namespace ContosoCrafts.WebSite.Pages.Product
             return Page();
         }
 
-        /// <summary> Handles form submission to create a new sport </summary>
+        /// <summary> Handles the form submission to create a new sport </summary>
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
-                // Reinitialize the existing sports list before returning the page
-                ExistingSports = _productService.GetAllData()
+                // Reinitialize Sports list before returning the page
+                Sports = _productService.GetAllData()
                     .Where(p => !string.IsNullOrEmpty(p.Sport))
                     .Select(p => p.Sport)
                     .Distinct()
@@ -53,42 +55,40 @@ namespace ContosoCrafts.WebSite.Pages.Product
                 return Page();
             }
 
-            if (string.IsNullOrWhiteSpace(Sport))
+            if (string.IsNullOrWhiteSpace(Product.Title))
             {
-                ModelState.AddModelError(string.Empty, "Sport name cannot be empty.");
-                ExistingSports = _productService.GetAllData()
-                    .Where(p => !string.IsNullOrEmpty(p.Sport))
-                    .Select(p => p.Sport)
-                    .Distinct()
-                    .ToList();
-
+                ModelState.AddModelError(string.Empty, "Sport title cannot be empty.");
+                ReinitializeSportsList();
                 return Page();
             }
 
-            if (ExistingSports.Contains(Sport))
+            if (_productService.IsDuplicateSport(Product.Title))
             {
-                ModelState.AddModelError(string.Empty, $"The sport '{Sport}' already exists.");
-                ExistingSports = _productService.GetAllData()
-                    .Where(p => !string.IsNullOrEmpty(p.Sport))
-                    .Select(p => p.Sport)
-                    .Distinct()
-                    .ToList();
-
+                ModelState.AddModelError(string.Empty, $"The sport '{Product.Title}' already exists.");
+                ReinitializeSportsList();
                 return Page();
             }
 
-            // Create a placeholder ProductModel to associate the new sport
-            var newSportProduct = new ProductModel
-            {
-                Sport = Sport,
-                Title = $"{Sport} (New Sport)", // Default title for the new sport entry
-                ProductType = ProductTypeEnum.Sport
-            };
+            // Set the ProductType to Sport
+            Product.ProductType = ProductTypeEnum.Sport;
+
+            // Set the 'Sport' field to the value of the 'Title' field
+            Product.Sport = Product.Title;  // **This is the key change**
 
             // Save the new sport in the product data
-            _productService.CreateData(newSportProduct);
+            _productService.CreateData(Product);
 
             return RedirectToPage("/Index");
+        }
+
+        /// <summary> Reinitializes the Sports list for the page </summary>
+        private void ReinitializeSportsList()
+        {
+            Sports = _productService.GetAllData()
+                .Where(p => !string.IsNullOrEmpty(p.Sport))
+                .Select(p => p.Sport)
+                .Distinct()
+                .ToList();
         }
     }
 }
