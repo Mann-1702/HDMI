@@ -61,9 +61,10 @@ namespace UnitTests.Services
             var seasonYear = 2025;
             var baseUrl = "https://v1.american-football.api-sports.io";
             var apiHost = "v1.american-football.api-sports.io";
+            string endPoint = "games";
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Assert
             Assert.That(result, Is.Empty, "Expected an empty list when no games are available.");
@@ -80,9 +81,10 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = "https://v1.american-football.api-sports.io";
             var apiHost = "v1.american-football.api-sports.io";
+            string endPoint = "games";
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Re-fetch from cache
             var isCached = memoryCache.TryGetValue($"Games_{leagueId}_{seasonYear}", out List<GameResponse> cachedGames);
@@ -114,13 +116,14 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = "https://v1.american-football.api-sports.io";
             var apiHost = "v1.american-football.api-sports.io";
+            string endPoint = "games";
 
             // Simulate an empty response for NoContent
             var noContentGames = new List<GameResponse>(); // No games available
             memoryCache.Set($"Games_{leagueId}_{seasonYear}", noContentGames); // Prepopulate with no data
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost, endPoint);
 
             // Assert
             Assert.That(result, Is.Empty, "Expected an empty list when the API response is NoContent.");
@@ -139,6 +142,7 @@ namespace UnitTests.Services
             var apiHost = "v1.american-football.api-sports.io";
             var mockLogger = new Mock<ILogger<SportsApiClient>>();
             var cachedClient = new SportsApiClient("b4ed364047f61b7a0ae7699c69c7ad57", mockLogger.Object, memoryCache);
+            string endPoint = "games";
 
             var cachedGames = new List<GameResponse>
             {
@@ -151,7 +155,7 @@ namespace UnitTests.Services
             memoryCache.Set($"Games_{leagueId}_{seasonYear}", cachedGames);
 
             // Act
-            var result = cachedClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = cachedClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Assert
             Assert.That(result, Is.Not.Empty, "Expected a non-empty list from the cache.");
@@ -206,13 +210,14 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = "https://invalid-url-for-exception.com"; // Invalid URL to force an exception
             var apiHost = "invalid-host";
+            string endPoint = "games";
 
             var mockLogger = new Mock<ILogger<SportsApiClient>>();
             var clientWithInvalidUrl = new SportsApiClient("test-api-key", mockLogger.Object, memoryCache);
 
             // Act & Assert
             var ex = Assert.Throws<Exception>(() =>
-                clientWithInvalidUrl.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost)
+                clientWithInvalidUrl.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint)
             );
 
             // Verify that an exception was thrown
@@ -236,6 +241,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             var mockResponseData = new ApiResponse<GameResponse>
             {
@@ -255,7 +261,7 @@ namespace UnitTests.Services
             var sportsApiClient = new SportsApiClient("test-api-key", logger, memoryCache);
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost, endPoint);
 
             // Assert
             Assert.That(result, Is.Not.Null, "Expected a non-null result.");
@@ -271,6 +277,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             // Mock response with two games
             var mockResponseData = new ApiResponse<GameResponse>
@@ -289,7 +296,7 @@ namespace UnitTests.Services
             var sportsApiClient = new SportsApiClient("test-api-key", logger, memoryCache);
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Assert
             Assert.That(result, Is.Not.Null, "Expected a non-null result.");
@@ -306,6 +313,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             // Mock response with null "Response" property
             var mockResponseData = new ApiResponse<GameResponse>
@@ -320,7 +328,7 @@ namespace UnitTests.Services
             var sportsApiClient = new SportsApiClient("test-api-key", logger, memoryCache);
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Assert
             Assert.That(result, Is.Not.Null, "Expected a non-null result.");
@@ -338,6 +346,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             var mockResponseData = new ApiResponse<GameResponse>
             {
@@ -352,7 +361,7 @@ namespace UnitTests.Services
             var sportsApiClient = new SportsApiClient("test-api-key", logger, memoryCache);
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Assert
             Assert.That(result, Is.Not.Null, "Expected a non-null result.");
@@ -370,6 +379,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             var mockResponseData = new ApiResponse<GameResponse>
             {
@@ -388,7 +398,7 @@ namespace UnitTests.Services
             var sportsApiClient = new SportsApiClient("test-api-key", logger, memoryCache);
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Assert
             Assert.That(result, Is.Not.Null, "Expected a non-null result.");
@@ -408,6 +418,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             var mockResponseData = new ApiResponse<GameResponse>
             {
@@ -424,7 +435,7 @@ namespace UnitTests.Services
             var sportsApiClient = new SportsApiClient("test-api-key", logger, memoryCache);
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Assert
             Assert.That(result, Is.Not.Null, "Expected a non-null result.");
@@ -443,6 +454,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             var mockResponseData = new ApiResponse<GameResponse>
             {
@@ -461,7 +473,7 @@ namespace UnitTests.Services
             var sportsApiClient = new SportsApiClient("test-api-key", logger, memoryCache);
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Assert
             Assert.That(result, Is.Not.Null, "Expected a non-null result.");
@@ -482,6 +494,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             server.Given(Request.Create().WithPath("/games").UsingGet())
                   .RespondWith(Response.Create().WithDelay(TimeSpan.FromSeconds(10)).WithStatusCode(200)); // Simulate a timeout
@@ -490,7 +503,7 @@ namespace UnitTests.Services
 
             // Act & Assert
             var ex = Assert.Throws<Exception>(() =>
-                sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost));
+                sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint));
 
             Assert.That(ex, Is.Not.Null, "Expected an exception to be thrown.");
             Assert.That(ex.Message, Does.Contain("Unable to retrieve game data"), "Expected the exception message to indicate a timeout.");
@@ -507,6 +520,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             // Simulate outdated cached data
             var outdatedCacheData = new List<GameResponse>
@@ -535,7 +549,7 @@ namespace UnitTests.Services
             memoryCache.Remove($"Games_{leagueId}_{seasonYear}");
 
             // Fetch new data and update the cache
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Re-fetch from cache to verify update
             var isCached = memoryCache.TryGetValue($"Games_{leagueId}_{seasonYear}", out List<GameResponse> updatedCacheData);
@@ -556,6 +570,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             // Expected cache key
             var expectedCacheKey = $"Games_{leagueId}_{seasonYear}";
@@ -574,7 +589,7 @@ namespace UnitTests.Services
                   .RespondWith(Response.Create().WithBody(mockJson).WithStatusCode(200));
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Re-fetch from cache
             var isCached = memoryCache.TryGetValue(expectedCacheKey, out List<GameResponse> cachedGames);
@@ -593,6 +608,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             // Simulate invalid JSON in the API response
             var invalidJson = "INVALID_JSON";
@@ -604,7 +620,7 @@ namespace UnitTests.Services
 
             // Act & Assert
             var ex = Assert.Throws<JsonReaderException>(() =>
-                sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost));
+                sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint));
 
             Assert.That(ex, Is.Not.Null, "Expected an exception to be thrown.");
             Assert.That(ex.Message, Does.Contain("Error parsing"), "Expected the exception to indicate a JSON parsing error.");
@@ -617,6 +633,7 @@ namespace UnitTests.Services
             var seasonYear = 2024;
             var baseUrl = server.Urls[0];
             var apiHost = "mockapi.com";
+            string endPoint = "games";
 
             // Mock API response
             var mockResponseData = new ApiResponse<GameResponse>
@@ -637,7 +654,7 @@ namespace UnitTests.Services
             memoryCache.Remove($"Games_{leagueId}_{seasonYear}");
 
             // Act
-            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost);
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
 
             // Assert
             Assert.That(result, Is.Not.Null, "Expected a non-null result.");
