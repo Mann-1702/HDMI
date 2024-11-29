@@ -87,9 +87,10 @@ namespace UnitTests.Pages.Matches
             int seasonYear = 2024;
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
+            string endPoint = "games";
 
             // Obtain first match gameId
-            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
+            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost, endPoint);
             var match = matches.FirstOrDefault();
             var matchId = match.Game.Id.ToString();
 
@@ -112,9 +113,10 @@ namespace UnitTests.Pages.Matches
             int seasonYear = 2023;
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
+            string endPoint = "games";
 
             // Obtain first match gameId
-            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
+            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost, endPoint);
             var match = matches.FirstOrDefault();
             var matchId = match.Game.Id.ToString();
 
@@ -137,9 +139,10 @@ namespace UnitTests.Pages.Matches
             int seasonYear = 2022;
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
+            string endPoint = "games";
 
             // Obtain first match gameId
-            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
+            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost,endPoint);
             var match = matches.FirstOrDefault();
             var matchId = match.Game.Id.ToString();
 
@@ -176,9 +179,10 @@ namespace UnitTests.Pages.Matches
             int seasonYear = 2024;
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
+            string endPoint = "games";
 
             // OBtain a matchId from a match that contains an overtime score
-            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost);
+            var matches = sportsApiClient.GetGamesForSeason<GameResponse>(nflLeagueId, seasonYear, baseUrl, baseHost, endPoint);
             var match = matches.FirstOrDefault(m => m.Scores.Home.Overtime > 0 || m.Scores.Away.Overtime > 0);
             var matchId = match.Game.Id.ToString();
 
