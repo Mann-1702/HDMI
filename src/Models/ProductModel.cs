@@ -19,6 +19,7 @@ namespace ContosoCrafts.WebSite.Models
         /// URL of the product image.
         /// Uses custom JSON property name "img" and validates the URL format.
         /// </summary>
+        [Required(ErrorMessage = "Image URL is required.")]
         [JsonPropertyName("img")]
         [Url(ErrorMessage = "Please enter a valid image URL.")]
         public string Image { get; set; }
@@ -27,6 +28,7 @@ namespace ContosoCrafts.WebSite.Models
         /// URL of the product's website or information page.
         /// Validates that the input is a proper URL.
         /// </summary>
+        [Required(ErrorMessage = "URL is required.")]
         [Url(ErrorMessage = "Please enter a valid URL.")]
         public string Url { get; set; }
 
@@ -34,12 +36,13 @@ namespace ContosoCrafts.WebSite.Models
         /// The title of the product, required with a length between 1 and 33 characters.
         /// </summary>
         [Required(ErrorMessage = "Title is required.")]
-        [StringLength(33, MinimumLength = 1, ErrorMessage = "The Title should have a length of more than {2} and less than {1}")]
+        [StringLength(33, MinimumLength = 1, ErrorMessage = "The Title should have a length of more than {2} and less than {1}.")]
         public string Title { get; set; }
 
         /// <summary>
         /// Detailed description of the product, with a maximum length of 500 characters.
         /// </summary>
+        [Required(ErrorMessage = "Description is required.")]
         [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
         public string Description { get; set; }
 
