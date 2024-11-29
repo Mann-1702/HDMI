@@ -326,6 +326,14 @@ namespace ContosoCrafts.WebSite.Services
                 .Any(p => p.Title.Equals(teamName, StringComparison.OrdinalIgnoreCase)); 
         }
 
+        public bool IsDuplicateSport(string sportTitle)
+        {
+            // Check if a sport with the given title already exists
+            return GetAllData()
+                .Any(p => p.Title.Equals(sportTitle, StringComparison.OrdinalIgnoreCase)
+                          && p.ProductType == ProductTypeEnum.Sport);
+        }
+
 
     }
 
