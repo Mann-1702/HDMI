@@ -36,11 +36,12 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             string leagueId = "1";
             string baseUrl = "https://v1.american-football.api-sports.io";
             string baseHost = "v1.american-football.api-sports.io";
+            string endPoint = "games";
 
             try
             {
                 // Fetch game data for NFL season with specified year
-                Games = _sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, SeasonYear, baseUrl, baseHost);
+                Games = _sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, SeasonYear, baseUrl, baseHost, endPoint);
                 
                 // Return page if no specified team to filter for
                 if (teamName == null)
