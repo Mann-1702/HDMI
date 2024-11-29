@@ -528,3 +528,73 @@ ul {
     .year-dropdown::-ms-expand {
         display: none;
     }
+/* Page title styling */
+.page-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Conference section styling */
+.conference-section {
+    margin-bottom: 30px;
+}
+
+/* Division section styling */
+.division-section {
+    margin-bottom: 20px;
+}
+
+/* Container for the table with background and padding */
+.table-container {
+    background-color: #f4f8fb; /* Light blue background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-bottom: 20px;
+}
+
+/* Standings table styling */
+.standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+    .standings-table th, .standings-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    .standings-table th {
+        background-color: #004080; /* Dark blue for header */
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .standings-table tr:nth-child(even) {
+        background-color: #e9f1f7; /* Light blue-gray for alternating rows */
+    }
+
+    .standings-table tr:hover {
+        background-color: #d8eaf4; /* Slightly darker hover effect */
+    }
+
+/* Team cell styling with logo and name alignment */
+.team-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.team-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+}
