@@ -2,9 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ContosoCrafts.WebSite.Pages.Product
 {
@@ -36,6 +35,12 @@ namespace ContosoCrafts.WebSite.Pages.Product
         {
             if (!ModelState.IsValid)
             {
+                return Page();
+            }
+            if (!Regex.IsMatch(Product.Url, @"^https?:\/\/(www\.)?[a-zA-Z0-9\-\.]+\.com$"))
+            {    
+                   
+                ModelState.AddModelError("Product.Url", "Invalid URL format. Please ensure the URL starts with http:// or https:// and ends with .com.");
                 return Page();
             }
 
