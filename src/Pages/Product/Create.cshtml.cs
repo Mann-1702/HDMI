@@ -5,6 +5,7 @@ using ContosoCrafts.WebSite.Services;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.RegularExpressions;
 
 namespace ContosoCrafts.WebSite.Pages.Product
 {
@@ -91,7 +92,16 @@ namespace ContosoCrafts.WebSite.Pages.Product
                 return Page();
             }
 
-
+            if (!Regex.IsMatch(Product.Url, @"^https?:\/\/(www\.)?[a-zA-Z0-9\-\.]+\.com$"))
+            {
+                Sports = _productService.GetAllData()
+                   .Where(p => !string.IsNullOrEmpty(p.Sport))
+                   .Select(p => p.Sport)
+                   .Distinct()
+                   .ToList();
+                ModelState.AddModelError("Product.Url", "Invalid URL format. Please ensure the URL starts with http:// or https:// and ends with .com.");
+                return Page();
+            }
 
 
             Product.ProductType = ProductTypeEnum.Team;
