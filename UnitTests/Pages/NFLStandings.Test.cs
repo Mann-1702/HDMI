@@ -1,5 +1,5 @@
-﻿using ContosoCrafts.WebSite.Pages;
-using ContosoCrafts.WebSite.Pages.Matches;
+﻿using ContosoCrafts.WebSite.Pages.Matches;
+using ContosoCrafts.WebSite.Pages.Standings;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
