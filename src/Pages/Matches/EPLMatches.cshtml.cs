@@ -5,7 +5,6 @@ using ContosoCrafts.WebSite.Services;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ContosoCrafts.WebSite.Pages.Matches
 {
@@ -24,12 +23,14 @@ namespace ContosoCrafts.WebSite.Pages.Matches
         // This property holds the list of games
         public List<FixtureResponse> Games { get; private set; }
 
+        public int seasonYear { get; private set; }
+
         // Fetching data and initializing the games property
-        public IActionResult OnGet(string teamName = null)
+        public IActionResult OnGet(string teamName = null, int year= 2024)
         {
+            seasonYear = year;
             // EPL League ID
-            string eplLeagueId = "39";
-            int seasonYear = 2024;
+            string eplLeagueId = "39";    
             string baseUrl = "https://v3.football.api-sports.io";
             string baseHost = "v3.football.api-sports.io";
             string endPoint = "fixtures";
@@ -59,6 +60,7 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             catch (System.Exception ex)
             {
                 _logger.LogError(ex, "Error fetching EPL game data.");
+                Games = new List<FixtureResponse>();
             }
 
             return Page();
