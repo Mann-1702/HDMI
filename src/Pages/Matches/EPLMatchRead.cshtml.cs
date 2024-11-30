@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,19 +21,18 @@ namespace ContosoCrafts.WebSite.Pages.Matches
 
         public FixtureResponse Match { get; private set; }
 
-        public IActionResult OnGet(int matchId)
+        public IActionResult OnGet(int matchId, int year = 2024)
         {
             try
             {
-                // EPL League ID
+              
                 string leagueId = "39";
-                int seasonYear = 2024;
                 string baseUrl = "https://v3.football.api-sports.io";
                 string apiHost = "v3.football.api-sports.io";
                 string endPoint = "fixture";
 
                 // Fetch games for the given season
-                var allGames = _sportsApiClient.GetGamesForSeason<FixtureResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
+                var allGames = _sportsApiClient.GetGamesForSeason<FixtureResponse>(leagueId, year, baseUrl, apiHost,endPoint);
 
                 // Find the match between the specified teams
                 Match = allGames.FirstOrDefault(game => game.Fixture.FixtureId == matchId);
@@ -49,7 +47,7 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             {
                 _logger.LogError(ex, $"Error fetching details for match with matchId {matchId}");
                 Match = null;
-                return RedirectToPage("/NFLMatches");
+                return RedirectToPage("/EPLMatches");
             }
 
             return Page();
