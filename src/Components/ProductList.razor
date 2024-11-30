@@ -4,70 +4,116 @@
 @inject NavigationManager NavigationManager
 @inject JsonFileProductService ProductService
 
-
 @code {
-
-    // Parameters to accept from the parent component, by default it filters for ProductType = Sport
+    // Parameter to accept the type of products to filter, defaulting to "Sport".
     [Parameter] public string ProductTypeFilter { get; set; } = "Sport";
 
-    // Filters for a specific Sport
+    // Parameter to filter products by a specific sport (optional).
     [Parameter] public string SportFilter { get; set; } = null;
 
-
-    // Variables for the filtered product list
+    // List of products filtered based on the current filters.
     private IEnumerable<ProductModel> filteredProducts;
 
+    // Dictionary to store top teams grouped by sport based on their trophies.
     private Dictionary<string, IEnumerable<ProductModel>> topTeamsByTrophies;
 
-    // Re-fetch all products and apply filter when the component is loaded
+    // The currently selected product for display in the modal.
+    ProductModel selectedProduct = new ProductModel();
+
+    // ID of the currently selected product.
+    string selectedProductId;
+
+    // Current rating of the selected product.
+    int currentRating = 0;
+
+    // Total number of votes for the selected product.
+    int voteCount = 0;
+
+    // Label for displaying vote count (e.g., "Vote" or "Votes").
+    string voteLabel;
+
+    // Load the filtered product list and fetch top teams when the component is initialized.
     protected override async Task OnInitializedAsync()
     {
-        await LoadFilteredProducts(); // Fetch the products and apply the initial filter
-        topTeamsByTrophies = ProductService.GetTopTeamsByTrophies();
-
+        await LoadFilteredProducts(); // Fetch and apply initial product filters.
+        topTeamsByTrophies = ProductService.GetTopTeamsByTrophies(); // Get top teams by trophies.
     }
 
-    // Method to load filtered products from the service
+    // Fetch and filter products based on the ProductTypeFilter and SportFilter.
     private async Task LoadFilteredProducts()
     {
         filteredProducts = ProductService.GetFilteredData(ProductTypeFilter, SportFilter);
     }
 
+    // Update the filters to show products for a specific sport and reload the product list.
     private async Task FilterBySport(string sport)
     {
-        SportFilter = sport; // Set SportFilter to null for "Sport" filter
-        ProductTypeFilter = "Team";
-
-        await LoadFilteredProducts(); // Fetch filtered products
+        SportFilter = sport;
+        ProductTypeFilter = "Team"; // Change filter to display teams.
+        await LoadFilteredProducts(); // Reload products with the updated filters.
     }
 
-    // Method to handle filtering when the second button is clicked (for Team and Sport)
+    // Update the filters to show all sports and reload the product list.
     private async Task FilterShowAllSports()
     {
-        SportFilter = null;
-        ProductTypeFilter = "Sport"; // Set SportFilter sport for filtering
-        await LoadFilteredProducts(); // Fetch filtered products by Team and Sport
+        SportFilter = null; // Reset the sport filter.
+        ProductTypeFilter = "Sport"; // Change filter to display sports.
+        await LoadFilteredProducts(); // Reload products with the updated filters.
     }
 
-    // Method to navigate to the read page
+    // Navigate to the details page for a specific team.
     private void NavigateToRead(string teamName)
     {
-        NavigationManager.NavigateTo($"Product/Read/{teamName}", forceLoad: true); 
+        NavigationManager.NavigateTo($"Product/Read/{teamName}", forceLoad: true);
     }
 
+    // Set the selected product for the modal and fetch its current rating.
+    void SelectProduct(string productId)
+    {
+        selectedProductId = productId; // Store the selected product ID.
+        selectedProduct = ProductService.GetAllData().First(x => x.Id == productId); // Retrieve product details.
+        GetCurrentRating(); // Fetch and calculate the product's current rating.
+    }
+
+    // Calculate the current rating and vote count for the selected product.
+    void GetCurrentRating()
+    {
+        if (selectedProduct.Ratings == null || !selectedProduct.Ratings.Any())
+        {
+            currentRating = 0;
+            voteCount = 0;
+        }
+        else
+        {
+            voteCount = selectedProduct.Ratings.Count(); // Total number of votes.
+            voteLabel = voteCount > 1 ? "Votes" : "Vote"; // Set label based on vote count.
+            currentRating = selectedProduct.Ratings.Sum() / voteCount; // Average rating.
+        }
+
+        System.Console.WriteLine($"Current rating for {selectedProduct.Id}: {currentRating}");
+    }
+
+    // Submit a new rating for the selected product and refresh its details.
+    void SubmitRating(int rating)
+    {
+        System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating}");
+        ProductService.AddRating(selectedProductId, rating); // Add the new rating to the product.
+        SelectProduct(selectedProductId); // Refresh product details.
+    }
 }
 
 <div>
-    <!-- Filter buttons -->
+    <!-- Button to filter and display all sports -->
     <button id="ShowSportsButton" @onclick="FilterShowAllSports" class="btn btn-primary">Show Sports</button>
 </div>
-
 
 <div class="card-columns">
     @foreach (var product in filteredProducts)
     {
         <div class="card">
-            <button id="@($"SportsPictureButton_{product.Title}")" class="card-img" style="background-image: url('@product.Image'); border: none; background-size: cover; background-repeat: no-repeat; background-position: center;"
+            <!-- Button to filter by sport -->
+            <button id="@($"SportsPictureButton_{product.Title}")" class="card-img"
+                    style="background-image: url('@product.Image'); border: none; background-size: cover; background-repeat: no-repeat; background-position: center;"
                     @onclick="(e => FilterBySport(product.Sport))">
             </button>
             <div class="card-body">
@@ -75,40 +121,39 @@
             </div>
             <div class="card-footer">
                 <div class="d-flex flex-column align-items-center">
+                    <!-- Button to view more information about the product -->
                     <button id="@($"MoreInfoButton_{product.Title}")" @onclick="(e => SelectProduct(product.Id))"
-                        data-toggle="modal" data-target="#productModal"
-                        class="btn btn-primary btn-uniform-width">
+                            data-toggle="modal" data-target="#productModal"
+                            class="btn btn-primary btn-uniform-width">
                         More Info
                     </button>
 
                     @if (product.ProductType == ProductTypeEnum.Sport)
                     {
-
+                        <!-- Button to view teams for a specific sport -->
                         <button id="@($"ViewTeamsButton_{product.Title}")" @onclick="(e => FilterBySport(product.Sport))"
-                        class="btn btn-custom-blue mt-2 btn-uniform-width">
+                                class="btn btn-custom-blue mt-2 btn-uniform-width">
                             View Teams
                         </button>
                     }
 
                     @if (product.ProductType == ProductTypeEnum.Team)
                     {
-
+                        <!-- Button to navigate to the team's details page -->
                         <button id="@($"ReadMoreButton_{product.Title}")" @onclick="() => NavigateToRead(product.Title)"
-                        class="btn btn-custom-blue mt-2 btn-uniform-width">
+                                class="btn btn-custom-blue mt-2 btn-uniform-width">
                             Read More
                         </button>
                     }
                 </div>
-
             </div>
         </div>
     }
 </div>
 
-
-
 @if (selectedProduct is object)
 {
+    <!-- Modal to display details of the selected product -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -141,11 +186,13 @@
                         var currentStar = i;
                         if (i <= currentRating)
                         {
+                            <!-- Display a checked star for ratings less than or equal to the current rating -->
                             <span class="fa fa-star checked" @onclick="(e => SubmitRating(currentStar))"></span>
                         }
                         else
                         {
-                            <span class="fa fa-star"  @onclick="(e => SubmitRating(currentStar))"></span>
+                            <!-- Display an unchecked star for ratings greater than the current rating -->
+                            <span class="fa fa-star" @onclick="(e => SubmitRating(currentStar))"></span>
                         }
                     }
                 </div>
@@ -155,6 +202,7 @@
 }
 
 <div>
+    <!-- Section to display top teams grouped by sport -->
     @if (topTeamsByTrophies != null)
     {
         @foreach (var sportGroup in topTeamsByTrophies)
@@ -162,7 +210,7 @@
             <h2>Top 3 @sportGroup.Key Teams</h2> <!-- Sport Name -->
 
             <div class="card-deck">
-                <!-- Changed to card-deck for better layout -->
+                <!-- Display top 3 teams for each sport -->
                 @foreach (var team in sportGroup.Value.Take(3))
                 {
                     <div class="card" style="width: 18rem; margin: 15px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
@@ -178,60 +226,16 @@
                             </div>
                         </div>
                         <div class="card-footer text-center">
-                            <button id="@($"ReadMoreTopTeamButton_{team.Title}")" @onclick="() => NavigateToRead(team.Title)" class="btn btn-primary">Read More</button>
+                            <!-- Button to view more information about the team -->
+                            <button id="@($"MoreInfoTopTeamButton_{team.Title}")" @onclick="(e => SelectProduct(team.Id))"
+                                    data-toggle="modal" data-target="#productModal"
+                                    class="btn btn-primary btn-uniform-width">
+                                More Info
+                            </button>
                         </div>
                     </div>
                 }
             </div>
         }
     }
-
-    @if (topTeamsByTrophies == null)
-    {
-        <p>Loading top teams by trophies...</p>
-    }
 </div>
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-@code
-{
-    ProductModel selectedProduct = new ProductModel();
-    string selectedProductId;
-
-    void SelectProduct(string productId)
-    {
-        selectedProductId = productId;
-        selectedProduct = ProductService.GetAllData().First(x => x.Id == productId);
-        GetCurrentRating();
-    }
-
-    int currentRating = 0;
-    int voteCount = 0;
-    string voteLabel;
-
-    void GetCurrentRating()
-    {
-        if (selectedProduct.Ratings == null)
-        {
-            currentRating = 0;
-            voteCount = 0;
-        }
-        else
-        {
-            voteCount = selectedProduct.Ratings.Count();
-            voteLabel = voteCount > 1 ? "Votes" : "Vote";
-            currentRating = selectedProduct.Ratings.Sum() / voteCount;
-        }
-
-        System.Console.WriteLine($"Current rating for {selectedProduct.Id}: {currentRating}");
-    }
-
-    void SubmitRating(int rating)
-    {
-        System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating}");
-        ProductService.AddRating(selectedProductId, rating);
-        SelectProduct(selectedProductId);
-    }
-}
