@@ -20,7 +20,7 @@ namespace ContosoCrafts.WebSite.Models
         /// Uses custom JSON property name "img" and validates the URL format.
         /// </summary>
         [Required(ErrorMessage = "Image URL is required.")]
-        [JsonPropertyName("img")]
+        [JsonPropertyName("img")]  // Custom JSON property name "img" for image
         [Url(ErrorMessage = "Please enter a valid image URL.")]
         public string Image { get; set; }
 
@@ -58,7 +58,7 @@ namespace ContosoCrafts.WebSite.Models
         public ProductTypeEnum ProductType { get; set; } = ProductTypeEnum.Undefined;
 
         /// <summary>
-        /// The sport category to which this product is related.
+        /// The sport category to which this product is related (e.g., "Football", "Basketball").
         /// </summary>
         public string Sport { get; set; }
 
