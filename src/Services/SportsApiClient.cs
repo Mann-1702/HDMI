@@ -19,47 +19,54 @@ namespace ContosoCrafts.WebSite.Services
         // Logger instance for recording information and errors
         private readonly ILogger<SportsApiClient> _logger;
 
-        // In-memory instance for storing data to memory for a given time period
+        // In-memory cache instance for storing data temporarily
         private readonly IMemoryCache _memoryCache;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SportsApiClient"/> class.
         /// </summary>
-        /// <param name="baseUrl">The base URL for the sports API.</param>
         /// <param name="apiKey">The API key for authentication.</param>
-        /// <param name="apiHost">The API host for authentication.</param>
         /// <param name="logger">Logger instance for logging messages and errors.</param>
+        /// <param name="memoryCache">In-memory cache instance for caching API responses.</param>
         public SportsApiClient(string apiKey, ILogger<SportsApiClient> logger, IMemoryCache memoryCache)
         {
-            _apiKey = apiKey.Trim();
-            _logger = logger;
-            _memoryCache = memoryCache;
+            _apiKey = apiKey.Trim(); // Trims any leading or trailing whitespace from the API key
+            _logger = logger; // Assigns the logger instance
+            _memoryCache = memoryCache; // Assigns the memory cache instance
         }
 
+        /// <summary>
+        /// Overloaded constructor for testing purposes, uses a null cache.
+        /// </summary>
+        /// <param name="apiKey">The API key for authentication.</param>
+        /// <param name="logger">Logger instance for logging messages and errors.</param>
         public SportsApiClient(string apiKey, ILogger<SportsApiClient> logger)
-            : this(apiKey, logger, null) // constructor overload to allow already established testing
+            : this(apiKey, logger, null) // Constructor overload to allow for established testing
         {
         }
 
         /// <summary>
         /// Retrieves game data for a specified league and season.
+        /// Uses caching to store results and avoid repeated API calls.
         /// </summary>
         /// <param name="leagueId">The ID of the league to retrieve games for.</param>
         /// <param name="seasonYear">The year of the season.</param>
-        /// <param name="timezone">Timezone for date and time fields (default is "UTC").</param>
-        /// <returns>A list of <see cref="GameResponse"/> objects for the specified league and season.</returns>
-        public List<T> GetGamesForSeason<T>(string leagueId, int seasonYear, string baseUrl, string apiHost,string endpoint)
+        /// <param name="baseUrl">The base URL for the sports API.</param>
+        /// <param name="apiHost">The API host for authentication.</param>
+        /// <param name="endpoint">The API endpoint for the specific request (e.g., "fixtures" or "games").</param>
+        /// <returns>A list of game data of type <see cref="T"/> for the specified league and season.</returns>
+        public List<T> GetGamesForSeason<T>(string leagueId, int seasonYear, string baseUrl, string apiHost, string endpoint)
         {
-            // Unique cache key for retrieving games
+            // Generate a unique cache key based on the league and season
             string cacheKey = $"Games_{leagueId}_{seasonYear}";
 
-            // Check if the data is already in the cache
+            // Check if the data is already cached
             if (_memoryCache != null)
             {
                 if (_memoryCache.TryGetValue(cacheKey, out List<T> cachedGames))
                 {
                     _logger.LogInformation("Cache hit for {CacheKey}. Returning cached data.", cacheKey);
-                    return cachedGames;
+                    return cachedGames; // Return cached data if found
                 }
             }
 
@@ -67,10 +74,9 @@ namespace ContosoCrafts.WebSite.Services
 
             // Initialize RestClient with the provided base URL
             var client = new RestClient(baseUrl);
-            //var endpoint = leagueId == "39" ? "fixtures" : "games";
-            var request = new RestRequest(endpoint, Method.Get);
+            var request = new RestRequest(endpoint, Method.Get); // Create a GET request to the endpoint
 
-            // Add query parameters
+            // Add query parameters for league and season, and API authentication headers
             request.AddQueryParameter("league", leagueId);
             request.AddQueryParameter("season", seasonYear.ToString());
             request.AddHeader("x-rapidapi-key", _apiKey);
@@ -78,7 +84,7 @@ namespace ContosoCrafts.WebSite.Services
 
             try
             {
-                // Execute the request
+                // Execute the request to the API
                 var response = client.Execute(request);
 
                 if (response.IsSuccessful)
@@ -86,20 +92,21 @@ namespace ContosoCrafts.WebSite.Services
                     if (!string.IsNullOrEmpty(response.Content))
                     {
                         _logger.LogInformation("Response Content: {ResponseContent}", response.Content);
+                        // Deserialize the response content into a strongly-typed API response
                         var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(response.Content);
-                        var games = apiResponse?.Response ?? new List<T>();
-                       
+                        var games = apiResponse?.Response ?? new List<T>(); // Extract game data
 
+                        // Limit the number of games returned to 100
                         var limitedGames = games.Take(100).ToList();
 
-                        // Cache the data
+                        // Cache the data for subsequent requests
                         if (_memoryCache != null)
                         {
                             _logger.LogInformation("Caching data for {CacheKey}.", cacheKey);
-                            _memoryCache.Set(cacheKey, limitedGames, TimeSpan.FromMinutes(25));
+                            _memoryCache.Set(cacheKey, limitedGames, TimeSpan.FromMinutes(25)); // Cache for 25 minutes
                         }
 
-                        return limitedGames;
+                        return limitedGames; // Return the games data
                     }
                 }
 
@@ -110,7 +117,7 @@ namespace ContosoCrafts.WebSite.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while executing the request.");
-                throw;
+                throw; // Re-throw the exception for higher-level handling
             }
         }
     }
@@ -121,14 +128,19 @@ namespace ContosoCrafts.WebSite.Services
     /// <typeparam name="T">Type of the data in the response.</typeparam>
     public class ApiResponse<T>
     {
+        // The query string parameters used in the API request
         public string Get { get; set; }
 
+        // A dictionary of query parameters passed to the API
         public Dictionary<string, string> Parameters { get; set; }
 
+        // A list of errors returned by the API, if any
         public List<object> Errors { get; set; }
 
+        // The total number of results returned by the API
         public int Results { get; set; }
 
+        // The actual data response from the API (e.g., list of games)
         public List<T> Response { get; set; }
     }
 }
