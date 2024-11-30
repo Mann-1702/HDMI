@@ -37,12 +37,12 @@ namespace ContosoCrafts.WebSite.Pages.Product
             {
                 return Page();
             }
-            if (!Regex.IsMatch(Product.Url, @"^https?:\/\/(www\.)?[a-zA-Z0-9\-\.]+\.com$"))
-            {    
+            //if (!Regex.IsMatch(Product.Url, @"^https?:\/\/(www\.)?[a-zA-Z0-9\-\.]+\.com$"))
+            //{    
                    
-                ModelState.AddModelError("Product.Url", "Invalid URL format. Please ensure the URL starts with http:// or https:// and ends with .com.");
-                return Page();
-            }
+                //ModelState.AddModelError("Product.Url", "Invalid URL format. Please ensure the URL starts with http:// or https:// and ends with .com.");
+                //return Page();
+            //}
 
             ProductService.UpdateData(Product);
             return RedirectToPage("./Index");
