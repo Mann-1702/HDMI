@@ -5,77 +5,109 @@
 @inject JsonFileProductService ProductService
 
 @code {
-    // Parameter to accept the type of products to filter, defaulting to "Sport".
+    /// <summary>
+    /// Parameter to accept the type of products to filter, defaulting to "Sport".
+    /// </summary>
     [Parameter] public string ProductTypeFilter { get; set; } = "Sport";
 
-    // Parameter to filter products by a specific sport (optional).
+    /// <summary>
+    /// Parameter to filter products by a specific sport (optional).
+    /// </summary>
     [Parameter] public string SportFilter { get; set; } = null;
 
-    // List of products filtered based on the current filters.
+    /// <summary>
+    /// List of products filtered based on the current filters.
+    /// </summary>
     private IEnumerable<ProductModel> filteredProducts;
 
-    // Dictionary to store top teams grouped by sport based on their trophies.
+    /// <summary>
+    /// Dictionary to store top teams grouped by sport based on their trophies.
+    /// </summary>
     private Dictionary<string, IEnumerable<ProductModel>> topTeamsByTrophies;
 
-    // The currently selected product for display in the modal.
+    /// <summary>
+    /// The currently selected product for display in the modal.
+    /// </summary>
     ProductModel selectedProduct = new ProductModel();
 
-    // ID of the currently selected product.
+    /// <summary>
+    /// ID of the currently selected product.
+    /// </summary>
     string selectedProductId;
 
-    // Current rating of the selected product.
+    /// <summary>
+    /// Current rating of the selected product.
+    /// </summary>
     int currentRating = 0;
 
-    // Total number of votes for the selected product.
+    /// <summary>
+    /// Total number of votes for the selected product.
+    /// </summary>
     int voteCount = 0;
 
-    // Label for displaying vote count (e.g., "Vote" or "Votes").
+    /// <summary>
+    /// Label for displaying vote count (e.g., "Vote" or "Votes").
+    /// </summary>
     string voteLabel;
 
-    // Load the filtered product list and fetch top teams when the component is initialized.
+    /// <summary>
+    /// Load the filtered product list and fetch top teams when the component is initialized.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
-        await LoadFilteredProducts(); // Fetch and apply initial product filters.
-        topTeamsByTrophies = ProductService.GetTopTeamsByTrophies(); // Get top teams by trophies.
+        await LoadFilteredProducts();
+        topTeamsByTrophies = ProductService.GetTopTeamsByTrophies();
     }
 
-    // Fetch and filter products based on the ProductTypeFilter and SportFilter.
+    /// <summary>
+    /// Fetch and filter products based on the ProductTypeFilter and SportFilter.
+    /// </summary>
     private async Task LoadFilteredProducts()
     {
         filteredProducts = ProductService.GetFilteredData(ProductTypeFilter, SportFilter);
     }
 
-    // Update the filters to show products for a specific sport and reload the product list.
+    /// <summary>
+    /// Update the filters to show products for a specific sport and reload the product list.
+    /// </summary>
     private async Task FilterBySport(string sport)
     {
         SportFilter = sport;
-        ProductTypeFilter = "Team"; // Change filter to display teams.
-        await LoadFilteredProducts(); // Reload products with the updated filters.
+        ProductTypeFilter = "Team";
+        await LoadFilteredProducts();
     }
 
-    // Update the filters to show all sports and reload the product list.
+    /// <summary>
+    /// Update the filters to show all sports and reload the product list.
+    /// </summary>
     private async Task FilterShowAllSports()
     {
-        SportFilter = null; // Reset the sport filter.
-        ProductTypeFilter = "Sport"; // Change filter to display sports.
-        await LoadFilteredProducts(); // Reload products with the updated filters.
+        SportFilter = null;
+        ProductTypeFilter = "Sport";
+        await LoadFilteredProducts();
     }
 
-    // Navigate to the details page for a specific team.
+    /// <summary>
+    /// Navigate to the details page for a specific team.
+    /// </summary>
     private void NavigateToRead(string teamName)
     {
         NavigationManager.NavigateTo($"Product/Read/{teamName}", forceLoad: true);
     }
 
-    // Set the selected product for the modal and fetch its current rating.
+    /// <summary>
+    /// Set the selected product for the modal and fetch its current rating.
+    /// </summary>
     void SelectProduct(string productId)
     {
-        selectedProductId = productId; // Store the selected product ID.
-        selectedProduct = ProductService.GetAllData().First(x => x.Id == productId); // Retrieve product details.
-        GetCurrentRating(); // Fetch and calculate the product's current rating.
+        selectedProductId = productId;
+        selectedProduct = ProductService.GetAllData().First(x => x.Id == productId);
+        GetCurrentRating();
     }
 
-    // Calculate the current rating and vote count for the selected product.
+    /// <summary>
+    /// Calculate the current rating and vote count for the selected product.
+    /// </summary>
     void GetCurrentRating()
     {
         if (selectedProduct.Ratings == null || !selectedProduct.Ratings.Any())
@@ -85,20 +117,22 @@
         }
         else
         {
-            voteCount = selectedProduct.Ratings.Count(); // Total number of votes.
-            voteLabel = voteCount > 1 ? "Votes" : "Vote"; // Set label based on vote count.
-            currentRating = selectedProduct.Ratings.Sum() / voteCount; // Average rating.
+            voteCount = selectedProduct.Ratings.Count();
+            voteLabel = voteCount > 1 ? "Votes" : "Vote";
+            currentRating = selectedProduct.Ratings.Sum() / voteCount;
         }
 
         System.Console.WriteLine($"Current rating for {selectedProduct.Id}: {currentRating}");
     }
 
-    // Submit a new rating for the selected product and refresh its details.
+    /// <summary>
+    /// Submit a new rating for the selected product and refresh its details.
+    /// </summary>
     void SubmitRating(int rating)
     {
         System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating}");
-        ProductService.AddRating(selectedProductId, rating); // Add the new rating to the product.
-        SelectProduct(selectedProductId); // Refresh product details.
+        ProductService.AddRating(selectedProductId, rating);
+        SelectProduct(selectedProductId);
     }
 }
 
@@ -113,8 +147,8 @@
         <div class="card">
             <!-- Button to filter by sport -->
             <button id="@($"SportsPictureButton_{product.Title}")" class="card-img"
-                    style="background-image: url('@product.Image'); border: none; background-size: cover; background-repeat: no-repeat; background-position: center;"
-                    @onclick="(e => FilterBySport(product.Sport))">
+                style="background-image: url('@product.Image'); border: none; background-size: cover; background-repeat: no-repeat; background-position: center;"
+                @onclick="(e => FilterBySport(product.Sport))">
             </button>
             <div class="card-body">
                 <h5 class="card-title">@product.Title</h5>
@@ -123,8 +157,8 @@
                 <div class="d-flex flex-column align-items-center">
                     <!-- Button to view more information about the product -->
                     <button id="@($"MoreInfoButton_{product.Title}")" @onclick="(e => SelectProduct(product.Id))"
-                            data-toggle="modal" data-target="#productModal"
-                            class="btn btn-primary btn-uniform-width">
+                        data-toggle="modal" data-target="#productModal"
+                        class="btn btn-primary btn-uniform-width">
                         More Info
                     </button>
 
@@ -132,7 +166,7 @@
                     {
                         <!-- Button to view teams for a specific sport -->
                         <button id="@($"ViewTeamsButton_{product.Title}")" @onclick="(e => FilterBySport(product.Sport))"
-                                class="btn btn-custom-blue mt-2 btn-uniform-width">
+                        class="btn btn-custom-blue mt-2 btn-uniform-width">
                             View Teams
                         </button>
                     }
@@ -141,7 +175,7 @@
                     {
                         <!-- Button to navigate to the team's details page -->
                         <button id="@($"ReadMoreButton_{product.Title}")" @onclick="() => NavigateToRead(product.Title)"
-                                class="btn btn-custom-blue mt-2 btn-uniform-width">
+                        class="btn btn-custom-blue mt-2 btn-uniform-width">
                             Read More
                         </button>
                     }
@@ -228,8 +262,8 @@
                         <div class="card-footer text-center">
                             <!-- Button to view more information about the team -->
                             <button id="@($"MoreInfoTopTeamButton_{team.Title}")" @onclick="(e => SelectProduct(team.Id))"
-                                    data-toggle="modal" data-target="#productModal"
-                                    class="btn btn-primary btn-uniform-width">
+                        data-toggle="modal" data-target="#productModal"
+                        class="btn btn-primary btn-uniform-width">
                                 More Info
                             </button>
                         </div>
