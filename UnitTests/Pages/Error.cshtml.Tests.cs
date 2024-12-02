@@ -31,7 +31,6 @@ namespace UnitTests.Pages.Error
         {
 
             // Arrange
-
             Activity activity = new Activity("activity");
             activity.Start();
 
@@ -55,8 +54,6 @@ namespace UnitTests.Pages.Error
             // Act
             pageModel.OnGet();
 
-            // Reset
-
             // Assert
             Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
             Assert.That(pageModel.RequestId, Is.EqualTo("trace"));
@@ -64,6 +61,42 @@ namespace UnitTests.Pages.Error
         }
 
         #endregion OnGet
+
+        #region ErrorMessage
+        [Test]
+        public void ErrorMessage_Should_Store_and_Retreive_Error_Message()
+        {
+            // Arrange
+            int errorCode = 404;
+            string expectedErrorMessage = "The page you are looking for could not be found.";
+
+            // Act
+            pageModel.OnGet(errorCode);
+            var errorMessage = pageModel.ErrorMessage;
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
+            Assert.That(errorMessage, Is.EqualTo(expectedErrorMessage));
+        }
+        #endregion ErrorMessage
+
+        #region ErrorCode
+        [Test]
+        public void ErrorCode_Should_Store_and_Retreive_Error_Code()
+        {
+            // Arrange
+            int expectedErrorCode = 404;
+
+            // Act
+            pageModel.OnGet(expectedErrorCode);
+            var errorCode = pageModel.ErrorCode;
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
+            Assert.That(errorCode, Is.EqualTo(expectedErrorCode));
+        }
+
+        #endregion ErrorCode
     }
 
 }
