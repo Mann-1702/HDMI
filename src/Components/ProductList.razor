@@ -8,12 +8,12 @@
     /// <summary>
     /// Parameter to accept the type of products to filter, defaulting to "Sport".
     /// </summary>
-    [Parameter] public string ProductTypeFilter { get; set; } = "Sport";
+    [Parameter] public ProductTypeEnum? ProductTypeFilter { get; set; } = ProductTypeEnum.Sport;
 
     /// <summary>
     /// Parameter to filter products by a specific sport (optional).
     /// </summary>
-    [Parameter] public string SportFilter { get; set; } = null;
+    [Parameter] public SportsEnum? SportFilter { get; set; } = null;
 
     /// <summary>
     /// List of products filtered based on the current filters.
@@ -23,7 +23,7 @@
     /// <summary>
     /// Dictionary to store top teams grouped by sport based on their trophies.
     /// </summary>
-    private Dictionary<string, IEnumerable<ProductModel>> topTeamsByTrophies;
+    private Dictionary<SportsEnum, IEnumerable<ProductModel>> topTeamsByTrophies;
 
     /// <summary>
     /// The currently selected product for display in the modal.
@@ -70,10 +70,10 @@
     /// <summary>
     /// Update the filters to show products for a specific sport and reload the product list.
     /// </summary>
-    private async Task FilterBySport(string sport)
+    private async Task FilterBySport(SportsEnum sport)
     {
         SportFilter = sport;
-        ProductTypeFilter = "Team";
+        ProductTypeFilter = ProductTypeEnum.Team;
         await LoadFilteredProducts();
     }
 
@@ -83,7 +83,7 @@
     private async Task FilterShowAllSports()
     {
         SportFilter = null;
-        ProductTypeFilter = "Sport";
+        ProductTypeFilter = ProductTypeEnum.Sport;
         await LoadFilteredProducts();
     }
 
@@ -121,8 +121,6 @@
             voteLabel = voteCount > 1 ? "Votes" : "Vote";
             currentRating = selectedProduct.Ratings.Sum() / voteCount;
         }
-
-        System.Console.WriteLine($"Current rating for {selectedProduct.Id}: {currentRating}");
     }
 
     /// <summary>
@@ -130,14 +128,12 @@
     /// </summary>
     void SubmitRating(int rating)
     {
-        System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating}");
         ProductService.AddRating(selectedProductId, rating);
         SelectProduct(selectedProductId);
     }
 }
 
 <div>
-    <!-- Button to filter and display all sports -->
     <button id="ShowSportsButton" @onclick="FilterShowAllSports" class="btn btn-primary">Show Sports</button>
 </div>
 
@@ -145,17 +141,15 @@
     @foreach (var product in filteredProducts)
     {
         <div class="card">
-            <!-- Button to filter by sport -->
             <button id="@($"SportsPictureButton_{product.Title}")" class="card-img"
                 style="background-image: url('@product.Image'); border: none; background-size: cover; background-repeat: no-repeat; background-position: center;"
-                @onclick="(e => FilterBySport(product.Sport))">
+                @onclick="(e => FilterBySport(Enum.Parse<SportsEnum>(product.Sport.ToString())))">
             </button>
             <div class="card-body">
                 <h5 class="card-title">@product.Title</h5>
             </div>
             <div class="card-footer">
                 <div class="d-flex flex-column align-items-center">
-                    <!-- Button to view more information about the product -->
                     <button id="@($"MoreInfoButton_{product.Title}")" @onclick="(e => SelectProduct(product.Id))"
                         data-toggle="modal" data-target="#productModal"
                         class="btn btn-primary btn-uniform-width">
@@ -164,8 +158,7 @@
 
                     @if (product.ProductType == ProductTypeEnum.Sport)
                     {
-                        <!-- Button to view teams for a specific sport -->
-                        <button id="@($"ViewTeamsButton_{product.Title}")" @onclick="(e => FilterBySport(product.Sport))"
+                        <button id="@($"ViewTeamsButton_{product.Title}")" @onclick="(e => FilterBySport(Enum.Parse<SportsEnum>(product.Sport.ToString())))"
                         class="btn btn-custom-blue mt-2 btn-uniform-width">
                             View Teams
                         </button>
@@ -173,7 +166,6 @@
 
                     @if (product.ProductType == ProductTypeEnum.Team)
                     {
-                        <!-- Button to navigate to the team's details page -->
                         <button id="@($"ReadMoreButton_{product.Title}")" @onclick="() => NavigateToRead(product.Title)"
                         class="btn btn-custom-blue mt-2 btn-uniform-width">
                             Read More
@@ -187,7 +179,6 @@
 
 @if (selectedProduct is object)
 {
-    <!-- Modal to display details of the selected product -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -220,12 +211,10 @@
                         var currentStar = i;
                         if (i <= currentRating)
                         {
-                            <!-- Display a checked star for ratings less than or equal to the current rating -->
                             <span class="fa fa-star checked" @onclick="(e => SubmitRating(currentStar))"></span>
                         }
                         else
                         {
-                            <!-- Display an unchecked star for ratings greater than the current rating -->
                             <span class="fa fa-star" @onclick="(e => SubmitRating(currentStar))"></span>
                         }
                     }
@@ -236,15 +225,13 @@
 }
 
 <div>
-    <!-- Section to display top teams grouped by sport -->
     @if (topTeamsByTrophies != null)
     {
         @foreach (var sportGroup in topTeamsByTrophies)
         {
-            <h2>Top 3 @sportGroup.Key Teams</h2> <!-- Sport Name -->
+            <h2>Top 3 @sportGroup.Key Teams</h2>
 
             <div class="card-deck">
-                <!-- Display top 3 teams for each sport -->
                 @foreach (var team in sportGroup.Value.Take(3))
                 {
                     <div class="card" style="width: 18rem; margin: 15px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
@@ -260,7 +247,6 @@
                             </div>
                         </div>
                         <div class="card-footer text-center">
-                            <!-- Button to view more information about the team -->
                             <button id="@($"MoreInfoTopTeamButton_{team.Title}")" @onclick="(e => SelectProduct(team.Id))"
                         data-toggle="modal" data-target="#productModal"
                         class="btn btn-primary btn-uniform-width">
