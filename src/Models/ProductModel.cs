@@ -17,30 +17,28 @@ namespace ContosoCrafts.WebSite.Models
 
         /// <summary>
         /// URL of the product image.
-        /// Uses custom JSON property name "img" and validates the URL format.
         /// </summary>
         [Required(ErrorMessage = "Image URL is required.")]
-        [JsonPropertyName("img")]  // Custom JSON property name "img" for image
+        [JsonPropertyName("img")]
         [Url(ErrorMessage = "Please enter a valid image URL.")]
         public string Image { get; set; }
 
         /// <summary>
         /// URL of the product's website or information page.
-        /// Validates that the input is a proper URL.
         /// </summary>
         [Required(ErrorMessage = "URL is required.")]
         [Url(ErrorMessage = "Please enter a valid URL.")]
         public string Url { get; set; }
 
         /// <summary>
-        /// The title of the product, required with a length between 1 and 33 characters.
+        /// The title of the product.
         /// </summary>
         [Required(ErrorMessage = "Title is required.")]
         [StringLength(33, MinimumLength = 1, ErrorMessage = "The Title should have a length of more than {2} and less than {1}.")]
         public string Title { get; set; }
 
         /// <summary>
-        /// Detailed description of the product, with a maximum length of 500 characters.
+        /// Detailed description of the product.
         /// </summary>
         [Required(ErrorMessage = "Description is required.")]
         [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]
@@ -58,18 +56,19 @@ namespace ContosoCrafts.WebSite.Models
         public ProductTypeEnum ProductType { get; set; } = ProductTypeEnum.Undefined;
 
         /// <summary>
-        /// The sport category to which this product is related (e.g., "Football", "Basketball").
+        /// The sport category to which this product is related.
         /// </summary>
-        public string Sport { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public SportsEnum Sport { get; set; } = SportsEnum.Undefined;
 
         /// <summary>
-        /// The founding year of the product or company, restricted to a range from 1800 to 2024.
+        /// The founding year of the product or company.
         /// </summary>
         [Range(1800, 2024, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int FoundingYear { get; set; }
 
         /// <summary>
-        /// The number of trophies or awards the product has won, with values between 0 and 100.
+        /// The number of trophies or awards the product has won.
         /// </summary>
         [Range(0, 100, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Trophies { get; set; }
