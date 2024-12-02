@@ -13,7 +13,6 @@ namespace ContosoCrafts.WebSite.Controllers
     public class MatchController : ControllerBase
     {
         // Constructor that accepts a JsonFileMatchService dependency through dependency injection.
-
         // This service is used to manage match-related data.
         public MatchController(JsonFileMatchService matchService)
         {
@@ -21,12 +20,10 @@ namespace ContosoCrafts.WebSite.Controllers
         }
 
         // Property to hold the instance of JsonFileMatchService.
-
         // This service provides methods to retrieve match data from a JSON file.
         public JsonFileMatchService MatchService { get; }
 
         // HTTP GET method to retrieve a list of all matches.
-
         // Returns an IEnumerable<MatchModel>, which is a collection of match data.
         [HttpGet]
         public IEnumerable<MatchModel> Get()
