@@ -94,7 +94,7 @@ namespace ContosoCrafts.WebSite.Services
                         _logger.LogInformation("Response Content: {ResponseContent}", response.Content);
                         // Deserialize the response content into a strongly-typed API response
                         var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(response.Content);
-                        var games = apiResponse?.Response ?? new List<T>(); // Extract game data
+                        var games = apiResponse.Response; //apiResponse?.Response ?? new List<T>(); // Extract game data
 
                         // Limit the number of games returned to 100
                         var limitedGames = games.Take(100).ToList();
