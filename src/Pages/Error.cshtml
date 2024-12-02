@@ -4,13 +4,12 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">An Error Has Occurred</h1>
+@if (Model.ExceptionMessage == null)
+{
+    <h2>Error Has Occurred</h2>
 
-
-<div class="alert alert-warning">
-    <h3>Error Details</h3>
-
-    <p> 
+    <div class="alert alert-danger">
+        <p class="text-dark">
             @if (Model.ErrorCode == 0)
             {
                 <strong>Unknown Error Code - </strong>
@@ -22,28 +21,39 @@
             }
 
             @Model.ErrorMessage
-    </p>
-
-    @if (Model.ShowRequestId)
-    {
-        <p> 
-            <strong>Request ID:</strong> @Model.RequestId 
         </p>
-    }
 
-</div>
+        @if (Model.ShowRequestId)
+        {
+            <p class="text-dark"> 
+                <strong>Request ID:</strong> @Model.RequestId 
+            </p>
+        }
 
-<div class="alert alert-info mt-4">
-    <h4>Development Mode</h4>
-    <p>
-        Swapping to the <strong>Development</strong> environment displays detailed information about the error that occurred.
-    </p>
-    <p>
-        <strong>Note:</strong> The <strong>Development</strong> environment shouldn't be enabled for deployed applications.
-        Doing so can expose sensitive information to end users.
-    </p>
-    <p>
-        To enable the <strong>Development</strong> environment locally, set the <strong>ASPNETCORE_ENVIRONMENT</strong>
-        environment variable to <strong>Development</strong> and restart the app.
-    </p>
-</div>
+    </div>
+
+}
+
+@if (Model.ErrorMessage == null)
+{
+    <h2 class="full-width">An unhandled exception occurred while processing the request.</h2>
+
+    <div class="alert alert-danger">
+        <p class="text-dark"> 
+            <strong>@Model.ExceptionMessage</strong>
+                <br />
+
+            @Model.StackTrace
+        </p>
+
+        @if (Model.ShowRequestId)
+        {
+            <p class="text-dark"> 
+                <strong>Request ID:</strong> @Model.RequestId 
+            </p>
+        }
+
+    </div>
+}
+
+
