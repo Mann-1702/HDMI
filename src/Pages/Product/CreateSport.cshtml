@@ -9,61 +9,59 @@
     /* Styles specific to the form container */
     .form-container {
         margin: 20px auto;
-        max-width: 600px; /* Set a max width for the container */
+        max-width: 600px;
         padding: 20px;
-        border: 1px solid #ccc; /* Light border for the container */
-        border-radius: 8px; /* Rounded corners */
-        background-color: #f9f9f9; /* Light background color */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     /* Header styling */
     h1 {
-        color: #2c3e50; /* Dark blue color for the header */
-        text-align: center; /* Center align the header */
+        color: #2c3e50;
+        text-align: center;
     }
 
-    /* Styles specific to form labels */
+    /* Form labels */
     .form-container .form-group label {
-        color: #34495e; /* Darker color for labels */
-        font-weight: bold; /* Bold labels */
+        color: #34495e;
+        font-weight: bold;
     }
 
-    /* Styles specific to form inputs */
+    /* Form inputs and dropdowns */
     .form-container .form-control {
-        border: 1px solid #bdc3c7; /* Light gray border */
-        border-radius: 4px; /* Rounded corners */
-        padding: 10px; /* Padding for text boxes */
-        width: 100%; /* Full width */
-        box-sizing: border-box; /* Include padding in width */
-        transition: border-color 0.3s; /* Smooth transition */
+        border: 1px solid #bdc3c7;
+        border-radius: 4px;
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.3s;
     }
 
-        /* Styles when input fields are focused */
         .form-container .form-control:focus {
-            border-color: #3498db; /* Change border color on focus */
-            outline: none; /* Remove default outline */
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Add a shadow on focus */
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
         }
 
-    /* Styles for the submit button */
+    /* Submit button */
     .form-container .btn-primary {
-        background-color: #3498db; /* Button background color */
-        border-color: #2980b9; /* Button border color */
-        color: white; /* White text on button */
-        padding: 10px 15px; /* Padding for the button */
-        transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+        background-color: #3498db;
+        border-color: #2980b9;
+        color: white;
+        padding: 10px 15px;
+        transition: background-color 0.3s, border-color 0.3s;
     }
 
-        /* Styles when the button is hovered */
         .form-container .btn-primary:hover {
-            background-color: #2980b9; /* Darker blue on hover */
-            border-color: #1c598a; /* Darker border on hover */
+            background-color: #2980b9;
+            border-color: #1c598a;
         }
 
-    /* Styles for validation messages */
+    /* Validation messages */
     .form-container .text-danger {
-        color: #e74c3c; /* Red color for validation messages */
+        color: #e74c3c;
     }
 </style>
 
@@ -73,10 +71,16 @@
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <!-- Sport Title -->
+        <!-- Dropdown for predefined sports -->
         <div class="form-group">
-            <label asp-for="Product.Title" class="control-label">Sport Title</label>
-            <input asp-for="Product.Title" class="form-control" />
+            <label asp-for="Product.Title" class="control-label">Select Sport</label>
+            <select asp-for="Product.Title" class="form-control">
+                <option value="">-- Select a Sport --</option>
+                <option value="Soccer">Soccer</option>
+                <option value="NBA">NBA</option>
+                <option value="NFL">NFL</option>
+            </select>
+
             <span asp-validation-for="Product.Title" class="text-danger"></span>
         </div>
 
@@ -115,6 +119,7 @@
             <span asp-validation-for="Product.Trophies" class="text-danger"></span>
         </div>
 
+        <!-- Submit Button -->
         <div class="form-group">
             <input type="submit" value="Create Sport" class="btn btn-primary" />
         </div>
