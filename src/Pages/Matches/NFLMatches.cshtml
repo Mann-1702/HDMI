@@ -32,6 +32,7 @@
             <tr>
                 <td>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+
                         <!-- Home Team with logo on the right and aligned right -->
                         <div style="display: flex; align-items: center; justify-content: flex-end; width: 45%; text-align: right;">
                             <span style="white-space: normal;">@game.Teams.Home.Name</span>
@@ -51,6 +52,7 @@
                 <td>@game.Game.Date.Date @game.Game.Date.Time</td>
                 <td align="center">@game.Scores.Home.Total - @game.Scores.Away.Total</td>
                 <td style="text-align: center; font-family:'Century Gothic';">
+
                     <!-- Read Button -->
                     <a asp-page="NFLMatchRead" asp-route-gameId="@game.Game.Id" asp-route-year="@Model.SeasonYear" class="btn btn-teal">View Match Details</a>
                 </td>
