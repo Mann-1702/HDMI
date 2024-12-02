@@ -11,7 +11,17 @@
     <h3>Error Details</h3>
 
     <p> 
-        <strong>Error @Model.ErrorCode </strong> @Model.ErrorMessage
+            @if (Model.ErrorCode == 0)
+            {
+                <strong>Unknown Error Code - </strong>
+            }
+            
+            @if (Model.ErrorCode > 0)
+            {
+                <strong>Error @Model.ErrorCode</strong>
+            }
+
+            @Model.ErrorMessage
     </p>
 
     @if (Model.ShowRequestId)
