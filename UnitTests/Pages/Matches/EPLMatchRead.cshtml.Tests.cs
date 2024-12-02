@@ -1,5 +1,6 @@
 ﻿using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Pages;
+using Microsoft.Extensions.Caching.Memory;
 using ContosoCrafts.WebSite.Pages.Matches;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -31,12 +32,14 @@ namespace UnitTests.Pages.Matches
         {
 
             // Initialize logger
+            var memoryCacheOptions = new MemoryCacheOptions();
+            var memoryCache = new MemoryCache(memoryCacheOptions);
 
             logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<SportsApiClient>();
             testLogger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<EPLMatchReadModel>();
 
             var apiKey = "b4ed364047f61b7a0ae7699c69c7ad57";
-            sportsApiClient = new SportsApiClient(apiKey, logger);
+            sportsApiClient = new SportsApiClient(apiKey, logger, memoryCache);
 
 
             // Instantiate NFLMatches
@@ -60,7 +63,6 @@ namespace UnitTests.Pages.Matches
             var matches = sportsApiClient.GetGamesForSeason<FixtureResponse>(leagueId, seasonYear, baseUrl, apiHost,endPoint);
             var match = matches.LastOrDefault();
             var matchId = match.Fixture.FixtureId;
-
             var result = pageModel.OnGet(matchId);
 
             // Assert
