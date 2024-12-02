@@ -90,7 +90,7 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result, Is.InstanceOf<RedirectToPageResult>());
 
-            // 检查是否已更新产品
+            // Assert
             var updatedProduct = productService.GetAllData().FirstOrDefault(p => p.Id == "jenlooper-survival");
             Assert.That(updatedProduct.Title, Is.EqualTo("Updated Product"));
             Assert.That(updatedProduct.Description, Is.EqualTo("Updated Description"));
