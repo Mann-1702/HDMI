@@ -1,10 +1,6 @@
 using System.Linq;
 using NUnit.Framework;
 using ContosoCrafts.WebSite.Models;
-using System;
-using Moq;
-using System.Collections.Generic;
-using ContosoCrafts.WebSite.Services;
 
 namespace UnitTests.Pages.Product
 {

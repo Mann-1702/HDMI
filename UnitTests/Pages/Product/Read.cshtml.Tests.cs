@@ -48,9 +48,6 @@ namespace UnitTests.Pages.Product
             Assert.That(pageModel.Product.Title, Is.EqualTo(validTeamName));
         }
 
-
-
-
         [Test]
         public void OnGet_InvalidId_Should_Return_NotFound()
         {

@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;
 using System.Linq; 
 
-
 namespace UnitTests.Pages.Product
 {
     public class UpdateTests

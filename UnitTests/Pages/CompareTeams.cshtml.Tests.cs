@@ -1,11 +1,5 @@
-﻿using System.Linq;
-
-using Microsoft.Extensions.Logging;
-
-using Moq;
-
+﻿using Moq;
 using NUnit.Framework;
-
 using ContosoCrafts.WebSite.Pages;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Hosting;

@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-
 namespace UnitTests.Models
 {
     /// <summary>

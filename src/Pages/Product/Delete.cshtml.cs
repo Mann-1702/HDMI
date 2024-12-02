@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using ContosoCrafts.WebSite.Services;
 using ContosoCrafts.WebSite.Models;
 using System.Linq;
+
 namespace ContosoCrafts.WebSite.Pages.Product
 {
     public class DeleteModel : PageModel
@@ -14,10 +15,8 @@ namespace ContosoCrafts.WebSite.Pages.Product
             _productService = productService;
         }
 
-
         [BindProperty]
         public ProductModel Product { get; set; }
-
 
         // Fetches the product details based on ID for confirmation page
         public IActionResult OnGet(string id)
@@ -34,7 +33,6 @@ namespace ContosoCrafts.WebSite.Pages.Product
 
             return Page();
         }
-
 
         // Handles the deletion upon form submission
         public IActionResult OnPost()
