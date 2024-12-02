@@ -1,8 +1,11 @@
-using System.Diagnostics;
+using System;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Moq;
 using ContosoCrafts.WebSite.Pages;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace UnitTests.Pages.Error
 {
@@ -21,6 +24,8 @@ namespace UnitTests.Pages.Error
                 PageContext = TestHelper.PageContext,
                 TempData = TestHelper.TempData,
             };
+
+
         }
 
         #endregion TestSetup
@@ -56,8 +61,8 @@ namespace UnitTests.Pages.Error
 
             // Assert
             Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
-            Assert.That(pageModel.RequestId, Is.EqualTo("trace"));
             Assert.That(pageModel.ShowRequestId, Is.EqualTo(true));
+            Assert.That(pageModel.RequestId, Is.EqualTo("trace"));
         }
 
         #endregion OnGet
@@ -97,6 +102,53 @@ namespace UnitTests.Pages.Error
         }
 
         #endregion ErrorCode
+
+        #region ExceptionMessage
+        [Test]
+        public void ExceptionMessage_ErrorCode404_Should_Store_and_Return_Null()
+        {
+            // Arrange
+            int ErrorCode = 404;
+
+            // Act
+            pageModel.OnGet(ErrorCode);
+            var exceptionMessage = pageModel.ExceptionMessage;
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
+            Assert.That(exceptionMessage, Is.EqualTo(null));
+        }
+
+        [Test]
+        public void OnGet_Exception_Should_Set_ExceptionMessage_And_StackTrace()
+        {
+            // Arrange
+            var logger = new LoggerFactory().CreateLogger<ErrorModel>();
+            pageModel = new ErrorModel(logger);
+
+            var exception = new InvalidOperationException("Test exception occurred");
+            var httpContext = new DefaultHttpContext();
+
+            // Add an exception feature to the HttpContext
+            httpContext.Features.Set<IExceptionHandlerFeature>(new ExceptionHandlerFeature
+            {
+                Error = exception
+            });
+
+            // Assign HttpContext to PageContext
+            pageModel.PageContext.HttpContext = httpContext;
+
+            // Act
+            pageModel.OnGet();
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
+            Assert.That(pageModel.ExceptionMessage, Is.EqualTo(exception.Message));
+            Assert.That(pageModel.StackTrace, Is.EqualTo(exception.StackTrace));
+            Assert.That(pageModel.ErrorMessage, Is.Null);
+        }
+
+        #endregion ExceptionMessage
     }
 
 }
