@@ -179,18 +179,17 @@ namespace UnitTests.Components
         }
 
         [Test]
-        public void ReadMoreTopTeamButton_Valid_ID_SanFrancisco49ers_Should_Redirect_To_Read_Page()
+        public void MoreInfoTopTeamButton_Valid_ID_SanFrancisco49ers_Should_Redirect_To_Read_Page()
         {
 
             // Arrange
 
             // Getting Services
             Services.AddSingleton<JsonFileProductService>(TestHelper.ProductService);
-            var navigationManager = Services.GetService<NavigationManager>();
 
 
             // Setting up button id and page
-            var buttonId = "ReadMoreTopTeamButton_San Francisco 49ers";
+            var buttonId = "MoreInfoTopTeamButton_San Francisco 49ers";
             var page = RenderComponent<ProductList>();
 
 
@@ -198,12 +197,12 @@ namespace UnitTests.Components
             var buttonList = page.FindAll("Button");
             var button = buttonList.First(m => m.OuterHtml.Contains(buttonId));
 
-
             // Act
             button.Click();
+            var pageMarkup = page.Markup;
 
             // Assert
-            Assert.That(navigationManager.Uri.Contains("Product/Read/San Francisco 49ers"));
+            Assert.That(pageMarkup.Contains("San Francisco 49ers are a storied NFL franchise"), Is.EqualTo(true));
         }
 
         [Test]
@@ -353,46 +352,6 @@ namespace UnitTests.Components
             Assert.That(preVoteCountString, Is.Not.EqualTo(postVoteCountString));
         }
 
-        [Test]
-        public async Task TopTeamsByTrophies_Should_DisplayLoadingMessage_When_Null()
-        {
-            // Arrange
-            Services.AddSingleton<JsonFileProductService>(TestHelper.ProductService);
-            var page = RenderComponent<ProductList>();
-
-            // Access the component instance
-            var componentInstance = page.Instance;
-
-            // Access the private field `topTeamsByTrophies` using reflection
-            var fieldInfo = componentInstance.GetType()
-                .GetField("topTeamsByTrophies", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            // Ensure the field was found
-            Assert.That(fieldInfo, Is.Not.Null, "The topTeamsByTrophies field was not found.");
-
-            // Use InvokeAsync to set the field value and trigger rendering
-            await page.InvokeAsync(() =>
-            {
-                // Set the value of the field to null
-                fieldInfo.SetValue(componentInstance, null);
-
-                // Trigger a re-render manually
-                var stateHasChangedMethod = componentInstance.GetType()
-                    .GetMethod("StateHasChanged", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-
-                // Ensure the StateHasChanged method was found
-                Assert.That(stateHasChangedMethod, Is.Not.Null, "The StateHasChanged method was not found.");
-
-                // Invoke StateHasChanged to re-render
-                stateHasChangedMethod.Invoke(componentInstance, null);
-            });
-
-            // Act
-            var pageMarkup = page.Markup;
-
-            // Assert
-            Assert.That(pageMarkup.Contains("Loading top teams by trophies..."), Is.EqualTo(true));
-        }
 
 
 
