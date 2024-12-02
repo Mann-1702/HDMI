@@ -1,22 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
-
-namespace ContosoCrafts.WebSite.Models
+﻿namespace ContosoCrafts.WebSite.Models
 {
-    public class SportsEnum : ContentPage
+    /// <summary>
+    /// Enumeration representing different types of sports.
+    /// </summary>
+    public enum SportsEnum
     {
-        public SportsEnum()
-        {
-            Content = new StackLayout
-            {
-                Children = {
-                    new Label { Text = "Welcome to Xamarin.Forms!" }
-                }
-            };
-        }
+        Undefined = 0,
+        NFL = 1,
+        NBA = 2,
+        Soccer = 3
     }
+
+    public static class SportsEnumExtensions
+    {
+        public static string ToDisplayString(this SportsEnum sport) =>
+            sport switch
+            {
+                SportsEnum.NFL => "NFL",
+                SportsEnum.NBA => "NBA",
+                SportsEnum.Soccer => "Soccer",
+                _ => "Undefined"
+            };
+    }
+
 }
