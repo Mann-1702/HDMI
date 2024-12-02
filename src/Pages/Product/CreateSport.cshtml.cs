@@ -17,17 +17,11 @@ namespace ContosoCrafts.WebSite.Pages.Product
         public CreateSportModel(JsonFileProductService productService)
         {
             _productService = productService;
-
-            // Predefined list of sports options
-            HardcodedSports = new List<string> { "Soccer", "NBA", "NFL" };
         }
 
         // Bind ProductModel to receive form data
         [BindProperty]
         public ProductModel Product { get; set; }
-
-        // Fixed list of sports for the dropdown
-        public List<string> HardcodedSports { get; }
 
         // List of existing sports from the database
         public List<string> ExistingSports { get; private set; }
@@ -40,11 +34,7 @@ namespace ContosoCrafts.WebSite.Pages.Product
             Product = new ProductModel();
 
             // Load the existing sports from the database
-            ExistingSports = _productService.GetAllData()
-                .Where(p => !string.IsNullOrEmpty(p.Sport))
-                .Select(p => p.Sport)
-                .Distinct()
-                .ToList();
+            ReinitializeExistingSportsList();
 
             return Page();
         }
@@ -52,7 +42,6 @@ namespace ContosoCrafts.WebSite.Pages.Product
         /// <summary>
         /// Handles form submission to create a new sport.
         /// </summary>
-
         public IActionResult OnPost()
         {
             // Refresh the list of existing sports from the database
@@ -64,14 +53,14 @@ namespace ContosoCrafts.WebSite.Pages.Product
                 return Page();
             }
 
-            // Ensure the user selected a sport
+            // Ensure the user entered a sport name
             if (string.IsNullOrWhiteSpace(Product.Title))
             {
-                ModelState.AddModelError(string.Empty, "Please select a sport from the dropdown.");
+                ModelState.AddModelError(string.Empty, "Please enter a sport name.");
                 return Page();
             }
 
-            // Validate if the selected sport already exists in the database
+            // Validate if the sport already exists in the database
             if (ExistingSports.Any(sport => sport.Equals(Product.Title, StringComparison.OrdinalIgnoreCase)))
             {
                 ModelState.AddModelError(string.Empty, $"The sport '{Product.Title}' already exists.");
@@ -94,7 +83,6 @@ namespace ContosoCrafts.WebSite.Pages.Product
             return RedirectToPage("/Index");
         }
 
-
         /// <summary>
         /// Reloads the list of existing sports for the page.
         /// </summary>
@@ -106,6 +94,5 @@ namespace ContosoCrafts.WebSite.Pages.Product
                 .Distinct() // Remove duplicates
                 .ToList();
         }
-
     }
 }
