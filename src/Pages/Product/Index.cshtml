@@ -12,12 +12,10 @@
         <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Search</button>
     </form>
 
-
     <!-- First table: Display all Sport products -->
     <h1>Sports</h1>
     <!-- Add the Create New Sport Button -->
     <a asp-page="CreateSport" class="btn btn-success mb-3">Create New Sport</a>
-
 
     <table class="table table-bordered table-striped" style="background-color:lightgrey;">
         <thead>
@@ -68,17 +66,17 @@
                         <a asp-page="Read" asp-route-teamTitle="@product.Title" class="btn btn-teal">Read</a>
 
                         <!-- View Matches Button -->
-                        @if (product.Sport == "NFL")
+                        @if (product.Sport == SportsEnum.NFL)
                         {
                             <a asp-page="/Matches/NFLMatches" asp-route-teamName="@product.Title" class="btn btn-celestial-blue">View Matches</a>
                         }
 
-                        @if (product.Sport == "NBA")
+                        @if (product.Sport == SportsEnum.NBA)
                         {
                             <a asp-page="/Matches/NBAMatches/" asp-route-teamName="@product.Title" class="btn btn-celestial-blue">View Matches</a>
                         }
 
-                        @if (product.Sport == "Soccer")
+                        @if (product.Sport == SportsEnum.Soccer)
                         {
                             <a asp-page="/Matches/EPLMatches/" asp-route-teamName="@product.Title" class="btn btn-celestial-blue">View Matches</a>
                         }

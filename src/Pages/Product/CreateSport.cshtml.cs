@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ContosoCrafts.WebSite.Models;
@@ -5,7 +6,7 @@ using ContosoCrafts.WebSite.Services;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using ContosoCrafts.WebSite.Models;
 
 namespace ContosoCrafts.WebSite.Pages.Product
 {
@@ -17,34 +18,49 @@ namespace ContosoCrafts.WebSite.Pages.Product
         public CreateSportModel(JsonFileProductService productService)
         {
             _productService = productService;
+
+            // Initialize predefined list of sports using SportsEnum values
+            HardcodedSports = Enum.GetValues(typeof(SportsEnum))
+                .Cast<SportsEnum>()
+                .Where(sport => sport != SportsEnum.Undefined) // Exclude Undefined
+                .ToList();
         }
 
-        // Bind ProductModel to receive form data
+        /// <summary>
+        /// The product model for binding form data.
+        /// </summary>
         [BindProperty]
         public ProductModel Product { get; set; }
 
-        // List of existing sports from the database
-        public List<string> ExistingSports { get; private set; }
+        /// <summary>
+        /// List of predefined sports for the dropdown.
+        /// </summary>
+        public List<SportsEnum> HardcodedSports { get; }
 
         /// <summary>
-        /// Initializes the page and loads the list of existing sports.
+        /// List of existing sports from the database.
+        /// </summary>
+        public List<SportsEnum> ExistingSports { get; private set; }
+
+        /// <summary>
+        /// Initializes the page and loads existing sports.
         /// </summary>
         public IActionResult OnGet()
         {
             Product = new ProductModel();
 
-            // Load the existing sports from the database
+            // Load existing sports from the database
             ReinitializeExistingSportsList();
 
             return Page();
         }
 
         /// <summary>
-        /// Handles form submission to create a new sport.
+        /// Handles the form submission to create a new sport.
         /// </summary>
         public IActionResult OnPost()
         {
-            // Refresh the list of existing sports from the database
+            // Reload the existing sports list
             ReinitializeExistingSportsList();
 
             // Check if the form state is valid
@@ -53,45 +69,42 @@ namespace ContosoCrafts.WebSite.Pages.Product
                 return Page();
             }
 
-            // Ensure the user entered a sport name
-            if (string.IsNullOrWhiteSpace(Product.Title))
+            // Ensure the user selected a sport
+            if (Product.Sport == SportsEnum.Undefined)
             {
-                ModelState.AddModelError(string.Empty, "Please enter a sport name.");
+                ModelState.AddModelError(string.Empty, "Please select a valid sport.");
                 return Page();
             }
 
-            // Validate if the sport already exists in the database
-            if (ExistingSports.Any(sport => sport.Equals(Product.Title, StringComparison.OrdinalIgnoreCase)))
+            // Validate if the sport already exists
+            if (ExistingSports.Contains(Product.Sport))
             {
-                ModelState.AddModelError(string.Empty, $"The sport '{Product.Title}' already exists.");
+                ModelState.AddModelError(string.Empty, $"The sport '{Product.Sport.ToDisplayString()}' already exists.");
                 return Page();
             }
 
-            // Set the ProductType to Sport
+            // Set the product type to Sport
             Product.ProductType = ProductTypeEnum.Sport;
-
-            // Assign the selected sport to the 'Sport' field
-            Product.Sport = Product.Title;
 
             // Save the new sport to the database
             _productService.CreateData(Product);
 
-            // Refresh the list of existing sports to ensure the new sport is included
+            // Refresh the sports list after successful creation
             ReinitializeExistingSportsList();
 
-            // Redirect to the index page after successful creation
+            // Redirect to the index page
             return RedirectToPage("/Index");
         }
 
         /// <summary>
-        /// Reloads the list of existing sports for the page.
+        /// Reinitializes the list of existing sports from the database.
         /// </summary>
         private void ReinitializeExistingSportsList()
         {
             ExistingSports = _productService.GetAllData()
-                .Where(p => !string.IsNullOrEmpty(p.Sport)) // Exclude empty or null values
-                .Select(p => p.Sport.Trim()) // Trim whitespace for consistency
-                .Distinct() // Remove duplicates
+                .Where(p => Enum.TryParse<SportsEnum>(p.Sport.ToString(), out _)) // Validate enum values
+                .Select(p => Enum.Parse<SportsEnum>(p.Sport.ToString())) // Convert to SportsEnum
+                .Distinct()
                 .ToList();
         }
     }

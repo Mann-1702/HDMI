@@ -5,14 +5,12 @@ using ContosoCrafts.WebSite.Services;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.RegularExpressions;
 
 namespace ContosoCrafts.WebSite.Pages.Product
 {
     public class CreateModel : PageModel
     {
         private readonly JsonFileProductService _productService;
-
         private readonly TeamVerifier _teamVerifier;
 
         [ActivatorUtilitiesConstructor]
@@ -22,19 +20,11 @@ namespace ContosoCrafts.WebSite.Pages.Product
             _teamVerifier = teamVerifier;
         }
 
-        // Overloaded Constructor: Takes only ProductService
-        public CreateModel(JsonFileProductService productService)
-        {
-            _productService = productService;
-            _teamVerifier = null; // Set to null when not needed
-        }
-
-
         // Bind the ProductModel to receive form data
         [BindProperty]
         public ProductModel Product { get; set; }
 
-        // List to store unique sports types retrieved from existing product data
+        // List to store unique sports types retrieved from SportsEnum
         public List<string> Sports { get; set; }
 
         /// <summary> Initialize an empty Product model for the form </summary>
@@ -42,12 +32,8 @@ namespace ContosoCrafts.WebSite.Pages.Product
         {
             Product = new ProductModel();
 
-            // Retrieve unique sports from existing product data
-            Sports = _productService.GetAllData()
-                .Where(p => !string.IsNullOrEmpty(p.Sport)) // Ensure Sport field is not empty
-                .Select(p => p.Sport)
-                .Distinct()
-                .ToList();
+            // Retrieve unique sports from the SportsEnum
+            Sports = System.Enum.GetNames(typeof(SportsEnum)).ToList();
 
             return Page();
         }
@@ -57,62 +43,38 @@ namespace ContosoCrafts.WebSite.Pages.Product
         {
             if (!ModelState.IsValid)
             {
+                Sports = System.Enum.GetNames(typeof(SportsEnum)).ToList(); // Reinitialize Sports list
                 return Page();
             }
 
             if (_teamVerifier == null)
             {
                 ModelState.AddModelError(string.Empty, "Team validation is unavailable. Please contact support.");
+                Sports = System.Enum.GetNames(typeof(SportsEnum)).ToList(); // Reinitialize Sports list
                 return Page();
             }
 
             if (_productService.IsDuplicateTeam(Product.Title))
             {
-
-                Sports = _productService.GetAllData()
-                    .Where(p => !string.IsNullOrEmpty(p.Sport))
-                    .Select(p => p.Sport)
-                    .Distinct()
-                    .ToList();
-
+                Sports = System.Enum.GetNames(typeof(SportsEnum)).ToList(); // Reinitialize Sports list
                 ModelState.AddModelError(string.Empty, $"Team '{Product.Title}' already exists.");
                 return Page();
             }
 
-            if (!_teamVerifier.IsValidName(Product.Sport, Product.Title))
+            if (!_teamVerifier.IsValidName(Product.Sport.ToString(), Product.Title))
             {
-                // Reinitialize Sports list before returning the page
-                Sports = _productService.GetAllData()
-                    .Where(p => !string.IsNullOrEmpty(p.Sport))
-                    .Select(p => p.Sport)
-                    .Distinct()
-                    .ToList();
-
+                Sports = System.Enum.GetNames(typeof(SportsEnum)).ToList(); // Reinitialize Sports list
                 ModelState.AddModelError(string.Empty, $"Invalid team name '{Product.Title}' for sport '{Product.Sport}'.");
                 return Page();
             }
 
-            //if (!Regex.IsMatch(Product.Url, @"^https?:\/\/(www\.)?[a-zA-Z0-9\-\.]+\.com$"))
-            //{
-                //Sports = _productService.GetAllData()
-                   //.Where(p => !string.IsNullOrEmpty(p.Sport))
-                   //.Select(p => p.Sport)
-                   //.Distinct()
-                   //.ToList();
-                //ModelState.AddModelError("Product.Url", "Invalid URL format. Please ensure the URL starts with http:// or https:// and ends with .com.");
-                //return Page();
-            //}
-
-
+            // Set the ProductType to Team
             Product.ProductType = ProductTypeEnum.Team;
 
-
+            // Save the new team data
             _productService.CreateData(Product);
 
-          
             return RedirectToPage("/Index");
         }
-
     }
-
 }

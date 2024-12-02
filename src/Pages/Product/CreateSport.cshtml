@@ -1,5 +1,6 @@
 ﻿@page
 @model ContosoCrafts.WebSite.Pages.Product.CreateSportModel
+@using ContosoCrafts.WebSite.Models
 
 @{
     ViewData["Title"] = "Create New Sport";
@@ -17,16 +18,19 @@
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
+    /* Header styling */
     h1 {
         color: #2c3e50;
         text-align: center;
     }
 
+    /* Form labels */
     .form-container .form-group label {
         color: #34495e;
         font-weight: bold;
     }
 
+    /* Form inputs and dropdowns */
     .form-container .form-control {
         border: 1px solid #bdc3c7;
         border-radius: 4px;
@@ -42,6 +46,7 @@
             box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
         }
 
+    /* Submit button */
     .form-container .btn-primary {
         background-color: #3498db;
         border-color: #2980b9;
@@ -55,6 +60,7 @@
             border-color: #1c598a;
         }
 
+    /* Validation messages */
     .form-container .text-danger {
         color: #e74c3c;
     }
@@ -66,9 +72,24 @@
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <!-- Sport Name -->
+        <!-- Dropdown for predefined sports -->
         <div class="form-group">
-            <label asp-for="Product.Title" class="control-label">Sport Name</label>
+            <label asp-for="Product.Sport" class="control-label">Select Sport</label>
+            <select asp-for="Product.Sport" class="form-control">
+                @foreach (var sport in Enum.GetValues(typeof(SportsEnum)).Cast<SportsEnum>())
+                {
+                    @if (sport != SportsEnum.Undefined) // Skip Undefined
+                    {
+                        <option value="@sport.ToString()">@(sport.ToDisplayString())</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="Product.Sport" class="text-danger"></span>
+        </div>
+
+        <!-- Title -->
+        <div class="form-group">
+            <label asp-for="Product.Title" class="control-label">Title</label>
             <input asp-for="Product.Title" class="form-control" />
             <span asp-validation-for="Product.Title" class="text-danger"></span>
         </div>
