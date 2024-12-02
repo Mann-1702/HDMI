@@ -6,67 +6,8 @@
 }
 
 <style>
-    /* Styles specific to the form container */
-    .form-container {
-        margin: 20px auto;
-        max-width: 600px; /* Set a max width for the container */
-        padding: 20px;
-        border: 1px solid #ccc; /* Light border for the container */
-        border-radius: 8px; /* Rounded corners */
-        background-color: #f9f9f9; /* Light background color */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    }
-
-    /* Header styling */
-    h1 {
-        color: #2c3e50; /* Dark blue color for the header */
-        text-align: center; /* Center align the header */
-    }
-
-    /* Styles specific to form labels */
-    .form-container .form-group label {
-        color: #34495e; /* Darker color for labels */
-        font-weight: bold; /* Bold labels */
-    }
-
-    /* Styles specific to form inputs */
-    .form-container .form-control {
-        border: 1px solid #bdc3c7; /* Light gray border */
-        border-radius: 4px; /* Rounded corners */
-        padding: 10px; /* Padding for text boxes */
-        width: 100%; /* Full width */
-        box-sizing: border-box; /* Include padding in width */
-        transition: border-color 0.3s; /* Smooth transition */
-    }
-
-        /* Styles when input fields are focused */
-        .form-container .form-control:focus {
-            border-color: #3498db; /* Change border color on focus */
-            outline: none; /* Remove default outline */
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Add a shadow on focus */
-        }
-
-    /* Styles for the submit button */
-    .form-container .btn-primary {
-        background-color: #3498db; /* Button background color */
-        border-color: #2980b9; /* Button border color */
-        color: white; /* White text on button */
-        padding: 10px 15px; /* Padding for the button */
-        transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
-    }
-
-        /* Styles when the button is hovered */
-        .form-container .btn-primary:hover {
-            background-color: #2980b9; /* Darker blue on hover */
-            border-color: #1c598a; /* Darker border on hover */
-        }
-
-    /* Styles for validation messages */
-    .form-container .text-danger {
-        color: #e74c3c; /* Red color for validation messages */
-    }
+    /* Your styles remain unchanged */
 </style>
-
 
 <h1>Create New Team</h1>
 
@@ -74,18 +15,21 @@
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+        <!-- Team Title -->
         <div class="form-group">
             <label asp-for="Product.Title" class="control-label">Team Title</label>
             <input asp-for="Product.Title" class="form-control" />
             <span asp-validation-for="Product.Title" class="text-danger"></span>
         </div>
 
+        <!-- Description -->
         <div class="form-group">
             <label asp-for="Product.Description" class="control-label">Description</label>
             <input asp-for="Product.Description" class="form-control" />
             <span asp-validation-for="Product.Description" class="text-danger"></span>
         </div>
 
+        <!-- URL -->
         <div class="form-group">
             <label asp-for="Product.Url" class="control-label">URL</label>
             <input asp-for="Product.Url"
@@ -99,37 +43,41 @@
             <span asp-validation-for="Product.Url" class="text-danger"></span>
         </div>
 
-
+        <!-- Image URL -->
         <div class="form-group">
             <label asp-for="Product.Image" class="control-label">Image URL</label>
             <input asp-for="Product.Image" class="form-control" />
             <span asp-validation-for="Product.Image" class="text-danger"></span>
         </div>
 
+        <!-- Founding Year -->
         <div class="form-group">
             <label asp-for="Product.FoundingYear" class="control-label">Founding Year</label>
             <input asp-for="Product.FoundingYear" class="form-control" />
             <span asp-validation-for="Product.FoundingYear" class="text-danger"></span>
         </div>
 
+        <!-- Trophies -->
         <div class="form-group">
             <label asp-for="Product.Trophies" class="control-label">Trophies</label>
             <input asp-for="Product.Trophies" class="form-control" />
             <span asp-validation-for="Product.Trophies" class="text-danger"></span>
         </div>
 
+        <!-- Select Sport -->
         <div class="form-group">
             <label asp-for="Product.Sport" class="control-label">Select Sport</label>
             <select asp-for="Product.Sport" class="form-control">
                 <option value="">-- Select Sport --</option>
-                @foreach (var sport in Model.Sports)
+                @foreach (var sport in Enum.GetValues(typeof(ContosoCrafts.WebSite.Models.SportsEnum)))
                 {
-                <option value="@sport">@sport</option>
+                    <option value="@sport">@Enum.GetName(typeof(ContosoCrafts.WebSite.Models.SportsEnum), sport)</option>
                 }
             </select>
             <span asp-validation-for="Product.Sport" class="text-danger"></span>
         </div>
 
+        <!-- Submit Button -->
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" />
         </div>
