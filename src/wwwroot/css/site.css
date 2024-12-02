@@ -282,6 +282,9 @@ h2 {
     margin: 10px auto;
 }
 
+.full-width {
+    width: 100%;
+}
 
 ul {
     font-family: 'Nunito', sans-serif;
