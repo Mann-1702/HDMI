@@ -70,6 +70,9 @@ namespace ContosoCrafts.WebSite
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
