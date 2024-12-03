@@ -98,7 +98,7 @@ namespace UnitTests.Pages.Product
             pageModel.Product = new ProductModel
             {
                 Title = "Invalid Team",
-                Sport = "NBA",
+                Sport = Enum.Parse<SportsEnum>("NBA"),
                 Description = "An invalid NBA team.",
                 Url = "http://example.com",
                 Image = "http://example.com/image.jpg",
@@ -120,12 +120,12 @@ namespace UnitTests.Pages.Product
         public void OnPost_TeamVerifier_Unavailable_Should_Return_Page_With_Error()
         {
             // Arrange
-            pageModel = new CreateModel(productService); // TeamVerifier not injected
+            pageModel = new CreateModel(productService, teamVerifier); // TeamVerifier not injected
             pageModel.OnGet();
             pageModel.Product = new ProductModel
             {
                 Title = "Any Team",
-                Sport = "NBA",
+                Sport = Enum.Parse<SportsEnum>("NBA"),
                 Description = "A team with unavailable verifier.",
                 Url = "http://example.com",
                 Image = "http://example.com/image.jpg",
