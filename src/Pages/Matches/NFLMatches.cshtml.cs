@@ -12,60 +12,71 @@ namespace ContosoCrafts.WebSite.Pages.Matches
 {
     public class NFLMatchesModel : PageModel
     {
+        // SportsApiClient used to fetch NFL game data from the external API.
         private readonly SportsApiClient _sportsApiClient;
+
+        // Logger instance to log errors or important information related to the page.
         private readonly ILogger<NFLMatchesModel> _logger;
 
+        /// <summary>
+        /// Constructor to initialize the SportsApiClient and Logger for the page model.
+        /// </summary>
+        /// <param name="sportsApiClient">SportsApiClient to interact with the external sports API.</param>
+        /// <param name="logger">ILogger to log any issues during data fetching.</param>
         public NFLMatchesModel(SportsApiClient sportsApiClient, ILogger<NFLMatchesModel> logger)
         {
             _sportsApiClient = sportsApiClient;
             _logger = logger;
         }
 
-        // List of NFL Games
+        // Public property to store the list of NFL game data.
         public List<GameResponse> Games { get; private set; }
 
-        // Year of the NFL Season (Default = 2024)
+        // Public property to store the season year, default is 2024.
         public int SeasonYear { get; private set; }
 
+        /// <summary>
+        /// Handles the GET request to fetch NFL game data for a specific season and team (optional).
+        /// </summary>
+        /// <param name="teamName">Optional parameter to filter games by a specific team name.</param>
+        /// <param name="year">Year of the NFL season (defaults to 2024 if not provided).</param>
+        /// <returns>The page result with the list of NFL games, filtered by team if applicable.</returns>
         public IActionResult OnGet(string teamName = null, int year = 2024)
         {
-
+            // Set the season year based on the parameter or default to 2024.
             SeasonYear = year;
 
-            // leagueId = 1 for NFL"
-            string leagueId = "1";
-            string baseUrl = "https://v1.american-football.api-sports.io";
-            string baseHost = "v1.american-football.api-sports.io";
-            string endPoint = "games";
+            // Define the NFL league ID, base URL, and endpoint for fetching game data.
+            string leagueId = "1"; // NFL league ID
+            string baseUrl = "https://v1.american-football.api-sports.io"; // API base URL.
+            string baseHost = "v1.american-football.api-sports.io";    // Base host for the API request.
+            string endPoint = "games";                                  // Endpoint for fetching game data.
 
             try
             {
-                // Fetch game data for NFL season with specified year
+                // Fetch NFL game data for the specified season year.
                 Games = _sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, SeasonYear, baseUrl, baseHost, endPoint);
-                
-                // Return page if no specified team to filter for
+
+                // If no team name is specified, return the page with all games.
                 if (teamName == null)
                 {
                     return Page();
                 }
 
-                // Filters for a specific team
+                // Filter the games to include only those where the specified team is playing.
                 Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Away.Name == teamName).ToList();
-
             }
-
             catch (Exception ex)
             {
+                // Log any errors that occur while fetching the game data.
                 _logger.LogError(ex, "Error fetching game results.");
 
-                // Handle error 
+                // Initialize the Games list as an empty list in case of an error.
                 Games = new List<GameResponse>();
             }
 
+            // Return the page with the fetched game data.
             return Page();
         }
-
-
     }
-
 }
