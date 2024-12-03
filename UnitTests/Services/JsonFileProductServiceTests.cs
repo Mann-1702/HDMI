@@ -6,7 +6,6 @@ using Moq;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-
 namespace UnitTests.Pages.Product
 {
     public class JsonFileProductServiceTests
