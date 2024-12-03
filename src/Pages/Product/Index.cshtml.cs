@@ -7,12 +7,6 @@ using ContosoCrafts.WebSite.Services;
 
 namespace ContosoCrafts.WebSite.Pages.Product
 {
-    /// <summary>
-    /// Mann Shah
-    /// Hongye Xiong
-    /// David Waiganjo K
-    /// Ian Tjok
-    /// </summary>
     public class IndexModel : PageModel
     {
         /// <summary>
