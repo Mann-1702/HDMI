@@ -87,7 +87,7 @@ namespace UnitTests.Pages
             // Assert
             Assert.That(result, Is.InstanceOf<PageResult>(), "Should return a valid PageResult.");
             Assert.That(pageModel.Games, Is.Not.Empty, "Games list should not be empty for the specified team.");
-            Assert.That(team?.Team1.Name, Is.EqualTo(teamName), "The result should contain standings for the specified team.");
+            Assert.That(team.Team1.Name, Is.EqualTo(teamName), "The result should contain standings for the specified team.");
         }
 
        
