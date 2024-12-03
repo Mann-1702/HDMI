@@ -94,7 +94,9 @@ namespace ContosoCrafts.WebSite.Services
                         _logger.LogInformation("Response Content: {ResponseContent}", response.Content);
                         // Deserialize the response content into a strongly-typed API response
                         var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(response.Content);
-                        var games = apiResponse.Response; //apiResponse?.Response ?? new List<T>(); // Extract game data
+
+                        // Extract game data
+                        var games = apiResponse.Response;
 
                         // Limit the number of games returned to 100
                         var limitedGames = games.Take(100).ToList();
@@ -103,10 +105,13 @@ namespace ContosoCrafts.WebSite.Services
                         if (_memoryCache != null)
                         {
                             _logger.LogInformation("Caching data for {CacheKey}.", cacheKey);
-                            _memoryCache.Set(cacheKey, limitedGames, TimeSpan.FromMinutes(25)); // Cache for 25 minutes
+
+                            // Cache for 25 minutes
+                            _memoryCache.Set(cacheKey, limitedGames, TimeSpan.FromMinutes(25));
                         }
 
-                        return limitedGames; // Return the games data
+                        // Return the games data
+                        return limitedGames;
                     }
                 }
 
@@ -117,7 +122,7 @@ namespace ContosoCrafts.WebSite.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while executing the request.");
-                throw; // Re-throw the exception for higher-level handling
+                return null;
             }
         }
     }
