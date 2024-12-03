@@ -57,6 +57,16 @@ namespace ContosoCrafts.WebSite.Services
                 filteredProducts = filteredProducts.Where(p => p.Sport == sportFilter.Value);
             }
 
+            if (productTypeFilter == ProductTypeEnum.Undefined)
+            {
+                return null;
+            }
+
+            if (sportFilter == SportsEnum.Undefined)
+            {
+                return null;
+            }
+
             return filteredProducts;
         }
 
