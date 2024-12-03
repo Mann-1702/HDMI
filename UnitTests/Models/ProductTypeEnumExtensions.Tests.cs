@@ -24,7 +24,7 @@ namespace UnitTests.Models
                 Description = "This is a sample product description.",
                 Ratings = new int[] { 5, 4, 3 },
                 ProductType = ProductTypeEnum.Sport,
-                Sport = "Soccer",
+                Sport = SportsEnum.Soccer,
                 FoundingYear = 1990,
                 Trophies = 5,
                 CommentList = new List<CommentModel>
