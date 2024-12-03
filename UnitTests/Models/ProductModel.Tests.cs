@@ -47,7 +47,7 @@ namespace UnitTests.Models
             Assert.That(_product.Description, Is.EqualTo("This is a sample product description."));
             Assert.That(_product.Ratings, Is.EqualTo(new int[] { 5, 4, 3 }));
             Assert.That(_product.ProductType, Is.EqualTo(ProductTypeEnum.Sport));
-            Assert.That(_product.Sport, Is.EqualTo("Soccer"));
+            Assert.That(_product.Sport, Is.EqualTo(SportsEnum.Soccer));
             Assert.That(_product.FoundingYear, Is.EqualTo(1990));
             Assert.That(_product.Trophies, Is.EqualTo(5));
             Assert.That(_product.CommentList.Count, Is.EqualTo(2));
