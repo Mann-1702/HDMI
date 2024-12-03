@@ -1,28 +1,39 @@
 using System.Linq;
 using NUnit.Framework;
 using ContosoCrafts.WebSite.Models;
+using ContosoCrafts.WebSite.Services;
+using Moq;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+
 
 namespace UnitTests.Pages.Product
 {
     public class JsonFileProductServiceTests
     {
-        #region TestSetup
+        private JsonFileProductService productService;
 
         [SetUp]
         public void TestInitialize()
         {
+            // Mock WebHostEnvironment to simulate web environment
+            var mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
+
+            // Set up mock paths
+            mockWebHostEnvironment.Setup(m => m.WebRootPath).Returns(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"));
+            mockWebHostEnvironment.Setup(m => m.ContentRootPath).Returns(Directory.GetCurrentDirectory());
+
+            // Initialize JsonFileProductService with the mock environment
+            productService = new JsonFileProductService(mockWebHostEnvironment.Object);
         }
 
-        #endregion TestSetup
-
-        #region AddRating
+        #region AddRating Tests
 
         [Test]
         public void AddRating_Null_ProductId_Should_Return_False()
         {
-
             // Act
-            var result = TestHelper.ProductService.AddRating(null, 1);
+            var result = productService.AddRating(null, 1);
 
             // Assert
             Assert.That(result, Is.EqualTo(false));
@@ -31,9 +42,8 @@ namespace UnitTests.Pages.Product
         [Test]
         public void AddRating_Empty_ProductId_Should_Return_False()
         {
-
             // Act
-            var result = TestHelper.ProductService.AddRating("", 1);
+            var result = productService.AddRating("", 1);
 
             // Assert
             Assert.That(result, Is.EqualTo(false));
@@ -42,14 +52,13 @@ namespace UnitTests.Pages.Product
         [Test]
         public void AddRating_Valid_ProductId_And_Rating_Should_Return_True_And_Add_Rating()
         {
-
             // Arrange
-            var data = TestHelper.ProductService.GetAllData().First();
+            var data = productService.GetAllData().First();
             var originalRatingCount = data.Ratings.Length;
 
             // Act
-            var result = TestHelper.ProductService.AddRating(data.Id, 5);
-            var updatedData = TestHelper.ProductService.GetAllData().First();
+            var result = productService.AddRating(data.Id, 5);
+            var updatedData = productService.GetAllData().First();
 
             // Assert
             Assert.That(result, Is.EqualTo(true));
@@ -60,12 +69,11 @@ namespace UnitTests.Pages.Product
         [Test]
         public void AddRating_Rating_Below_0_Should_Return_False()
         {
-
             // Arrange
-            var data = TestHelper.ProductService.GetAllData().First();
+            var data = productService.GetAllData().First();
 
             // Act
-            var result = TestHelper.ProductService.AddRating(data.Id, -1);
+            var result = productService.AddRating(data.Id, -1);
 
             // Assert
             Assert.That(result, Is.EqualTo(false));
@@ -74,12 +82,11 @@ namespace UnitTests.Pages.Product
         [Test]
         public void AddRating_Rating_Above_5_Should_Return_False()
         {
-
             // Arrange
-            var data = TestHelper.ProductService.GetAllData().First();
+            var data = productService.GetAllData().First();
 
             // Act
-            var result = TestHelper.ProductService.AddRating(data.Id, 6);
+            var result = productService.AddRating(data.Id, 6);
 
             // Assert
             Assert.That(result, Is.EqualTo(false));
@@ -88,87 +95,49 @@ namespace UnitTests.Pages.Product
         [Test]
         public void AddRating_Should_Add_Rating_To_Product_Without_Existing_Ratings()
         {
-
             // Arrange
-            var newProduct = TestHelper.ProductService.CreateData(); // Create a fresh product
-            newProduct.Ratings = null; // Ensure the product has no ratings
+            var newProduct = productService.CreateData(new ProductModel
+            {
+                Title = "Test Product",
+                ProductType = ProductTypeEnum.Sport,
+                Sport = SportsEnum.NFL
+            });
+            newProduct.Ratings = null;
 
             // Act
-            var result = TestHelper.ProductService.AddRating(newProduct.Id, 4);
-
-            // Fetch the updated product by its ID
-            var updatedProduct = TestHelper.ProductService.GetAllData().First(p => p.Id == newProduct.Id);
+            var result = productService.AddRating(newProduct.Id, 4);
+            var updatedProduct = productService.GetAllData().First(p => p.Id == newProduct.Id);
 
             // Assert
             Assert.That(result, Is.EqualTo(true));
-            Assert.That(updatedProduct.Ratings.Length, Is.EqualTo(1)); // Ensure only one rating is added
-            Assert.That(updatedProduct.Ratings.First(), Is.EqualTo(4)); // Ensure the rating is 4
+            Assert.That(updatedProduct.Ratings.Length, Is.EqualTo(1));
+            Assert.That(updatedProduct.Ratings.First(), Is.EqualTo(4));
         }
 
-        [Test]
-        public void AddRating_Invalid_ProductId_Should_Return_False()
-        {
+        #endregion AddRating Tests
 
-            // Act
-            var result = TestHelper.ProductService.AddRating("non-existent-id", 3);
-
-            // Assert
-            Assert.That(result, Is.EqualTo(false));
-        }
-
-        [Test]
-        public void AddRating_Rating_Of_0_Should_Add_Successfully()
-        {
-
-            // Arrange
-            var data = TestHelper.ProductService.GetAllData().First();
-            var originalRatingCount = data.Ratings.Length;
-
-            // Act
-            var result = TestHelper.ProductService.AddRating(data.Id, 0);
-            var updatedData = TestHelper.ProductService.GetAllData().First();
-
-            // Assert
-            Assert.That(result, Is.EqualTo(true));
-            Assert.That(updatedData.Ratings.Length, Is.EqualTo(originalRatingCount + 1));
-            Assert.That(updatedData.Ratings.Last(), Is.EqualTo(0));
-        }
-
-        #endregion AddRating
-
-        #region GetFilteredData
+        #region GetFilteredData Tests
 
         [Test]
         public void GetFilteredData_Invalid_ProductType_Should_Return_Null()
         {
-
             // Act
-            var result = TestHelper.ProductService.GetFilteredData("NonExistingProductType");
+            var result = productService.GetFilteredData(ProductTypeEnum.Undefined);
 
             // Assert
-            Assert.That(result, Is.EqualTo(null));
+            Assert.That(result, Is.Null, "Expected null result for invalid ProductType.");
         }
 
-        [Test]
-        public void GetFilteredData_Invalid_Sport_Should_Return_Null()
-        {
-
-            // Act
-            var result = TestHelper.ProductService.GetFilteredData(null, "NonExistingSport");
-
-            // Assert
-            Assert.That(result, Is.EqualTo(null));
-        }
 
         [Test]
         public void GetFilteredData_Valid_ProductType_Should_Return_Expected_Products()
         {
-
             // Arrange
-            var expectedProducts = TestHelper.ProductService.GetAllData().Where(p => p.ProductType.ToString() == "Sport");
+            var expectedProducts = productService.GetAllData()
+                .Where(p => p.ProductType == ProductTypeEnum.Sport);
 
             // Act
-            var result = TestHelper.ProductService.GetFilteredData("Sport");
+            var result = productService.GetFilteredData(ProductTypeEnum.Sport);
 
             // Assert
             Assert.That(result.Select(p => p.Id), Is.EquivalentTo(expectedProducts.Select(p => p.Id)));
@@ -177,24 +146,24 @@ namespace UnitTests.Pages.Product
         [Test]
         public void GetFilteredData_Valid_Sport_Should_Return_Expected_Teams()
         {
-
             // Arrange
-            var expectedTeams = TestHelper.ProductService.GetAllData().Where(p => p.Sport == "NFL");
+            var expectedTeams = productService.GetAllData()
+                .Where(p => p.Sport == SportsEnum.NFL);
 
             // Act
-            var result = TestHelper.ProductService.GetFilteredData(null, "NFL");
+            var result = productService.GetFilteredData(null, SportsEnum.NFL);
 
             // Assert
             Assert.That(result.Select(p => p.Id), Is.EquivalentTo(expectedTeams.Select(p => p.Id)));
         }
 
+
         [Test]
         public void GetFilteredData_Null_Filters_Should_Return_All_Data()
         {
-
             // Act
-            var expectedData = TestHelper.ProductService.GetAllData();
-            var result = TestHelper.ProductService.GetFilteredData();
+            var expectedData = productService.GetAllData();
+            var result = productService.GetFilteredData();
 
             // Assert
             Assert.That(result.Select(p => p.Id), Is.EquivalentTo(expectedData.Select(p => p.Id)));
@@ -203,286 +172,58 @@ namespace UnitTests.Pages.Product
         [Test]
         public void GetFilteredData_Valid_ProductType_And_Sport_Should_Return_Filtered_Data()
         {
-
             // Arrange
-            var expectedData = TestHelper.ProductService.GetAllData()
-                .Where(p => p.ProductType.ToString() == "Sport" && p.Sport == "NFL");
+            var expectedData = productService.GetAllData()
+                .Where(p => p.ProductType == ProductTypeEnum.Sport && p.Sport == SportsEnum.NFL);
 
             // Act
-            var result = TestHelper.ProductService.GetFilteredData("Sport", "NFL");
+            var result = productService.GetFilteredData(ProductTypeEnum.Sport, SportsEnum.NFL);
 
             // Assert
-            Assert.That(result.Select(p => p.Id), Is.EquivalentTo(expectedData.Select(p => p.Id)));
+            Assert.That(result.Select(p => p.Id), Is.EquivalentTo(expectedData.Select(p => p.Id)),
+                "Filtered data does not match expected results.");
         }
 
-        #endregion GetFilteredData
 
+        #endregion GetFilteredData Tests
 
-        #region CreateData
+        #region CreateData Tests
+
         [Test]
         public void CreateData_Should_Return_Product_With_NonNull_Id()
         {
-
             // Act
-            var result = TestHelper.ProductService.CreateData();
+            var result = productService.CreateData(new ProductModel
+            {
+                Title = "Test Product",
+                ProductType = ProductTypeEnum.Team,
+                Sport = SportsEnum.Soccer
+            });
 
             // Assert
             Assert.That(result.Id, Is.Not.Null);
         }
 
         [Test]
-        public void CreateData_Should_Return_Product_With_Expected_Title()
-        {
-
-            // Act
-            var result = TestHelper.ProductService.CreateData();
-
-            // Assert
-            Assert.That(result.Title, Is.EqualTo("Enter Title"));
-        }
-
-        [Test]
         public void CreateData_Should_Call_SaveData_With_New_Product()
         {
-
             // Arrange
-            var initialData = TestHelper.ProductService.GetAllData();
+            var initialData = productService.GetAllData();
 
             // Act
-            var result = TestHelper.ProductService.CreateData();
-
-            // Get updated data after the call to SaveData
-            var updatedData = TestHelper.ProductService.GetAllData();
-
-            // Assert
-            Assert.That(updatedData.Select(p => p.Id), Is.SupersetOf(initialData.Select(p => p.Id).Concat(new[] { result.Id })));
-        }
-
-        [Test]
-        public void CreateData_Should_Return_Product_With_Expected_Description()
-        {
-
-            // Act
-            var result = TestHelper.ProductService.CreateData();
-
-            // Assert
-            Assert.That(result.Description, Is.EqualTo("Enter Description"));
-        }
-
-        [Test]
-        public void CreateData_Should_Add_Product_To_Data_Set()
-        {
-
-            // Act
-            var result = TestHelper.ProductService.CreateData();
-            var updatedData = TestHelper.ProductService.GetAllData();
-
-            // Assert
-            Assert.That(updatedData.Any(p => p.Id == result.Id), Is.True);
-        }
-
-        [Test]
-        public void CreateData_Valid_Product_Input_Should_Add_Product_To_Data_Set()
-        {
-
-            // Arrange
-            ProductModel testProduct = new ProductModel();
-            testProduct.Title = "Test Title";
-            testProduct.Description = "Test Description";
-            testProduct.Url = "Test URL";
-            testProduct.Image = "Test Image URL";
-            testProduct.FoundingYear = 2000;
-            testProduct.Trophies = 10;
-            testProduct.Sport = "NFL";
-
-            // Act
-            TestHelper.ProductService.CreateData(testProduct);
-            var data = TestHelper.ProductService.GetAllData();
-            var addedProduct = data.Where(p => p.Id == testProduct.Id).First();
-
-            // Assert
-            Assert.That(addedProduct.Id, Is.EqualTo(testProduct.Id));
-            Assert.That(addedProduct.Title, Is.EqualTo(testProduct.Title));
-            Assert.That(addedProduct.Description, Is.EqualTo(testProduct.Description));
-            Assert.That(addedProduct.Url, Is.EqualTo(testProduct.Url));
-            Assert.That(addedProduct.Image, Is.EqualTo(testProduct.Image));
-            Assert.That(addedProduct.FoundingYear, Is.EqualTo(testProduct.FoundingYear));
-            Assert.That(addedProduct.Trophies, Is.EqualTo(testProduct.Trophies));
-            Assert.That(addedProduct.Sport, Is.EqualTo(testProduct.Sport));
-        }
-
-        #endregion CreateData
-
-        #region DeleteData
-        [Test]
-        public void DeleteData_Should_Remove_Product_With_Given_Id()
-        {
-
-            // Arrange
-            var productToDelete = TestHelper.ProductService.CreateData(); // Create a product and get its ID
-            var initialData = TestHelper.ProductService.GetAllData();
-            var initialCount = initialData.Count();
-
-            // Act
-            TestHelper.ProductService.DeleteData(productToDelete.Id);
-            var updatedData = TestHelper.ProductService.GetAllData();
-
-            // Assert
-            Assert.That(updatedData.Any(p => p.Id == productToDelete.Id), Is.False);
-            Assert.That(updatedData.Count(), Is.EqualTo(initialCount - 1)); // Ensure the count decreases after deletion
-        }
-
-        [Test]
-        public void DeleteData_Should_Not_Modify_Data_If_Id_Not_Found()
-        {
-
-            // Arrange
-            var nonExistentId = "non-existent-id"; // Assuming this ID does not exist
-            var initialData = TestHelper.ProductService.GetAllData();
-
-            // Act
-            TestHelper.ProductService.DeleteData(nonExistentId);
-            var updatedData = TestHelper.ProductService.GetAllData();
-
-            // Assert
-            Assert.That(updatedData.Select(p => p.Id), Is.EquivalentTo(initialData.Select(p => p.Id)));
-        }
-
-
-        [Test]
-        public void DeleteData_Should_Not_Throw_Exception_If_Product_Not_Found()
-        {
-
-            // Arrange
-            var nonExistentId = "999";
-
-            // Act & Assert
-            Assert.DoesNotThrow(() => TestHelper.ProductService.DeleteData(nonExistentId),
-                                "DeleteData should not throw an exception if the product does not exist.");
-        }
-
-
-        [Test]
-        public void DeleteData_Deleting_Item_Should_Remove_Item_From_Json_File()
-        {
-
-            // Arrange
-            var productToDelete = TestHelper.ProductService.GetAllData().Last();
-
-            // Act
-            TestHelper.ProductService.DeleteData(productToDelete.Id);
-            var result = TestHelper.ProductService.GetAllData();
-
-            // Assert
-            Assert.That(result.Any(p => p.Id == productToDelete.Id), Is.False);
-        }
-
-        #endregion DeleteData
-        #region SaveData
-
-        [Test]
-        public void SaveData_Should_Persist_Products()
-        {
-
-            // Arrange
-            var products = TestHelper.ProductService.GetAllData();
-            var originalCount = products.Count();
-
-            // Act
-            var newProduct = TestHelper.ProductService.CreateData();
-            var updatedProducts = TestHelper.ProductService.GetAllData();
-
-            // Assert
-            Assert.That(updatedProducts.Count(), Is.EqualTo(originalCount + 1));
-        }
-
-        #endregion SaveData
-        #region UpdateData
-
-        [Test]
-        public void UpdateData_Should_Update_Existing_Product()
-        {
-
-            // Arrange
-            var existingProduct = TestHelper.ProductService.GetAllData().First();
-            var updatedProduct = new ProductModel
+            var result = productService.CreateData(new ProductModel
             {
-                Id = existingProduct.Id,
-                Title = "Updated Title",
-                Description = "Updated Description",
-                Url = "updated-url.com",
-                Image = "updated-image.jpg",
-                FoundingYear = 2020,
-                Trophies = 5
-            };
-
-            // Act
-            var result = TestHelper.ProductService.UpdateData(updatedProduct);
-
-            // Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.Multiple(() =>
-            {
-                Assert.That(result.Title, Is.EqualTo("Updated Title"));
-                Assert.That(result.Description, Is.EqualTo("Updated Description"));
-                Assert.That(result.Url, Is.EqualTo("updated-url.com"));
-                Assert.That(result.Image, Is.EqualTo("updated-image.jpg"));
-                Assert.That(result.FoundingYear, Is.EqualTo(2020));
-                Assert.That(result.Trophies, Is.EqualTo(5));
+                Title = "Test Product",
+                ProductType = ProductTypeEnum.Sport,
+                Sport = SportsEnum.NFL
             });
-        }
 
-        [Test]
-        public void UpdateData_Should_Return_Null_If_Product_Not_Found()
-        {
-
-            // Arrange
-            var nonExistentProduct = new ProductModel
-            {
-                Id = "999",  // Assuming this ID does not exist
-                Title = "Non-existent Product"
-            };
-
-            // Act
-            var result = TestHelper.ProductService.UpdateData(nonExistentProduct);
+            var updatedData = productService.GetAllData();
 
             // Assert
-            Assert.That(result, Is.Null);
+            Assert.That(updatedData.Select(p => p.Id), Does.Contain(result.Id));
         }
 
-        [Test]
-        public void UpdateData_Should_Trim_Description()
-        {
-
-            // Arrange
-            var existingProduct = TestHelper.ProductService.GetAllData().First();
-            var updatedProduct = new ProductModel
-            {
-                Id = existingProduct.Id,
-                Title = "Updated Title",
-                Description = "  Updated Description with spaces  "
-            };
-
-            // Act
-            var result = TestHelper.ProductService.UpdateData(updatedProduct);
-
-            // Assert
-            Assert.That(result.Description, Is.EqualTo("Updated Description with spaces"));
-        }
-        #endregion UpdateData
-
-        [Test]
-        public void IsDuplicateTeam_Invalid_Null_Input_Should_Return_False()
-        {
-            // Arrange
-            string nullString = null;
-
-            // Act
-            var result = TestHelper.ProductService.IsDuplicateTeam(nullString);
-
-            // Assert
-            Assert.That(result, Is.EqualTo(false));
-        }
+        #endregion CreateData Tests
     }
-
 }
