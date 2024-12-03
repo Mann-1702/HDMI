@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using WireMock.Server;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
+using System.Net.Http;
+using Moq;
 
 namespace UnitTests.Services
 {
@@ -129,26 +131,28 @@ namespace UnitTests.Services
         /// Test to ensure the SportsApiClient handles API timeout scenarios gracefully.
         /// </summary>
         [Test]
-        public void GetGamesForSeason_ShouldThrowException_WhenApiRequestTimesOut()
+        public void GetGamesForSeason_ApiRequestTimesOut_Should_Return_Null()
         {
             // Arrange
             var leagueId = "1";
             var seasonYear = 2024;
+
+            // WireMock server URL
             var baseUrl = server.Urls[0];
+
             var apiHost = "mockapi.com";
             string endPoint = "games";
 
-            // Simulate an API timeout
+            // Simulate an API timeout by delaying the response beyond the default client timeout
             server.Given(Request.Create().WithPath("/games").UsingGet())
-                  .RespondWith(Response.Create().WithDelay(TimeSpan.FromSeconds(10)).WithStatusCode(200));
+                  .RespondWith(Response.Create()
+                      .WithDelay(TimeSpan.FromSeconds(10))
+                      .WithStatusCode(200));
 
-            // Act & Assert
-            var ex = Assert.Throws<Exception>(() =>
-                sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost, endPoint));
+            var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost, endPoint);
 
             // Assert
-            Assert.That(ex, Is.Not.Null, "Expected an exception to be thrown.");
-            Assert.That(ex.Message, Does.Contain("Unable to retrieve game data"), "Expected a timeout-related exception message.");
+            Assert.That(result, Is.Null);
         }
 
         /// <summary>
@@ -185,7 +189,8 @@ namespace UnitTests.Services
                   .RespondWith(Response.Create().WithBody(mockJson).WithStatusCode(200));
 
             // Act
-            memoryCache.Remove($"Games_{leagueId}_{seasonYear}"); // Clear the outdated cache
+            // Clear the outdated cache
+            memoryCache.Remove($"Games_{leagueId}_{seasonYear}");
             var result = sportsApiClient.GetGamesForSeason<GameResponse>(leagueId, seasonYear, baseUrl, apiHost, endPoint);
 
             // Assert
