@@ -15,6 +15,61 @@ namespace UnitTests.Pages.Product
         }
 
         #endregion TestSetup
+        #region TestSetup
+
+        [SetUp]
+        public void TestInitialize1()
+        {
+            // Initialize the TestHelper to provide mock data for ProductService.
+            TestHelper.ProductService.CreateData(new ProductModel
+            {
+                Id = "1",
+                Sport = SportsEnum.NFL,
+                ProductType = ProductTypeEnum.Sport
+            });
+
+            TestHelper.ProductService.CreateData(new ProductModel
+            {
+                Id = "2",
+                Sport = SportsEnum.NBA,
+                ProductType = ProductTypeEnum.Sport
+            });
+
+            TestHelper.ProductService.CreateData(new ProductModel
+            {
+                Id = "3",
+                Sport = SportsEnum.Soccer,
+                ProductType = ProductTypeEnum.Sport // Different product type
+            });
+        }
+
+        #endregion TestSetup
+
+        [Test]
+        public void IsDuplicateSport_Existing_Sport_Should_Return_True()
+        {
+            // Arrange
+            var existingSport = SportsEnum.NFL;
+
+            // Act
+            var result = TestHelper.ProductService.IsDuplicateSport(existingSport);
+
+            // Assert
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        public void IsDuplicateSport_Null_Input_Should_Return_False()
+        {
+            // Arrange
+            var invalidSport = (SportsEnum)(-1); // Invalid enum value
+
+            // Act
+            var result = TestHelper.ProductService.IsDuplicateSport(invalidSport);
+
+            // Assert
+            Assert.That(result, Is.False);
+        }
 
         #region AddRating
 
@@ -568,6 +623,7 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result, Is.EqualTo(false));
         }
+
     }
 
 }
