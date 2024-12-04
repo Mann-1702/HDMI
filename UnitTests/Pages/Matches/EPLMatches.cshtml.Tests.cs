@@ -1,5 +1,4 @@
-﻿using ContosoCrafts.WebSite.Pages;
-using ContosoCrafts.WebSite.Pages.Matches;
+﻿using ContosoCrafts.WebSite.Pages.Matches;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -23,6 +22,8 @@ namespace UnitTests.Pages.Matches
 
         private SportsApiClient sportsApiClient;
 
+        #region TestSetup
+
         /// <summary>
         /// Sets up the test environment by initializing necessary dependencies.
         /// </summary>
@@ -41,9 +42,10 @@ namespace UnitTests.Pages.Matches
             pageModel = new EPLMatches(sportsApiClient, testLogger);
         }
 
-        /// <summary>
-        /// Tests that the OnGet method fetches and populates games for the EPL.
-        /// </summary>
+        #endregion TestSetup
+
+        #region OnGet Tests
+
         [Test]
         public void OnGet_Should_Fetch_EPL_Games()
         {
@@ -54,9 +56,6 @@ namespace UnitTests.Pages.Matches
             Assert.That(pageModel.Games, Is.Not.Empty, "Games should be fetched and not be empty.");
         }
 
-        /// <summary>
-        /// Tests that an invalid SportsApiClient results in an empty games list.
-        /// </summary>
         [Test]
         public void OnGet_Invalid_SportsApiClient_Should_Return_Valid_Page_With_No_Games()
         {
@@ -70,35 +69,72 @@ namespace UnitTests.Pages.Matches
             Assert.That(invalidPageModel.Games, Is.Empty, "Games should be empty when SportsApiClient is null.");
         }
 
-        /// <summary>
-        /// Tests that the constructor initializes an empty games list.
-        /// </summary>
         [Test]
-        public void Constructor_Should_Initialize_Empty_Games_List()
+        public void OnGet_Should_Handle_Null_TeamName_And_Return_All_Games()
         {
-            // Arrange
-            var newPageModel = new EPLMatches(null, testLogger);
+            // Act
+            var result = pageModel.OnGet();
 
             // Assert
-            Assert.That(newPageModel.Games, Is.Empty, "Games should be initialized as an empty list in the constructor.");
+            Assert.That(result, Is.InstanceOf<PageResult>(), "OnGet should return a valid PageResult.");
+            Assert.That(pageModel.Games, Is.Not.Empty, "Games should not be empty when no team name is provided.");
         }
 
-        /// <summary>
-        /// Tests that the OnGet method logs an error if SportsApiClient is null.
-        /// </summary>
         [Test]
-        public void OnGet_Should_Log_Error_If_SportsApiClient_Is_Null()
+        public void OnGet_Valid_TeamName_Should_Return_Filtered_Games()
         {
             // Arrange
-            invalidPageModel = new EPLMatches(null, testLogger);
+            string teamName = "Liverpool";
 
-            // Act & Assert
-            Assert.DoesNotThrow(() => invalidPageModel.OnGet(), "OnGet should handle a null SportsApiClient gracefully.");
+            // Act
+            pageModel.OnGet(teamName);
+
+            // Assert
+            Assert.That(pageModel.Games, Is.Not.Empty, "Games should not be empty for a valid team name.");
+            Assert.That(pageModel.Games.All(g => g.Teams.Home.Name == teamName || g.Teams.Visitors.Name == teamName), Is.True, "All games should involve the specified team.");
         }
 
-        /// <summary>
-        /// Tests that the OnGet method handles exceptions thrown by SportsApiClient gracefully.
-        /// </summary>
+        [Test]
+        public void OnGet_Invalid_TeamName_Should_Return_Empty_Games_List()
+        {
+            // Arrange
+            string teamName = "Invalid Team";
+
+            // Act
+            pageModel.OnGet(teamName);
+
+            // Assert
+            Assert.That(pageModel.Games, Is.Empty, "Games should be empty for an invalid team name.");
+        }
+
+        [Test]
+        public void OnGet_Valid_Season_Should_Fetch_Correct_Season_Games()
+        {
+            // Arrange
+            int year = 2023;
+
+            // Act
+            pageModel.OnGet(year: year);
+
+            // Assert
+            Assert.That(pageModel.seasonYear, Is.EqualTo(year), "The seasonYear should be set to the specified year.");
+            Assert.That(pageModel.Games, Is.Not.Empty, "Games should not be empty for a valid season year.");
+        }
+
+        [Test]
+        public void OnGet_Invalid_Season_Should_Handle_Gracefully()
+        {
+            // Arrange
+            int year = 1800; // Invalid season year
+
+            // Act
+            var result = pageModel.OnGet(year: year);
+
+            // Assert
+            Assert.That(result, Is.InstanceOf<PageResult>(), "OnGet should return a PageResult for an invalid season year.");
+            Assert.That(pageModel.Games, Is.Empty, "Games should be empty for an invalid season year.");
+        }
+
         [Test]
         public void OnGet_Should_Handle_Exception_Gracefully()
         {
@@ -110,22 +146,45 @@ namespace UnitTests.Pages.Matches
             Assert.DoesNotThrow(() => pageWithFaultyClient.OnGet(), "OnGet should handle exceptions from SportsApiClient gracefully.");
         }
 
+        #endregion OnGet Tests
+
+        #region Constructor Tests
+
         [Test]
-        public void OnGet_Valid_Input_Manchester_United_Should_Return_Valid_Page_With_Manchester_United_Games()
+        public void Constructor_Should_Initialize_Empty_Games_List()
         {
             // Arrange
-            string team = "Manchester United";
-
-            // Act
-            var result = pageModel.OnGet(team);
-            var game = pageModel.Games.First();
-            var teams = game.Teams.Home.Name + game.Teams.Visitors.Name;
+            var newPageModel = new EPLMatches(null, testLogger);
 
             // Assert
-            Assert.That(result, Is.InstanceOf<PageResult>());
-            Assert.That(pageModel.Games, Is.Not.Empty);
-            Assert.That(teams.Contains("Manchester"));
-
+            Assert.That(newPageModel.Games, Is.Empty, "Games should be initialized as an empty list in the constructor.");
         }
+
+        [Test]
+        public void OnGet_Should_Log_Error_If_SportsApiClient_Is_Null()
+        {
+            // Arrange
+            invalidPageModel = new EPLMatches(null, testLogger);
+
+            // Act & Assert
+            Assert.DoesNotThrow(() => invalidPageModel.OnGet(), "OnGet should handle a null SportsApiClient gracefully.");
+        }
+
+        [Test]
+        public void OnGet_Invalid_SportsApiClient_Should_Return_Valid_Page_With_No_Games1()
+        {
+            // Arrange
+            invalidPageModel = new EPLMatches(null, testLogger);
+
+            // Act
+            invalidPageModel.OnGet();
+
+            // Assert
+            Assert.That(invalidPageModel.Games, Is.Empty, "Games should be empty when SportsApiClient is null.");
+        }
+
+
+
+        #endregion Constructor Tests
     }
 }
