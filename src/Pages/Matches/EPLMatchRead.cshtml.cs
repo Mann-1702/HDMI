@@ -59,12 +59,6 @@ namespace ContosoCrafts.WebSite.Pages.Matches
                 // Find the specific match by its MatchId
                 Match = allGames.FirstOrDefault(game => game.Fixture.FixtureId == matchId);
 
-                // If the match is not found, log a warning and redirect to the matches list page
-                if (Match == null)
-                {
-                    _logger.LogWarning($"Match with MatchId: {matchId} not found.");
-                    return RedirectToPage("/EPLMatches");
-                }
             }
             catch (Exception ex)
             {
