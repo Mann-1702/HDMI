@@ -85,7 +85,8 @@ namespace ContosoCrafts.WebSite.Pages.Product
             }
 
             // Validate that the user has selected a valid sport
-            if (Product.Sport == SportsEnum.Undefined)
+            
+            if (!Enum.IsDefined(typeof(SportsEnum), Product.Sport) || Product.Sport == SportsEnum.Undefined)
             {
                 ModelState.AddModelError(string.Empty, "Please select a valid sport.");
                 return Page();
