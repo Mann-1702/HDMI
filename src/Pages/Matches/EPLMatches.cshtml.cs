@@ -61,35 +61,26 @@ namespace ContosoCrafts.WebSite.Pages.Matches
             string baseHost = "v3.football.api-sports.io"; // API host
             string endPoint = "fixtures"; // API endpoint for fetching fixtures
 
-            try
+            // Check if the API client is initialized
+            if (_sportsApiClient == null)
             {
-                // Check if the API client is initialized
-                if (_sportsApiClient == null)
-                {
-                    _logger.LogError("SportsApiClient is null. Cannot fetch game data.");
+                _logger.LogError("SportsApiClient is null. Cannot fetch game data.");
 
-                    // Redirect to the error page if the client is null
-                    return RedirectToPage("/Error");
-                }
-
-                // Fetch the games for the specified season
-                Games = _sportsApiClient.GetGamesForSeason<FixtureResponse>(eplLeagueId, seasonYear, baseUrl, baseHost, endPoint);
-
-                // If no team filter is specified, return the page with all games
-                if (teamName == null)
-                {
-                    return Page();
-                }
-
-                // Filter games by the specified team name
-                Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Visitors.Name == teamName).ToList();
+                // Redirect to the error page if the client is null
+                return RedirectToPage("/Error");
             }
-            catch (System.Exception ex)
+
+            // Fetch the games for the specified season
+            Games = _sportsApiClient.GetGamesForSeason<FixtureResponse>(eplLeagueId, seasonYear, baseUrl, baseHost, endPoint);
+
+            // If no team filter is specified, return the page with all games
+            if (teamName == null)
             {
-                // Log the error and initialize an empty list of games
-                _logger.LogError(ex, "Error fetching EPL game data.");
-                Games = new List<FixtureResponse>();
+                return Page();
             }
+
+            // Filter games by the specified team name
+            Games = Games.Where(g => g.Teams.Home.Name == teamName || g.Teams.Visitors.Name == teamName).ToList();
 
             // Return the page with the filtered or unfiltered list of games
             return Page();
